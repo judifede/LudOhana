@@ -34,18 +34,59 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isPassVisible, setIsPassVisible] = useState(false)
+  const [errorName, setErrorName] = useState(false);
+  const [errorLastname, setErrorLastname] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
+  const [showLogin, setShowLogin] = useState(false); 
+
   const navigate = useNavigate()
 
-  const handleEmailValidation = ()=>{
-    if(!email){
-      setErrorMessage("El email es requerido")
-    }else if(!isValidEmail){
-      setErrorMessage("El email no es valido")
-    }else{
-      setErrorMessage("")
+  const handleEmailValidation = () => {
+    if (!email ) {
+      setErrorEmail(true);
+      setErrorMessage('El campo es requerido');
+    } else if (!isValidEmail(email)) {
+      setErrorEmail(true); 
+      setErrorMessage('El email no es válido');
+    } else {
+      setErrorEmail(false); 
+      setErrorMessage('');
     }
-  }
+  };
+
+  const handlePasswordValidation = () => {
+    if (!password) {
+      setErrorPassword(true);
+      setErrorMessage('La contraseña es requerida');
+    } else {
+      setErrorPassword(false);
+      setErrorMessage('');
+    }
+  };
+
+  const handleNameValidation = () => {
+    if (!firstname) {
+      setErrorName(true);
+      setErrorMessage('El nombre es requerido');
+    } else {
+      setErrorName(false);
+      setErrorMessage('');
+    }
+  };
+
+  const handleLastnameValidation = () => {
+    if (!lastname) {
+      setErrorLastname(true);
+      setErrorMessage('Los apellidos son requeridos');
+    } else {
+      setErrorLastname(false);
+      setErrorMessage('');
+    }
+  };
+
+
   const isValidEmail = (email)=>{
     const emailRegexp = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/);
    return emailRegexp.test(email)
@@ -78,7 +119,7 @@ function Login() {
     <Box className="container" sx={{ borderRadius: '10px' }}>
       <Card id="loginContainer" >
         <CardHeader title="Iniciar Sesión" sx={{ textAlign: 'center' }} />
-        <CardContent className="">
+        <CardContent >
           <TextField
           onChange={(e)=>setEmail(e.target.value)} 
             type="email"
@@ -96,6 +137,9 @@ function Login() {
                 </InputAdornment>
               ),
             }}
+            error={errorEmail} 
+            helperText={errorEmail ? errorMessage : ''} 
+            className={errorEmail ? 'error' : ''}
           ></TextField>
 
           <TextField
@@ -130,16 +174,22 @@ function Login() {
                 </InputAdornment>
               ),
             }}
+            error={errorPassword} 
+            helperText={errorPassword ? errorMessage : ''} 
+            className={errorPassword ? 'error' : ''}
           ></TextField>
           <CardActions sx={{display:'flex', flexDirection:'column', marginTop:'40%'}}>
 
-          <Button variant="text" size='small'>¿Aún no tienes cuenta? Regístrate aquí.</Button>
+          <Button variant="text" size='small'
+           onClick={()=>{setShowLogin(false)}}
+          >¿Aún no tienes cuenta? Regístrate aquí.</Button>
             <Button
               size="large"
               color="primary"
               variant="contained"
               onClick={() => {
                 handleEmailValidation()
+                handlePasswordValidation()
                 onLogin()
               }}
             >
@@ -149,9 +199,9 @@ function Login() {
         </CardContent>
       </Card>
 
-      <Card id="registerContainer" >
+      <Card id="registerContainer">
         <CardHeader title="Registro" sx={{ textAlign: 'center' }} />
-        <CardContent className="">
+        <CardContent >
           <TextField
            onChange={(e)=>{setFirstName(e.target.value)}}
             type="text"
@@ -168,6 +218,9 @@ function Login() {
                 </InputAdornment>
               ),
             }}
+            error={errorName} 
+            helperText={errorName ? errorMessage : ''} 
+            className={errorName ? 'error' : ''}
           ></TextField>
           <TextField
            onChange={(e)=>{setLastName(e.target.value)}}
@@ -185,6 +238,9 @@ function Login() {
                 </InputAdornment>
               ),
             }}
+            error={errorLastname} 
+            helperText={errorLastname ? errorMessage : ''} 
+            className={errorLastname ? 'error' : ''}
           ></TextField>
           <TextField
            onChange={(e)=>{setLocation(e.target.value)}}
@@ -219,6 +275,9 @@ function Login() {
                 </InputAdornment>
               ),
             }}
+            error={errorEmail} 
+            helperText={errorEmail ? errorMessage : ''} 
+            className={errorEmail ? 'error' : ''}
           ></TextField>
 
           <TextField
@@ -252,13 +311,21 @@ function Login() {
                 </InputAdornment>
               ),
             }}
+            error={errorPassword} 
+            helperText={errorPassword ? errorMessage : ''} 
+            className={errorPassword ? 'error' : ''}
           ></TextField>
           <CardActions sx={{display:'flex', flexDirection:'column'}}>
 
-          <Button variant="text" size='small'>Iniciar Sesión</Button>
+          <Button variant="text" size='small'
+           onClick={()=>{setShowLogin(true)}}>Iniciar Sesión</Button>
 
             <Button
               onClick={() => {
+                handleNameValidation()
+                handleLastnameValidation()
+                handleEmailValidation()
+                handlePasswordValidation()
                 onSignup()
               }}
               size="large"
@@ -271,6 +338,7 @@ function Login() {
           </CardActions>
         </CardContent>
       </Card>
+      <Box className={`image ${showLogin ? 'moveRight' : 'moveLeft'}`}></Box>
     </Box>
   )
 }
