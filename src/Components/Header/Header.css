@@ -1,0 +1,18 @@
+header{
+    img{
+        max-width: 20%;
+        padding: 20px 0;
+    }
+    .headerLinks a, .headerLogin a{
+        color: var(--color-ludoGreenLight);
+        font-size: 1.5em;
+    }
+    .headerLinks{
+        display: flex;
+        gap: 0 40px;
+    }
+    .headerLogin{
+        display: flex;
+        gap: 0 20px;
+    }
+}
