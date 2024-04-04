@@ -23,15 +23,17 @@ import {
   VisibilityOutlined,
 } from '@mui/icons-material'
 import { useState, useEffect } from 'react'
-import { login } from '../../Services/auth'
+import { login,signup } from '../../Services/auth'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
 
-
-  const [isPassVisible, setIsPassVisible] = useState(false)
+  const [firstname,setFirstName]=useState('')
+  const [lastname,setLastName]=useState('')
+  const [location,setLocation]=useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isPassVisible, setIsPassVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
@@ -48,6 +50,17 @@ function Login() {
     const emailRegexp = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/);
    return emailRegexp.test(email)
 
+  }
+ 
+  const onSignup = async ()=>{
+    try {
+      const res = await signup({firstname,lastname,location,email,password})
+      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('role', res.data.role)
+      navigate('/')
+    } catch (error) {
+      setErrorMessage('Register failed')
+    }
   }
 
   const onLogin = async () => {
@@ -140,6 +153,7 @@ function Login() {
         <CardHeader title="Registro" sx={{ textAlign: 'center' }} />
         <CardContent className="">
           <TextField
+           onChange={(e)=>{setFirstName(e.target.value)}}
             type="text"
             label="Nombre:"
             variant="outlined"
@@ -156,6 +170,7 @@ function Login() {
             }}
           ></TextField>
           <TextField
+           onChange={(e)=>{setLastName(e.target.value)}}
             type="text"
             label="Apellidos:"
             variant="outlined"
@@ -172,6 +187,7 @@ function Login() {
             }}
           ></TextField>
           <TextField
+           onChange={(e)=>{setLocation(e.target.value)}}
             type="text"
             label="Ciudad:"
             variant="outlined"
@@ -188,6 +204,7 @@ function Login() {
             }}
           ></TextField>
           <TextField
+           onChange={(e)=>{setEmail(e.target.value)}}
             type="email"
             label="Email:"
             variant="outlined"
@@ -205,6 +222,7 @@ function Login() {
           ></TextField>
 
           <TextField
+           onChange={(e)=>{setPassword(e.target.value)}}
             type="password"
             label="Contraseña:"
             variant="outlined"
@@ -236,9 +254,13 @@ function Login() {
             }}
           ></TextField>
           <CardActions sx={{display:'flex', flexDirection:'column'}}>
+
           <Button variant="text" size='small'>Iniciar Sesión</Button>
 
             <Button
+              onClick={() => {
+                onSignup()
+              }}
               size="large"
               color="primary"
               variant="contained"

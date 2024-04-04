@@ -46,7 +46,6 @@ function Header() {
           :
       <div className="headerLogin">
         <Link to={'/login'}>Iniciar Sesión</Link>
-       
       </div>
     }
     </AppBar>
