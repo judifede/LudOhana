@@ -1,5 +1,5 @@
 import React from 'react'
-import EventCard from '../../Components/CardEvent/CardEvent'
+import EventCard from '../../Components/EventCard/EventCard'
 
 function Events() {
   return (
