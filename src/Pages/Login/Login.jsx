@@ -27,11 +27,28 @@ import { login } from '../../Services/auth'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
+
+
   const [isPassVisible, setIsPassVisible] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
+
+  const handleEmailValidation = ()=>{
+    if(!email){
+      setErrorMessage("El email es requerido")
+    }else if(!isValidEmail){
+      setErrorMessage("El email no es valido")
+    }else{
+      setErrorMessage("")
+    }
+  }
+  const isValidEmail = (email)=>{
+    const emailRegexp = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/);
+   return emailRegexp.test(email)
+
+  }
 
   const onLogin = async () => {
     try {
@@ -46,11 +63,11 @@ function Login() {
 
   return (
     <Box className="container" sx={{ borderRadius: '10px' }}>
-      <Card id="loginContainer" sx={{}}>
-        <CardHeader title="Login" sx={{ textAlign: 'center' }} />
+      <Card id="loginContainer" >
+        <CardHeader title="Iniciar Sesión" sx={{ textAlign: 'center' }} />
         <CardContent className="">
           <TextField
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e)=>setEmail(e.target.value)} 
             type="email"
             label="Email:"
             variant="outlined"
@@ -101,24 +118,26 @@ function Login() {
               ),
             }}
           ></TextField>
-          <CardActions>
+          <CardActions sx={{display:'flex', flexDirection:'column'}}>
+
+          <Button variant="text" size='small'>¿Aún no tienes cuenta? Regístrate aquí.</Button>
             <Button
               size="large"
               color="primary"
               variant="contained"
-              sx={{ margin: 'auto' }}
               onClick={() => {
+                handleEmailValidation()
                 onLogin()
               }}
             >
-              Login
+              Iniciar Sesión
             </Button>
           </CardActions>
         </CardContent>
       </Card>
 
-      <Card id="registerContainer" sx={{}}>
-        <CardHeader title="Login" sx={{ textAlign: 'center' }} />
+      <Card id="registerContainer" >
+        <CardHeader title="Registro" sx={{ textAlign: 'center' }} />
         <CardContent className="">
           <TextField
             type="text"
@@ -139,6 +158,22 @@ function Login() {
           <TextField
             type="text"
             label="Apellidos:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <EmailOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+          <TextField
+            type="text"
+            label="Ciudad:"
             variant="outlined"
             fullWidth={true}
             margin="dense"
@@ -207,7 +242,7 @@ function Login() {
               variant="contained"
               sx={{ margin: 'auto' }}
             >
-              Login
+              Registro
             </Button>
           </CardActions>
         </CardContent>
