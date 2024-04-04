@@ -1,9 +1,10 @@
 import React from 'react'
+import EventCard from '../../Components/CardEvent/CardEvent'
 
 function Events() {
   return (
     <div>
-      Evento
+      <EventCard/>
     </div>
   )
 }
