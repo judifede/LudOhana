@@ -14,7 +14,7 @@
     
 }
 #loginContainer{
-    background-color: aquamarine;
+    
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -23,7 +23,7 @@
     
     }
 #registerContainer{
-    background-color: rgb(161, 238, 212);
+
     display: flex;
     flex-direction: column;
     justify-content: start;

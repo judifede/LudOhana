@@ -118,7 +118,7 @@ function Login() {
               ),
             }}
           ></TextField>
-          <CardActions sx={{display:'flex', flexDirection:'column'}}>
+          <CardActions sx={{display:'flex', flexDirection:'column', marginTop:'40%'}}>
 
           <Button variant="text" size='small'>¿Aún no tienes cuenta? Regístrate aquí.</Button>
             <Button
@@ -235,12 +235,14 @@ function Login() {
               ),
             }}
           ></TextField>
-          <CardActions>
+          <CardActions sx={{display:'flex', flexDirection:'column'}}>
+          <Button variant="text" size='small'>Iniciar Sesión</Button>
+
             <Button
               size="large"
               color="primary"
               variant="contained"
-              sx={{ margin: 'auto' }}
+             
             >
               Registro
             </Button>
