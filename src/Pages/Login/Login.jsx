@@ -1,10 +1,218 @@
 import React from 'react'
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Icon,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material'
+import './Login.css'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import {
+  EmailOutlined,
+  LockOutlined,
+  VisibilityOutlined,
+} from '@mui/icons-material'
+import { useState, useEffect } from 'react'
+import { login } from '../../Services/auth'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
+  const [isPassVisible, setIsPassVisible] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const navigate = useNavigate()
+
+  const onLogin = async () => {
+    try {
+      const res = await login({ email, password })
+      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('role', res.data.role)
+      navigate('/')
+    } catch (error) {
+      setErrorMessage('Login failed')
+    }
+  }
+
   return (
-    <div>
-      Iniciar Sesión
-    </div>
+    <Box className="container" sx={{ borderRadius: '10px' }}>
+      <Card id="loginContainer" sx={{}}>
+        <CardHeader title="Login" sx={{ textAlign: 'center' }} />
+        <CardContent className="">
+          <TextField
+          onChange={(e)=>setEmail(e.target.value)}
+            type="email"
+            label="Email:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            placeholder={'diego@gmail.com'}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <EmailOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+
+          <TextField
+          onChange={(e)=>setPassword(e.target.value)}
+            type="password"
+            label="Contraseña:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            placeholder={'1234'}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <LockOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      setIsPassVisible((oldState) => !oldState)
+                    }}
+                  >
+                    {isPassVisible ? (
+                      <VisibilityOutlined />
+                    ) : (
+                      <VisibilityOutlined />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+          <CardActions>
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              sx={{ margin: 'auto' }}
+              onClick={() => {
+                onLogin()
+              }}
+            >
+              Login
+            </Button>
+          </CardActions>
+        </CardContent>
+      </Card>
+
+      <Card id="registerContainer" sx={{}}>
+        <CardHeader title="Login" sx={{ textAlign: 'center' }} />
+        <CardContent className="">
+          <TextField
+            type="text"
+            label="Nombre:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <EmailOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+          <TextField
+            type="text"
+            label="Apellidos:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <EmailOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+          <TextField
+            type="email"
+            label="Email:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <EmailOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+
+          <TextField
+            type="password"
+            label="Contraseña:"
+            variant="outlined"
+            fullWidth={true}
+            margin="dense"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon>
+                    <LockOutlined />
+                  </Icon>
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      setIsPassVisible((oldState) => !oldState)
+                    }}
+                  >
+                    {isPassVisible ? (
+                      <VisibilityOutlined />
+                    ) : (
+                      <VisibilityOutlined />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
+          <CardActions>
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              sx={{ margin: 'auto' }}
+            >
+              Login
+            </Button>
+          </CardActions>
+        </CardContent>
+      </Card>
+    </Box>
   )
 }
 
