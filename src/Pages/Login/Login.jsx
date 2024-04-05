@@ -39,7 +39,7 @@ function Login() {
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
-  const [showLogin, setShowLogin] = useState(false); 
+  const [showLogin, setShowLogin] = useState(true); 
 
   const navigate = useNavigate()
 
@@ -181,7 +181,10 @@ function Login() {
           <CardActions sx={{display:'flex', flexDirection:'column', marginTop:'40%'}}>
 
           <Button variant="text" size='small'
-           onClick={()=>{setShowLogin(false)}}
+           onClick={()=>{
+            setShowLogin(false)
+        
+          }}
           >¿Aún no tienes cuenta? Regístrate aquí.</Button>
             <Button
               size="large"
