@@ -13,7 +13,7 @@ const EventCard = (
     const participants = "50"
     const imageUrl = "img"
     return (
-        <Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', padding: '30px' }}>
             <Card sx={{ width: '250px', height: '350px' }} elevation={4}>
                 <CardMedia
                     component="img"
@@ -22,9 +22,9 @@ const EventCard = (
                     image={imageUrl}
                     alt={title}
                 />
-                <CardContent sx={{padding:'20px'}}>
+                <CardContent sx={{ padding: '20px' }}>
 
-                    <Typography gutterBottom variant="h5" /* component="div" */ sx={{ textAlign: 'center' }}>
+                    <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
                         {title}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -49,7 +49,7 @@ const EventCard = (
                         </Box>
                     </Box>
                 </CardContent>
-                <CardActions sx={{justifyContent:'center'}}>
+                <CardActions sx={{ justifyContent: 'center' }}>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 'auto' }}>
                         <Button variant="contained" color="success">
