@@ -1,10 +1,21 @@
-:root{
-    --color-backgroudHeader: #143D16BB;
-    --color-texts: #424242;
-    --color-ludoGreenLight: #FDFFFD;
-    --color-ludoGreenDark: #8A8C8A;
+:root {
+  --color-backgroudHeader: #143d16bb;
+  --color-texts: #424242;
+  --color-ludoGreenLight: #fdfffd;
+  --color-ludoGreenDark: #8a8c8a;
 }
-a{
-    text-decoration: none;
-    color: initial;
+a {
+  text-decoration: none;
+  color: initial;
+}
+main{
+    padding: 40px;
+}
+
+.cardHover {
+  transition: scale 0.5s;
+}
+.cardHover:hover {
+  transition: scale 0.5s;
+  scale: 1.05;
 }
