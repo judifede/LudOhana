@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {
   Box,
   Button,
@@ -19,7 +19,10 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import {
   EmailOutlined,
+  LocationOn,
   LockOutlined,
+  People,
+  Person,
   VisibilityOutlined,
 } from '@mui/icons-material'
 import { useState, useEffect } from 'react'
@@ -27,62 +30,54 @@ import { login,signup } from '../../Services/auth'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
-
+  
+  const [isPassVisible, setIsPassVisible] = useState(false)
   const [firstname,setFirstName]=useState('')
   const [lastname,setLastName]=useState('')
   const [location,setLocation]=useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isPassVisible, setIsPassVisible] = useState(false)
-  const [errorName, setErrorName] = useState(false);
-  const [errorLastname, setErrorLastname] = useState(false);
-  const [errorEmail, setErrorEmail] = useState(false);
-  const [errorPassword, setErrorPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorName, setErrorName] = useState('');
+  const [errorLastname, setErrorLastname] = useState('');
+  const [errorEmail, setErrorEmail] = useState('');
+  const [errorPassword, setErrorPassword] = useState("")
   const [showLogin, setShowLogin] = useState(true); 
 
   const navigate = useNavigate()
 
   const handleEmailValidation = () => {
     if (!email ) {
-      setErrorEmail(true);
-      setErrorMessage('El campo es requerido');
+      setErrorEmail('El email es requerido')
     } else if (!isValidEmail(email)) {
-      setErrorEmail(true); 
-      setErrorMessage('El email no es válido');
+      setErrorEmail("Formato incorrecto "); 
+     
     } else {
-      setErrorEmail(false); 
-      setErrorMessage('');
+      setErrorEmail(""); 
     }
   };
 
   const handlePasswordValidation = () => {
     if (!password) {
-      setErrorPassword(true);
-      setErrorMessage('La contraseña es requerida');
+      setErrorPassword("La contraseña es requerida");
     } else {
-      setErrorPassword(false);
-      setErrorMessage('');
+      setErrorPassword("");
+      
     }
   };
 
   const handleNameValidation = () => {
     if (!firstname) {
-      setErrorName(true);
-      setErrorMessage('El nombre es requerido');
+      setErrorName('El nombre es requerido');
     } else {
-      setErrorName(false);
-      setErrorMessage('');
+      setErrorName('');
     }
   };
 
   const handleLastnameValidation = () => {
     if (!lastname) {
-      setErrorLastname(true);
-      setErrorMessage('Los apellidos son requeridos');
+      setErrorLastname('Los apellidos son requeridos');
     } else {
-      setErrorLastname(false);
-      setErrorMessage('');
+      setErrorLastname('');
     }
   };
 
@@ -100,7 +95,7 @@ function Login() {
       localStorage.setItem('role', res.data.role)
       navigate('/')
     } catch (error) {
-      setErrorMessage('Register failed')
+       console.log("failed login")
     }
   }
 
@@ -111,7 +106,11 @@ function Login() {
       localStorage.setItem('role', res.data.role)
       navigate('/')
     } catch (error) {
-      setErrorMessage('Login failed')
+    <>
+      <Box>
+        <Typography>Email o contraseña incorrectos</Typography>
+      </Box>
+    </>
     }
   }
 
@@ -138,7 +137,7 @@ function Login() {
               ),
             }}
             error={errorEmail} 
-            helperText={errorEmail ? errorMessage : ''} 
+            helperText={errorEmail !== "" ? errorEmail : ''} 
             className={errorEmail ? 'error' : ''}
           ></TextField>
 
@@ -175,7 +174,7 @@ function Login() {
               ),
             }}
             error={errorPassword} 
-            helperText={errorPassword ? errorMessage : ''} 
+            helperText={errorPassword !== "" ? errorPassword : ''} 
             className={errorPassword ? 'error' : ''}
           ></TextField>
           <CardActions sx={{display:'flex', flexDirection:'column', marginTop:'40%'}}>
@@ -183,7 +182,10 @@ function Login() {
           <Button variant="text" size='small'
            onClick={()=>{
             setShowLogin(false)
-        
+              errorEmail !== "" ? setErrorEmail("") :setErrorEmail("") 
+              errorPassword !== "" ? setErrorPassword("") : setErrorPassword("") 
+          
+           
           }}
           >¿Aún no tienes cuenta? Regístrate aquí.</Button>
             <Button
@@ -191,8 +193,9 @@ function Login() {
               color="primary"
               variant="contained"
               onClick={() => {
-                handleEmailValidation()
-                handlePasswordValidation()
+           
+               handleEmailValidation() 
+               handlePasswordValidation()
                 onLogin()
               }}
             >
@@ -216,13 +219,13 @@ function Login() {
               startAdornment: (
                 <InputAdornment position="start">
                   <Icon>
-                    <EmailOutlined />
+                    <Person />
                   </Icon>
                 </InputAdornment>
               ),
             }}
             error={errorName} 
-            helperText={errorName ? errorMessage : ''} 
+            helperText={errorName !== "" ? errorName : ''} 
             className={errorName ? 'error' : ''}
           ></TextField>
           <TextField
@@ -236,13 +239,13 @@ function Login() {
               startAdornment: (
                 <InputAdornment position="start">
                   <Icon>
-                    <EmailOutlined />
+                    <People />
                   </Icon>
                 </InputAdornment>
               ),
             }}
             error={errorLastname} 
-            helperText={errorLastname ? errorMessage : ''} 
+            helperText={errorLastname !== "" ? errorLastname : ''} 
             className={errorLastname ? 'error' : ''}
           ></TextField>
           <TextField
@@ -256,7 +259,7 @@ function Login() {
               startAdornment: (
                 <InputAdornment position="start">
                   <Icon>
-                    <EmailOutlined />
+                    <LocationOn />
                   </Icon>
                 </InputAdornment>
               ),
@@ -279,7 +282,7 @@ function Login() {
               ),
             }}
             error={errorEmail} 
-            helperText={errorEmail ? errorMessage : ''} 
+            helperText={errorEmail !== "" ? errorEmail : ''} 
             className={errorEmail ? 'error' : ''}
           ></TextField>
 
@@ -315,20 +318,25 @@ function Login() {
               ),
             }}
             error={errorPassword} 
-            helperText={errorPassword ? errorMessage : ''} 
+            helperText={errorPassword !== "" ? errorPassword : ''} 
             className={errorPassword ? 'error' : ''}
           ></TextField>
           <CardActions sx={{display:'flex', flexDirection:'column'}}>
 
           <Button variant="text" size='small'
-           onClick={()=>{setShowLogin(true)}}>Iniciar Sesión</Button>
+           onClick={()=>{
+            setShowLogin(true)
+            errorEmail !== "" ? setErrorEmail("") :setErrorEmail("") 
+            errorPassword !== "" ? setErrorPassword("") : setErrorPassword("") 
+        
+            }}>Iniciar Sesión</Button>
 
             <Button
               onClick={() => {
                 handleNameValidation()
                 handleLastnameValidation()
                 handleEmailValidation()
-                handlePasswordValidation()
+               handlePasswordValidation()
                 onSignup()
               }}
               size="large"

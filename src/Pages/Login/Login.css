@@ -31,9 +31,7 @@
     border-radius:0 10px 10px 0;
         
  }
-.error {
-    border: 1px solid red;
-  }
+
   .image {
     position: absolute;
     z-index: 3;
