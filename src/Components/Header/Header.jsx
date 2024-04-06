@@ -17,10 +17,11 @@ function Header() {
     setAnchorEl(null)
     setIsMenuOpen(false)
   }
-
-  const name = 'Super'
-  const lastname = 'Yoelito'
-  const email = 'SuperYoelito@gmail.com'
+  const profile = {
+    name: 'Diego',
+    lastname: 'Remote',
+    email: 'diego@gmail.com',
+  }
 
   return (
     <AppBar
@@ -56,8 +57,8 @@ function Header() {
           }}
         >
           <Box textAlign={'center'} px="8px">
-            <Typography>{name + ' ' + lastname}</Typography>
-            <p>{email}</p>
+            <Typography>{profile.name + ' ' + profile.lastname}</Typography>
+            <p>{profile.email}</p>
             <Link
               to="/profile"
               onClick={() => {

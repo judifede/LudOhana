@@ -10,7 +10,7 @@ function MainLayout() {
       <CssBaseline />
       <Header />
       <main>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
           <Outlet />
         </Grid>
       </main>
