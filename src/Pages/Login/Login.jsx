@@ -1,4 +1,3 @@
-
 import {
   Box,
   Button,
@@ -23,79 +22,83 @@ import {
   LockOutlined,
   People,
   Person,
+  VisibilityOffOutlined,
   VisibilityOutlined,
 } from '@mui/icons-material'
 import { useState, useEffect } from 'react'
-import { login,signup } from '../../Services/auth'
+import { login, signup } from '../../Services/auth'
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
-  
   const [isPassVisible, setIsPassVisible] = useState(false)
-  const [firstname,setFirstName]=useState('')
-  const [lastname,setLastName]=useState('')
-  const [location,setLocation]=useState('')
+  const [firstname, setFirstName] = useState('')
+  const [lastname, setLastName] = useState('')
+  const [location, setLocation] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorName, setErrorName] = useState('');
-  const [errorLastname, setErrorLastname] = useState('');
-  const [errorEmail, setErrorEmail] = useState('');
-  const [errorPassword, setErrorPassword] = useState("")
-  const [showLogin, setShowLogin] = useState(true); 
+  const [errorName, setErrorName] = useState('')
+  const [errorLastname, setErrorLastname] = useState('')
+  const [errorEmail, setErrorEmail] = useState('')
+  const [errorPassword, setErrorPassword] = useState('')
+  const [showLogin, setShowLogin] = useState('')
+  const moveLeft = 'moveLeft'
+  const moveRight = 'moveRigth'
 
   const navigate = useNavigate()
 
   const handleEmailValidation = () => {
-    if (!email ) {
+    if (!email) {
       setErrorEmail('El email es requerido')
     } else if (!isValidEmail(email)) {
-      setErrorEmail("Formato incorrecto "); 
-     
+      setErrorEmail('Formato incorrecto ')
     } else {
-      setErrorEmail(""); 
+      setErrorEmail('')
     }
-  };
+  }
 
   const handlePasswordValidation = () => {
     if (!password) {
-      setErrorPassword("La contraseña es requerida");
+      setErrorPassword('La contraseña es requerida')
     } else {
-      setErrorPassword("");
-      
+      setErrorPassword('')
     }
-  };
+  }
 
   const handleNameValidation = () => {
     if (!firstname) {
-      setErrorName('El nombre es requerido');
+      setErrorName('El nombre es requerido')
     } else {
-      setErrorName('');
+      setErrorName('')
     }
-  };
+  }
 
   const handleLastnameValidation = () => {
     if (!lastname) {
-      setErrorLastname('Los apellidos son requeridos');
+      setErrorLastname('Los apellidos son requeridos')
     } else {
-      setErrorLastname('');
+      setErrorLastname('')
     }
-  };
-
-
-  const isValidEmail = (email)=>{
-    const emailRegexp = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/);
-   return emailRegexp.test(email)
-
   }
- 
-  const onSignup = async ()=>{
+
+  const isValidEmail = (email) => {
+    const emailRegexp = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/)
+    return emailRegexp.test(email)
+  }
+
+  const onSignup = async () => {
     try {
-      const res = await signup({firstname,lastname,location,email,password})
+      const res = await signup({
+        firstname,
+        lastname,
+        location,
+        email,
+        password,
+      })
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('role', res.data.role)
       navigate('/')
     } catch (error) {
-       console.log("failed login")
+      console.log('failed login')
     }
   }
 
@@ -106,21 +109,21 @@ function Login() {
       localStorage.setItem('role', res.data.role)
       navigate('/')
     } catch (error) {
-    <>
-      <Box>
-        <Typography>Email o contraseña incorrectos</Typography>
-      </Box>
-    </>
+      <>
+        <Box>
+          <Typography>Email o contraseña incorrectos</Typography>
+        </Box>
+      </>
     }
   }
 
   return (
     <Box className="container" sx={{ borderRadius: '10px' }}>
-      <Card id="loginContainer" >
+      <Card id="loginContainer">
         <CardHeader title="Iniciar Sesión" sx={{ textAlign: 'center' }} />
-        <CardContent >
+        <CardContent>
           <TextField
-          onChange={(e)=>setEmail(e.target.value)} 
+            onChange={(e) => setEmail(e.target.value)}
             type="email"
             label="Email:"
             variant="outlined"
@@ -136,14 +139,14 @@ function Login() {
                 </InputAdornment>
               ),
             }}
-            error={errorEmail} 
-            helperText={errorEmail !== "" ? errorEmail : ''} 
+            error={errorEmail}
+            helperText={errorEmail !== '' ? errorEmail : ''}
             className={errorEmail ? 'error' : ''}
           ></TextField>
 
           <TextField
-          onChange={(e)=>setPassword(e.target.value)}
-            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            type={isPassVisible ? 'text' : 'password'}
             label="Contraseña:"
             variant="outlined"
             fullWidth={true}
@@ -165,7 +168,7 @@ function Login() {
                     }}
                   >
                     {isPassVisible ? (
-                      <VisibilityOutlined />
+                      <VisibilityOffOutlined />
                     ) : (
                       <VisibilityOutlined />
                     )}
@@ -173,29 +176,33 @@ function Login() {
                 </InputAdornment>
               ),
             }}
-            error={errorPassword} 
-            helperText={errorPassword !== "" ? errorPassword : ''} 
+            error={errorPassword}
+            helperText={errorPassword !== '' ? errorPassword : ''}
             className={errorPassword ? 'error' : ''}
           ></TextField>
-          <CardActions sx={{display:'flex', flexDirection:'column', marginTop:'40%'}}>
-
-          <Button variant="text" size='small'
-           onClick={()=>{
-            setShowLogin(false)
-              errorEmail !== "" ? setErrorEmail("") :setErrorEmail("") 
-              errorPassword !== "" ? setErrorPassword("") : setErrorPassword("") 
-          
-           
-          }}
-          >¿Aún no tienes cuenta? Regístrate aquí.</Button>
+          <CardActions
+            sx={{ display: 'flex', flexDirection: 'column', marginTop: '40%' }}
+          >
+            <Button
+              variant="text"
+              size="small"
+              onClick={() => {
+                setShowLogin(moveLeft)
+                errorEmail !== '' ? setErrorEmail('') : setErrorEmail('')
+                errorPassword !== ''
+                  ? setErrorPassword('')
+                  : setErrorPassword('')
+              }}
+            >
+              ¿Aún no tienes cuenta? Regístrate aquí.
+            </Button>
             <Button
               size="large"
               color="primary"
               variant="contained"
               onClick={() => {
-           
-               handleEmailValidation() 
-               handlePasswordValidation()
+                handleEmailValidation()
+                handlePasswordValidation()
                 onLogin()
               }}
             >
@@ -207,9 +214,11 @@ function Login() {
 
       <Card id="registerContainer">
         <CardHeader title="Registro" sx={{ textAlign: 'center' }} />
-        <CardContent >
+        <CardContent>
           <TextField
-           onChange={(e)=>{setFirstName(e.target.value)}}
+            onChange={(e) => {
+              setFirstName(e.target.value)
+            }}
             type="text"
             label="Nombre:"
             variant="outlined"
@@ -224,12 +233,14 @@ function Login() {
                 </InputAdornment>
               ),
             }}
-            error={errorName} 
-            helperText={errorName !== "" ? errorName : ''} 
+            error={errorName}
+            helperText={errorName !== '' ? errorName : ''}
             className={errorName ? 'error' : ''}
           ></TextField>
           <TextField
-           onChange={(e)=>{setLastName(e.target.value)}}
+            onChange={(e) => {
+              setLastName(e.target.value)
+            }}
             type="text"
             label="Apellidos:"
             variant="outlined"
@@ -244,12 +255,14 @@ function Login() {
                 </InputAdornment>
               ),
             }}
-            error={errorLastname} 
-            helperText={errorLastname !== "" ? errorLastname : ''} 
+            error={errorLastname}
+            helperText={errorLastname !== '' ? errorLastname : ''}
             className={errorLastname ? 'error' : ''}
           ></TextField>
           <TextField
-           onChange={(e)=>{setLocation(e.target.value)}}
+            onChange={(e) => {
+              setLocation(e.target.value)
+            }}
             type="text"
             label="Ciudad:"
             variant="outlined"
@@ -266,7 +279,9 @@ function Login() {
             }}
           ></TextField>
           <TextField
-           onChange={(e)=>{setEmail(e.target.value)}}
+            onChange={(e) => {
+              setEmail(e.target.value)
+            }}
             type="email"
             label="Email:"
             variant="outlined"
@@ -281,13 +296,15 @@ function Login() {
                 </InputAdornment>
               ),
             }}
-            error={errorEmail} 
-            helperText={errorEmail !== "" ? errorEmail : ''} 
+            error={errorEmail}
+            helperText={errorEmail !== '' ? errorEmail : ''}
             className={errorEmail ? 'error' : ''}
           ></TextField>
 
           <TextField
-           onChange={(e)=>{setPassword(e.target.value)}}
+            onChange={(e) => {
+              setPassword(e.target.value)
+            }}
             type="password"
             label="Contraseña:"
             variant="outlined"
@@ -317,39 +334,43 @@ function Login() {
                 </InputAdornment>
               ),
             }}
-            error={errorPassword} 
-            helperText={errorPassword !== "" ? errorPassword : ''} 
+            error={errorPassword}
+            helperText={errorPassword !== '' ? errorPassword : ''}
             className={errorPassword ? 'error' : ''}
           ></TextField>
-          <CardActions sx={{display:'flex', flexDirection:'column'}}>
-
-          <Button variant="text" size='small'
-           onClick={()=>{
-            setShowLogin(true)
-            errorEmail !== "" ? setErrorEmail("") :setErrorEmail("") 
-            errorPassword !== "" ? setErrorPassword("") : setErrorPassword("") 
-        
-            }}>Iniciar Sesión</Button>
+          <CardActions sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Button
+              variant="text"
+              size="small"
+              onClick={() => {
+                setShowLogin(moveRight)
+                errorEmail !== '' ? setErrorEmail('') : setErrorEmail('')
+                errorPassword !== ''
+                  ? setErrorPassword('')
+                  : setErrorPassword('')
+              }}
+            >
+              Iniciar Sesión
+            </Button>
 
             <Button
               onClick={() => {
                 handleNameValidation()
                 handleLastnameValidation()
                 handleEmailValidation()
-               handlePasswordValidation()
+                handlePasswordValidation()
                 onSignup()
               }}
               size="large"
               color="primary"
               variant="contained"
-             
             >
               Registro
             </Button>
           </CardActions>
         </CardContent>
       </Card>
-      <Box className={`image ${showLogin ? 'moveRight' : 'moveLeft'}`}></Box>
+      <Box className={`image ${showLogin}`}></Box>
     </Box>
   )
 }
