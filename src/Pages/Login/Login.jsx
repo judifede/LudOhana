@@ -8,8 +8,10 @@ import {
   Icon,
   IconButton,
   InputAdornment,
+  ModalManager,
   TextField,
   Typography,
+  Modal
 } from '@mui/material'
 import './Login.css'
 import '@fontsource/roboto/300.css'
@@ -23,9 +25,8 @@ import {
   People,
   Person,
   VisibilityOffOutlined,
-  VisibilityOutlined,
-} from '@mui/icons-material'
-import { useState, useEffect } from 'react'
+  VisibilityOutlined} from '@mui/icons-material'
+import { useState } from 'react'
 import { login, signup } from '../../Services/auth'
 import { useNavigate } from 'react-router-dom'
 
@@ -40,10 +41,13 @@ function Login() {
   const [errorLastname, setErrorLastname] = useState('')
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
+  const [registrationError, setRegistrationError] = useState('');
   const [showLogin, setShowLogin] = useState('')
+  
   const moveLeft = 'moveLeft'
   const moveRight = 'moveRigth'
-
+  
+ 
   const navigate = useNavigate()
 
   const handleEmailValidation = () => {
@@ -98,7 +102,13 @@ function Login() {
       localStorage.setItem('role', res.data.role)
       navigate('/')
     } catch (error) {
-      console.log('failed login')
+      if (error.response && error.response.status === 409) {
+   
+        setRegistrationError('El email ya está registrado.');
+      } else {
+      
+        setRegistrationError('Error en el registro. Inténtalo de nuevo.');
+      }
     }
   }
 
@@ -371,6 +381,34 @@ function Login() {
         </CardContent>
       </Card>
       <Box className={`image ${showLogin}`}></Box>
+      <Modal
+      open={registrationError !== ''}
+      onClose={() => setRegistrationError('')}
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <Box sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        borderRadius: 2,
+        boxShadow: 24,
+        p: 4,
+      }}>
+        <Typography id="modal-title" variant="h6" component="h2">
+          Error de Registro
+        </Typography>
+        <Typography id="modal-description" sx={{ mt: 2 }}>
+          {registrationError}
+        </Typography>
+        <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => setRegistrationError('')}>
+          Cerrar
+        </Button>
+      </Box>
+    </Modal>
     </Box>
   )
 }
