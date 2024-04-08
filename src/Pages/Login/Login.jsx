@@ -91,12 +91,7 @@ function Login() {
 
   const onSignup = async () => {
     try {
-      console.log(
-        firstname,
-        lastname,
-        location,
-        email,
-        password)
+      
       const res = await signup({
         firstname,
         lastname,

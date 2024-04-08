@@ -15,17 +15,37 @@ import {
   VisibilityOffOutlined,
   VisibilityOutlined,
 } from '@mui/icons-material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { deleteUser, getUser, updateUser } from '../../Services/auth'
+import { useNavigate } from 'react-router-dom'
 
 function Profile() {
-  const [profile, setProfile] = useState({
-    email: 'diego@gmail.com',
-    name: 'Diego',
+  const navigate = useNavigate()
 
-    lastname: 'Remote',
-    description: 'Estudiante',
-    address: 'Schamann',
-  })
+  const [profile, setProfile] = useState({})
+
+  const handleGetUsers = async () => {
+    const res = await getUser()
+    setProfile(res)
+  }
+
+  useEffect(() => {
+    handleGetUsers()
+  }, [])
+
+  const handleUpdateUsers = async (userData) => {
+    const res = await updateUser(userData)
+    if (res.message) {
+      navigate('/')
+    }
+  }
+
+  const handleDeleteUsers = async (userData) => {
+    const res = await deleteUser(userData)
+    if (res.message) {
+      navigate('/')
+    }
+  }
 
   const [isPassVisible, setIsPassVisible] = useState(false)
 
@@ -36,7 +56,6 @@ function Profile() {
     keys.forEach((key) => {
       updatedProfile[key] = inputObj[key]
     })
-    console.log(profile.password)
     setProfile(updatedProfile)
   }
 
@@ -68,6 +87,7 @@ function Profile() {
                 handleProfile({ name: e.target.value })
               }}
               margin="normal"
+              InputLabelProps={{ shrink: true }}
               value={profile.name}
               type="text"
               fullWidth={true}
@@ -75,10 +95,11 @@ function Profile() {
             <TextField
               label="Apellido"
               onChange={(e) => {
-                handleProfile({ lastname: e.target.value })
+                handleProfile({ lastName: e.target.value })
               }}
               margin="normal"
-              value={profile.lastname}
+              InputLabelProps={{ shrink: true }}
+              value={profile.lastName}
               type="text"
               fullWidth={true}
             ></TextField>
@@ -90,6 +111,7 @@ function Profile() {
             }}
             margin="normal"
             placeholder="ludohana.group@gmail.com"
+            InputLabelProps={{ shrink: true }}
             value={profile.email}
             type="email"
             fullWidth={true}
@@ -128,6 +150,7 @@ function Profile() {
                 handleProfile({ description: e.target.value })
               }}
               margin="normal"
+              InputLabelProps={{ shrink: true }}
               value={profile.description}
               type="text"
               fullWidth={true}
@@ -140,15 +163,28 @@ function Profile() {
                 handleProfile({ address: e.target.value })
               }}
               margin="normal"
+              InputLabelProps={{ shrink: true }}
               value={profile.address}
               type="text"
               fullWidth={true}
             ></TextField>
           )}
         </CardContent>
-        <CardActions sx={{ justifyContent: 'center' }}>
-          <Button variant="contained" color="success">
+        <CardActions sx={{ width: '100%', justifyContent: 'space-around' }}>
+          <Button
+            onClick={() => {
+              handleUpdateUsers(profile)
+            }}
+            variant="contained"
+            color="success"
+          >
             Guardar
+          </Button>
+          <Button onClick={() => {
+              handleDeleteUsers()
+            }}
+            variant="contained" color="error">
+            Eliminar cuenta
           </Button>
         </CardActions>
       </Card>
