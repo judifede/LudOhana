@@ -5,6 +5,8 @@ import Events from "../Pages/Events/Events";
 import Settings from "../Pages/Settings/Settings";
 import Login from "../Pages/Login/Login";
 import Profile from "../Pages/Profile/Profile";
+import Materials from "../Components/Materials/Materials"
+import SettingsLayout from "../Layouts/SettingsLayout";
 
 
 export const router = createBrowserRouter([
@@ -22,7 +24,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'settings',
-                element: <Settings />,
+                element: <SettingsLayout />,
+                children: [
+                    {  path:'',
+                       element: <Settings/>
+                    },
+                    {  path:'materials',
+                       element: <Materials/>
+                    }
+                ]
             },
             {
                 path: 'profile',
