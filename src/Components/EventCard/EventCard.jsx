@@ -27,15 +27,10 @@ const EventCard = (
                 />
                 <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
 
-                    <Typography /* gutterBottom */ variant="h4" component="div" sx={{ textAlign: 'center', paddingBottom: '20px' }}>
+                    <Typography gutterBottom variant="h4" component="div" sx={{ textAlign: 'center', paddingBottom: '20px' }}>
                         {title}
                     </Typography>
-                    {/*   <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <CalendarMonth /> 
-                        <Typography variant="body2" color="text.main">
-                            {date}
-                        </Typography> 
-                    </Box>*/}
+
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -56,7 +51,7 @@ const EventCard = (
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
 
                                     <LocationOn />
-                                    <Typography variant="body2"  color= 'warning' >
+                                    <Typography variant="body2" sx={{ color: 'warning' }}  >
                                         {address}
                                     </Typography>
                                 </Box>
