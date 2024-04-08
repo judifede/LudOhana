@@ -1,0 +1,7 @@
+.eventDetailCard{
+    display: flex;
+    
+    .eventDetailImg{
+        height: 400px;
+    }
+}
