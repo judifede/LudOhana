@@ -58,7 +58,7 @@ const EventDetails = () => {
     }
 
     handleEvent()
-  }, [])
+  }, [eventId])
 
   return (
     <Box
