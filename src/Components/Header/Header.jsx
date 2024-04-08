@@ -5,9 +5,12 @@ import './Header.css'
 import { AccountCircle, Edit, Logout } from '@mui/icons-material'
 import { useState } from 'react'
 
+
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const profile = localStorage.getItem('profile') && JSON.parse(localStorage.getItem('profile'))
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -17,13 +20,10 @@ function Header() {
     setAnchorEl(null)
     setIsMenuOpen(false)
   }
-  const profile = {
-    name: 'Diego',
-    lastname: 'Remote',
-    email: 'diego@gmail.com',
-  }
+
   const navigate = useNavigate()
   const handleLogout = () => {
+    localStorage.removeItem('profile')
     localStorage.removeItem('token')
     localStorage.removeItem('role')
 
@@ -65,7 +65,7 @@ function Header() {
             }}
           >
             <Box textAlign={'center'} px="8px">
-              <Typography>{profile.name + ' ' + profile.lastname}</Typography>
+              <Typography>{profile.name + ' ' + profile.lastName}</Typography>
               <p>{profile.email}</p>
               <Link
                 to="/profile"

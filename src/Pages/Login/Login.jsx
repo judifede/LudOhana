@@ -27,7 +27,8 @@ import {
   VisibilityOutlined,
 } from '@mui/icons-material'
 import { useState } from 'react'
-import { login, signup } from '../../Services/auth'
+import { login, signup, getUser } from '../../Services/auth'
+
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
@@ -98,9 +99,8 @@ function Login() {
         email,
         password,
       })
-      localStorage.setItem('token', res.token)
-      localStorage.setItem('role', res.role)
-      navigate('/')
+
+      onLocalStorage(res)
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setRegistrationError('El email ya está registrado.')
@@ -114,12 +114,24 @@ function Login() {
     try {
       const res = await login({ email, password })
 
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('role', res.data.role)
-      navigate('/')
+      onLocalStorage(res)
     } catch (error) {
       setLoginError('El email o la contraseña no son correctos')
     }
+  }
+
+  const handleGetUsers = async () => {
+    const res = await getUser()
+    const { name, lastName, email } = res
+    const profile = { name, lastName, email }
+    localStorage.setItem('profile',  JSON.stringify(profile))
+  }
+
+  const onLocalStorage = (res) => {
+    localStorage.setItem('token', res.data.token)
+    localStorage.setItem('role', res.data.role)
+    handleGetUsers()
+    navigate('/')
   }
 
   return (
