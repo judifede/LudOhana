@@ -6,10 +6,10 @@ import imageUrl from "../../assets/FiestadeBurbujas.webp"
 import { Link } from 'react-router-dom'
 
 const formatDate = (date) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour:"2-digit", minute:"2-digit"}
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: "2-digit", minute: "2-digit" }
     console.log(date)
     const fecha = new Date(date)
-    return fecha.toLocaleString('es-ES',options) + 'h'
+    return fecha.toLocaleString('es-ES', options) + 'h'
 }
 
 
@@ -19,23 +19,23 @@ const EventCard = (
 
     return (
 
-        <Box className={'cardHover'} sx={{ display: 'flex', justifyContent: 'center', /* flexWrap: 'wrap', */  padding: '30px' }}>
-            <Card sx={{ maxwidth: '100%', width: '400px' }} elevation={4}>
+        <Box className={'cardHover'} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', p: 3 }}>
+            <Card sx={{ maxwidth: '100%', width: '400px', maxHeight: '100%', minHeight: '500px' }} elevation={4}>
                 <CardMedia
                     component="img"
                     height="auto"
                     image={imageUrl}
                     alt={title}
                 />
-                <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
+                <CardContent sx={{ p: 3 }}>
 
-                    <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight:'bold', textAlign: 'center', paddingBottom: '20px' }}>
+                    <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold', textAlign: 'center', pb: 1 }}>
                         {title}
                     </Typography>
 
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
 
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                             <CalendarMonth />
 
                             <Typography variant="body1" color="text.main">
@@ -43,15 +43,15 @@ const EventCard = (
                             </Typography>
 
                         </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pb: 1 }}>
                             <CalendarMonth />
-                            <Typography variant="body1" color="text.main"> {/* Date end */}
+                            <Typography variant="body1" color="text.main">
                                 <strong>Fin:</strong> {formatDate(dateEnd)}
                             </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <LocationOn />
                                 <Link
                                     to={addressUrl}
@@ -59,23 +59,29 @@ const EventCard = (
                                     rel='noopener noreferrer'
                                     style={{ color: '#FF8000', textDecoration: 'underline' }}
                                 >
-                                    <Typography variant="body2" color='text.main' >
+                                    <Typography variant="body1" color='text.main' sx={{
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: "2",
+                                        WebkitBoxOrient: "vertical",
+                                    }} >
                                         {addressTitle}
                                     </Typography>
                                 </Link>
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <Groups />
-                                <Typography variant="body2" color="text.main">
-                                <strong>Participantes:</strong>{participants}
+                                <Typography variant="body1" color="text.main">
+                                    <strong>Participantes:</strong>{participants}
                                 </Typography>
                             </Box>
                         </Box>
                     </Box>
                 </CardContent>
-                <CardActions sx={{ justifyContent: 'center', paddingBottom: '20px' }}>
+                <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 'auto' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.1 }}>
                         <Button variant="contained" color="success">
                             Info
                         </Button>

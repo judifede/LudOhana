@@ -1,0 +1,26 @@
+.filter-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-bar button {
+    margin: 0 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .filter-bar button.active {
+    background-color: #0056b3;
+  }
+  
+  .event-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  

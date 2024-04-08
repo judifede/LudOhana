@@ -8,7 +8,7 @@ function Events() {
     <Grid
       item
       sx={{ marginTop: "20px" }}
-      xs={3}
+      xs={12}
     // sm={6} md={3} lg={3} xl={2.4}
     >
       <EventCardList />
