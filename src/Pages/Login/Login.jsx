@@ -91,6 +91,12 @@ function Login() {
 
   const onSignup = async () => {
     try {
+      console.log(
+        firstname,
+        lastname,
+        location,
+        email,
+        password)
       const res = await signup({
         firstname,
         lastname,
@@ -381,7 +387,7 @@ function Login() {
         </CardContent>
       </Card>
       <Box className={`image ${showLogin}`}></Box>
-      <Modal
+  {/*     <Modal
       open={registrationError !== ''}
       onClose={() => setRegistrationError('')}
       aria-labelledby="modal-title"
@@ -408,7 +414,7 @@ function Login() {
           Cerrar
         </Button>
       </Box>
-    </Modal>
+    </Modal> */}
     </Box>
   )
 }

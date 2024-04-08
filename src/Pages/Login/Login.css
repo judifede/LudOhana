@@ -3,7 +3,7 @@
     position: absolute;
     z-index: 2;
     width: 50vw;
-    height: 70vh;
+    min-height: 70vh;
     top: 20%;
     left: 25%;
     box-shadow: -5px 5px 11px 0px #b5b5b3;
