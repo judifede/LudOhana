@@ -7,6 +7,9 @@ export const login = async (loginData) => {
 export const signup = async (userData) => {
     const {data} = await api.post('/api/auth/signup',userData)
     console.log(userData)
+    console.log(data)
+    console.log("tortilla")
+
     return data
 
 }
