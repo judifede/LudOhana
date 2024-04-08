@@ -34,7 +34,8 @@ const EventDetails = () => {
   const { eventId } = useParams()
 
   const messageReq =
-    'Este evento requiere una contribución de 5€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?'
+    events.contributionRequired &&
+    `Este evento requiere una contribución de ${events.contributionRequired}€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
 
   const messageOpt =
     'Contribuir con LudOhana, es totalmente opcional, nos ayudarías mucho para continuar con nuestra causa. ¿Deseas realizar una donación?'
@@ -43,17 +44,6 @@ const EventDetails = () => {
     'Has realizado una donación. Si desea recuperarla debe ponerse en contacto con ludohana.group@gmail.com. ¿Estás seguro de que quieres cancelar tu inscripción?'
 
   const [modalInscribe, setModalInscribe] = useState('')
-
-  const {
-    title,
-    dateStart,
-    dateEnd,
-    addressTitle,
-    addressUrl,
-    participants,
-    contributionRequired,
-    isContributionRequired,
-  } = events
 
   const handleInscribe = () => {}
 
@@ -78,13 +68,17 @@ const EventDetails = () => {
         padding: '30px',
       }}
     >
-      <Card sx={{ minHeight: '400px' }} className="eventDetailCard" elevation={4}>
+      <Card
+        sx={{ minHeight: '400px' }}
+        className="eventDetailCard"
+        elevation={4}
+      >
         <CardMedia
           className="eventDetailImg"
           component="img"
           height="auto"
           image={imageUrl}
-          alt={title}
+          alt={events.title}
         />
         <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
           <Typography
@@ -97,7 +91,7 @@ const EventDetails = () => {
               paddingBottom: '20px',
             }}
           >
-            {title}
+            {events.title}
           </Typography>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -105,13 +99,13 @@ const EventDetails = () => {
               <CalendarMonth />
 
               <Typography variant="body1" color="text.main">
-                <strong>Inicio:</strong> {formatDate(dateStart)}
+                <strong>Inicio:</strong> {formatDate(events.dateStart)}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
               <CalendarMonth />
               <Typography variant="body1" color="text.main">
-                <strong>Fin:</strong> {formatDate(dateEnd)}
+                <strong>Fin:</strong> {formatDate(events.dateEnd)}
               </Typography>
             </Box>
             <Box
@@ -124,13 +118,13 @@ const EventDetails = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <LocationOn />
                 <Link
-                  to={addressUrl}
+                  to={events.addressUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#FF8000', textDecoration: 'underline' }}
                 >
                   <Typography variant="body2" color="text.main">
-                    {addressTitle}
+                    {events.addressTitle}
                   </Typography>
                 </Link>
               </Box>
@@ -138,7 +132,7 @@ const EventDetails = () => {
                 <Groups />
                 <Typography variant="body2" color="text.main">
                   <strong>Participantes:</strong>
-                  {participants}
+                  {events.participants}
                 </Typography>
               </Box>
             </Box>
@@ -190,15 +184,16 @@ const EventDetails = () => {
                 }}
               >
                 <Typography id="modal-title" variant="h6" component="h2">
-                  {isContributionRequired ? messageReq : messageOpt}
+                  {events.isContributionRequired ? messageReq : messageOpt}
                 </Typography>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Button
                     variant="contained"
-                    color="error"
+                    color="success"
                     sx={{ mt: 2 }}
                     onClick={() => {
+                      handleInscribe()
                       setModalInscribe('')
                     }}
                   >
@@ -206,11 +201,10 @@ const EventDetails = () => {
                   </Button>
                   <Button
                     variant="contained"
-                    color="success"
+                    color="error"
                     sx={{ mt: 2 }}
                     onClick={() => {
                       setModalInscribe('')
-                      handleInscribe()
                     }}
                   >
                     No
