@@ -8,10 +8,9 @@ import {
   Icon,
   IconButton,
   InputAdornment,
-  ModalManager,
   TextField,
   Typography,
-  Modal
+  Modal,
 } from '@mui/material'
 import './Login.css'
 import '@fontsource/roboto/300.css'
@@ -25,7 +24,8 @@ import {
   People,
   Person,
   VisibilityOffOutlined,
-  VisibilityOutlined} from '@mui/icons-material'
+  VisibilityOutlined,
+} from '@mui/icons-material'
 import { useState } from 'react'
 import { login, signup } from '../../Services/auth'
 import { useNavigate } from 'react-router-dom'
@@ -41,14 +41,13 @@ function Login() {
   const [errorLastname, setErrorLastname] = useState('')
   const [errorEmail, setErrorEmail] = useState('')
   const [errorPassword, setErrorPassword] = useState('')
-  const [registrationError, setRegistrationError] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const [registrationError, setRegistrationError] = useState('')
+  const [loginError, setLoginError] = useState('')
   const [showLogin, setShowLogin] = useState('')
-  
+
   const moveLeft = 'moveLeft'
   const moveRight = 'moveRigth'
-  
- 
+
   const navigate = useNavigate()
 
   const handleEmailValidation = () => {
@@ -92,11 +91,10 @@ function Login() {
 
   const onSignup = async () => {
     try {
-    
       const res = await signup({
-        name:firstname,
-        lastName:lastname,
-        address:location,
+        name: firstname,
+        lastName: lastname,
+        address: location,
         email,
         password,
       })
@@ -106,11 +104,10 @@ function Login() {
       navigate('/')
     } catch (error) {
       if (error.response && error.response.status === 409) {
-   
-        setRegistrationError('El email ya está registrado.');
+        setRegistrationError('El email ya está registrado.')
       } else {
-      console.log(error)
-        setRegistrationError('Error en el registro. Inténtalo de nuevo.');
+        console.log(error)
+        setRegistrationError('Error en el registro. Inténtalo de nuevo.')
       }
     }
   }
@@ -119,14 +116,12 @@ function Login() {
     try {
       const res = await login({ email, password })
       console.log(res)
-   
+
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('role', res.data.role)
       navigate('/')
     } catch (error) {
-   
-        setLoginError('El email o la contraseña no son correctos');
-     
+      setLoginError('El email o la contraseña no son correctos')
     }
   }
 
@@ -385,62 +380,84 @@ function Login() {
       </Card>
       <Box className={`image ${showLogin}`}></Box>
       <Modal
-      open={registrationError !== ''}
-      onClose={() => {setRegistrationError('')}}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
-      <Box sx={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        boxShadow: 24,
-        p: 4,
-      }}>
-        <Typography id="modal-title" variant="h6" component="h2">
-          Error de Registro
-        </Typography>
-        <Typography id="modal-description" sx={{ mt: 2 }}>
-          {registrationError}
-        </Typography>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => {setRegistrationError('')}}>
-          Cerrar
-        </Button>
-      </Box>
-    </Modal>
+        open={registrationError !== ''}
+        onClose={() => {
+          setRegistrationError('')
+        }}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            Error de Registro
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }}>
+            {registrationError}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            onClick={() => {
+              setRegistrationError('')
+            }}
+          >
+            Cerrar
+          </Button>
+        </Box>
+      </Modal>
 
-    <Modal
-      open={loginError !== ''}
-      onClose={() => {setLoginError('')}}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
-      <Box sx={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        borderRadius: 2,
-        boxShadow: 24,
-        p: 4,
-      }}>
-        <Typography id="modal-title" variant="h6" component="h2">
-          Error de Registro
-        </Typography>
-        <Typography id="modal-description" sx={{ mt: 2 }}>
-          {loginError}
-        </Typography>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => {setLoginError('')}}>
-          Cerrar
-        </Button>
-      </Box>
-    </Modal>
+      <Modal
+        open={loginError !== ''}
+        onClose={() => {
+          setLoginError('')
+        }}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            Error de Registro
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }}>
+            {loginError}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            onClick={() => {
+              setLoginError('')
+            }}
+          >
+            Cerrar
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   )
 }
