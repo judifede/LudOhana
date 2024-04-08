@@ -25,7 +25,7 @@ function Header() {
   const navigate = useNavigate()
   const handleLogout = () => {
     localStorage.removeItem('token')
-    localStorage.removeItem('rol')
+    localStorage.removeItem('role')
 
     navigate('/')
   }

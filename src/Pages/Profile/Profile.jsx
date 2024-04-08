@@ -1,5 +1,5 @@
 import './Profile.css'
-import { Grid } from '@mui/material'
+import { Grid, Modal, Typography } from '@mui/material'
 import {
   TextField,
   Button,
@@ -23,6 +23,7 @@ function Profile() {
   const navigate = useNavigate()
 
   const [profile, setProfile] = useState({})
+  const [modalDelete, setModalDelete] = useState('')
 
   const handleGetUsers = async () => {
     const res = await getUser()
@@ -42,6 +43,8 @@ function Profile() {
 
   const handleDeleteUsers = async (userData) => {
     const res = await deleteUser(userData)
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
     if (res.message) {
       navigate('/')
     }
@@ -180,12 +183,65 @@ function Profile() {
           >
             Guardar
           </Button>
-          <Button onClick={() => {
-              handleDeleteUsers()
+          <Button
+            onClick={() => {
+              setModalDelete('open')
             }}
-            variant="contained" color="error">
+            variant="contained"
+            color="error"
+          >
             Eliminar cuenta
           </Button>
+          <Modal
+            open={modalDelete !== ''}
+            onClose={() => {
+              setModalDelete('')
+            }}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+          >
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 400,
+                bgcolor: 'background.paper',
+                borderRadius: 2,
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Typography id="modal-title" variant="h6" component="h2">
+                ¿Estás seguro de que deseas eliminar tu cuenta?
+              </Typography>
+
+              <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  sx={{ mt: 2 }}
+                  onClick={() => {
+                    setModalDelete('')
+                  }}
+                >
+                  Volver
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  sx={{ mt: 2 }}
+                  onClick={() => {
+                    setModalDelete('')
+                    handleDeleteUsers()
+                  }}
+                >
+                  Eliminar cuenta
+                </Button>
+              </Box>
+            </Box>
+          </Modal>
         </CardActions>
       </Card>
     </Grid>

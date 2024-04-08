@@ -98,7 +98,6 @@ function Login() {
         email,
         password,
       })
-      console.log(res)
       localStorage.setItem('token', res.token)
       localStorage.setItem('role', res.role)
       navigate('/')
@@ -106,7 +105,6 @@ function Login() {
       if (error.response && error.response.status === 409) {
         setRegistrationError('El email ya está registrado.')
       } else {
-        console.log(error)
         setRegistrationError('Error en el registro. Inténtalo de nuevo.')
       }
     }
@@ -115,7 +113,6 @@ function Login() {
   const onLogin = async () => {
     try {
       const res = await login({ email, password })
-      console.log(res)
 
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('role', res.data.role)
