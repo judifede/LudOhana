@@ -16,11 +16,10 @@ const EventCard = (
     const inscribed = "20"
     const participants = "50"
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', padding: '30px' }}>
-            <Card sx={{ width: '100%' }} elevation={4}>
+        <Box sx={{ /* display: 'flex', justifyContent: 'center', flexWrap: 'wrap',  */padding: '30px' }}>
+            <Card sx={{ maxwidth: '100%', display: 'flex', flexDirection: 'column' }} elevation={4}>
                 <CardMedia
                     component="img"
-                    /*  border='1px' */
                     height="250"
                     image={imageUrl}
                     alt={title}
@@ -46,32 +45,36 @@ const EventCard = (
                             </Typography>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Link to={addressUrl} target='_blank' rel='noopener noreferrer' >
 
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-
-                                    <LocationOn />
-                                    <Typography variant="body2" sx={{ color: 'warning' }}  >
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <LocationOn />
+                                <Link
+                                    to={addressUrl}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    style={{ color: '#FF8000', textDecoration: 'underline' }}
+                                >
+                                    <Typography variant="body2" color='text.main' >
                                         {address}
                                     </Typography>
-                                </Box>
-                            </Link>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <Groups />
-                                <Typography variant="body2" color="text.main">
-                                    {inscribed + ' / ' + participants}
-                                </Typography>
+                                </Link>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                            <Groups />
+                            <Typography variant="body2" color="text.main">
+                                {inscribed + ' / ' + participants}
+                            </Typography>
                             </Box>
                         </Box>
                     </Box>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'center', paddingBottom: '20px' }}>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 'auto' }}>
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 'auto' }}> */}
                         <Button variant="contained" color="success">
                             {info}
                         </Button>
-                    </Box>
+                    {/* </Box> */}
                 </CardActions>
             </Card>
         </Box>
