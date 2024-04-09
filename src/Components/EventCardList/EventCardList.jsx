@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import EventCard from '../EventCard/EventCard'
-import { getCurrentEvents, getPreviousEvents, getUSerEventsPrevius } from '../../Services/eventService'
+import { getCurrentEvents, getPreviousEvents, getUserEvents, getUserEventsPrevious } from '../../Services/eventService'
 import './EventCardList.css';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import FilterAlt from '@mui/icons-material/FilterAlt'
@@ -18,9 +18,10 @@ const EventCardList = () => {
                 eventsData = await getCurrentEvents()
             } else if (filter === 'previous') {
                 eventsData = await getPreviousEvents()
-            } else if (filter === 'userPrevius') {
-                eventsData = await getUSerEventsPrevius()
-            }
+            } else if (filter === 'userPreviousEvents') {
+                eventsData = await getUserEventsPrevious()
+            } else if (filter === 'userEventInscribed')
+                eventsData = await getUserEvents()
 
             setEvents(eventsData)
         } catch (error) {
@@ -43,8 +44,11 @@ const EventCardList = () => {
             case 'previous':
                 setFilterTitle('Eventos Anteriores')
                 break
-            case 'userPrevius':
-                setFilterTitle('Mis Historicos')
+            case 'userPreviousEvents':
+                setFilterTitle('Mis Eventos Anteriores')
+                break
+            case 'userEventInscribed':
+                setFilterTitle('Mis Eventos Inscritos')
                 break
         }
     }
@@ -70,7 +74,8 @@ const EventCardList = () => {
                         >
                             <MenuItem value="current">Eventos Próximos</MenuItem>
                             <MenuItem value="previous">Eventos Anteriores</MenuItem>
-                            <MenuItem value="userPrevius">Mis Historicos</MenuItem>
+                            <MenuItem value="userPreviousEvents">Mis Eventos Anteriores</MenuItem>
+                            <MenuItem value="userEventInscribed">Mis Eventos Inscritos</MenuItem>
                         </Select>
                     </FormControl>
                 </div>

@@ -77,6 +77,7 @@ const EventCard = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                minHeight: '50px',
                 gap: '15px',
               }}
             >
@@ -91,15 +92,6 @@ const EventCard = ({
                   <Typography
                     variant="body1"
                     color="text.main"
-                    sx={
-                      {
-                        /*    overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                display: "-webkit-box",
-                                WebkitLineClamp: "2",
-                                WebkitBoxOrient: "vertical", */
-                      }
-                    }
                   >
                     {addressTitle}
                   </Typography>
@@ -115,8 +107,8 @@ const EventCard = ({
             </Box>
           </Box>
         </CardContent>
-        <CardActions sx={{ justifyContent: 'center', pb: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.1 }}>
+        <CardActions sx={{ justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.1, pb: 2 }}>
             <Button variant="contained" color="success">
               Info
             </Button>
@@ -131,8 +123,8 @@ EventCard.propTypes = {
   event: PropTypes.object,
   id: PropTypes.number,
   title: PropTypes.string,
-  dateStart: PropTypes.date,
-  dateEnd: PropTypes.date,
+  dateStart: PropTypes.string,
+  dateEnd: PropTypes.string,
   addressTitle: PropTypes.string,
   addressURL: PropTypes.string,
   participants: PropTypes.number,
