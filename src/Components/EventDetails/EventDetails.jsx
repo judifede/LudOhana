@@ -54,7 +54,7 @@ const EventDetails = () => {
     const bodyObj = {
       name: events.title,
       description: events.description,
-      amount: events.contributionRequired ?? 5,
+      amount: !events.contributionRequired>0 && 5,
       eventId: eventId,
       // user: JSON.parse(localStorage.getItem('profile')),
     }
