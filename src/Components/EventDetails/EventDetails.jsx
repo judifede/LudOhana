@@ -17,6 +17,7 @@ import imageUrl from '../../assets/FiestadeBurbujas.webp'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
+  deleteUserEvent,
   getEventById,
   getUSerEventsPrevius,
   registerUserEvent,
@@ -41,6 +42,7 @@ const EventDetails = () => {
 
   const [modalContribution, setModalContribution] = useState('')
   const [modalInscribe, setModalInscribe] = useState('')
+  const [modalCancelInscribe, setModalCancelInscribe] = useState('')
   const [inscribed, setInscribed] = useState(1)
   const [isUserInscribed, setIsUserInscribed] = useState()
   const [userEvents, setUserEvents] = useState([])
@@ -84,6 +86,15 @@ const EventDetails = () => {
     setModalContribution('open')
   }
 
+  const handleCancelInscribe = async () => {
+    setModalCancelInscribe('')
+
+    const data = await deleteUserEvent(eventId)
+    
+    console.log(data)
+
+  }
+
   useEffect(() => {
     const handleEvent = async () => {
       try {
@@ -105,16 +116,17 @@ const EventDetails = () => {
     const handleIsUserInscribed = () => {
       console.log(eventId)
       setIsUserInscribed(
-        userEvents.some((userEvent) => {
+        true
+        /* userEvents.some((userEvent) => {
           console.log(userEvent.id)
           return eventId == userEvent.id
-        })
+        }) */
       )
     }
 
     handleIsUserInscribed()
     handleEvent()
-    handleInscribedEvent()
+    //handleInscribedEvent()
   }, [eventId, userEvents])
 
   return (
@@ -227,7 +239,9 @@ const EventDetails = () => {
                 variant="contained"
                 color={isUserInscribed ? 'error' : 'success'}
                 onClick={() => {
-                  setModalInscribe('open')
+                  isUserInscribed 
+                  ? setModalCancelInscribe('open')
+                  : setModalInscribe('open')
                 }}
               >
                 {isUserInscribed ? 'Cancelar inscripción' : 'Inscribirse'}
@@ -261,7 +275,7 @@ const EventDetails = () => {
                     component="h2"
                     textAlign={'left'}
                   >
-                    {isUserInscribed ? messageCancelIns : messageOnIns}
+                    {messageOnIns}
                   </Typography>
 
                   <TextField
@@ -298,6 +312,63 @@ const EventDetails = () => {
                   </Box>
                 </Box>
               </Modal>
+
+              <Modal
+                open={modalCancelInscribe !== ''}
+                onClose={() => {
+                  setModalCancelInscribe('')
+                }}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    textAlign: 'center',
+                    bgcolor: 'background.paper',
+                    borderRadius: 2,
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Typography
+                    id="modal-title"
+                    variant="h6"
+                    component="h2"
+                    textAlign={'left'}
+                  >
+                    {messageCancelIns}
+                  </Typography>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        handleCancelInscribe()
+                      }}
+                    >
+                      Continuar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        setModalCancelInscribe('')
+                      }}
+                    >
+                      Volver
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
+
               <Modal
                 open={modalContribution !== ''}
                 onClose={() => {
@@ -352,7 +423,7 @@ const EventDetails = () => {
                       color="error"
                       sx={{ mt: 2 }}
                       onClick={() => {
-                        events.isContributionRequired && handleContribution()
+                        setModalContribution('')
                       }}
                     >
                       No

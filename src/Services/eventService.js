@@ -54,3 +54,15 @@ export const registerUserEvent = async (inscribed, eventId) => {
     throw new Error('Error al obtener evento')
   }
 }
+
+export const deleteUserEvent = async (eventId) => {
+  try {
+    const { data } = await api.delete('/api/events/' + eventId + '/user', {
+      headers: { Authorization: localStorage.getItem('token') },
+    })
+    return data
+  } catch (error) {
+    console.error('Error al obtener evento:', error)
+    throw new Error('Error al obtener evento')
+  }
+}
