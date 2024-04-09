@@ -24,6 +24,8 @@ function Materials() {
   const [materials, setMaterials] = useState([])
   const [events, setEvents] = useState([])
   const [isOpenModal, setIsOpenModal] = useState(false)
+  //const [isOpenModalEdit, setIsOpenModal] = useState(false)
+
   const [materialId, setMaterialId] = useState([])
   const [eventId, setEventId] = useState([])
 
@@ -122,7 +124,11 @@ function Materials() {
                           alignItems: 'center',
                         }}
                       >
-                        <IconButton color="warning">
+                        <IconButton color="warning"
+                         onClick={() => {
+                          setIsOpenModal((prev) => !prev)
+                          
+                        }}>
                           <Edit />
                         </IconButton>
                         <IconButton
@@ -147,6 +153,7 @@ function Materials() {
 
       <Modal
         open={isOpenModal === true}
+        onClose={()=>{setIsOpenModal(false)}}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
@@ -165,6 +172,56 @@ function Materials() {
         >
           <Typography id="modal-title" variant="h6" component="h2">
             ¿Está seguro de que desea borrar el material?
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
+          <Box display="flex" justifyContent="space-around">
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                handleDeleteMaterial()
+
+                setIsOpenModal((prev) => !prev)
+              }}
+            >
+              Si
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                setIsOpenModal((prev) => !prev)
+              }}
+            >
+              No
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={isOpenModal === true}
+        onClose={()=>{setIsOpenModal(false)}}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            Editar Material
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
           <Box display="flex" justifyContent="space-around">
