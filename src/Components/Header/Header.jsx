@@ -1,4 +1,12 @@
-import { AppBar, Icon, Menu, Box, Button, Typography } from '@mui/material'
+import {
+  AppBar,
+  Icon,
+  Menu,
+  MenuItem,
+  Box,
+  Button,
+  Typography,
+} from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 
@@ -58,38 +66,59 @@ function Header() {
             open={isMenuOpen}
             anchorEl={anchorEl}
             onClose={handleClose}
-            sx={{ top: '15px' }}
+            sx={{
+              top: '15px',
+            }}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
             }}
           >
-            <Box textAlign={'center'} px="8px">
-              <Typography>{profile.name + ' ' + profile.lastname}</Typography>
-              <p>{profile.email}</p>
+                {/* <Typography>{profile.name + ' ' + profile.lastname}</Typography> */}
+                <Typography sx={{textAlign: "center", py: 1}}>{profile.email}</Typography>
+            <MenuItem>
               <Link
                 to="/profile"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 onClick={() => {
                   handleClose()
                 }}
               >
-                <Button
+                {/* <Button
                   startIcon={<Edit />}
                   size="small"
                   variant="contained"
                   color="success"
                 >
                   Editar
-                </Button>
+                </Button> */}
+                <Icon
+                  onClick={() => handleLogout()}
+                  // color='success'
+                  sx={{ width: '40px', height: '40px' }}
+                >
+                  <Edit sx={{ fontSize: '30px' }} />
+                </Icon>
+                Editar
               </Link>
-            </Box>
+            </MenuItem>
+            <MenuItem sx={{
+                 
+                }}>
+              <Icon
+                onClick={() => handleLogout()}
+                // color='success'
+                sx={{ width: '40px', height: '40px',  display: 'flex',
+                alignItems: 'center', }}
+              >
+                <Logout sx={{ fontSize: '30px' }} />
+              </Icon>
+              Cerrar sesión
+            </MenuItem>
           </Menu>
-          <Icon
-            onClick={() => handleLogout()}
-            sx={{ width: '40px', height: '40px', color: 'ludoGreenLight.main' }}
-          >
-            <Logout sx={{ fontSize: '40px' }} />
-          </Icon>
         </div>
       ) : (
         <div className="headerLogin">
