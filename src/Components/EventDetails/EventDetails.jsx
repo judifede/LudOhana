@@ -35,9 +35,12 @@ const EventDetails = () => {
   const [events, setEvents] = useState([])
   const { eventId } = useParams()
 
+  const [modalContribution, setModalContribution] = useState('')
+  const [modalInscribe, setModalInscribe] = useState('')
+  const [inscribed, setInscribed] = useState(1)
   const messageReq =
     events.contributionRequired &&
-    `Este evento requiere una contribución de ${events.contributionRequired}€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
+    `Este evento requiere una contribución de ${events.contributionRequired*inscribed}€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
 
   const messageOpt =
     'Contribuir con LudOhana, es totalmente opcional, nos ayudarías mucho para continuar con nuestra causa. ¿Deseas realizar una donación?'
@@ -45,9 +48,6 @@ const EventDetails = () => {
   const messageCancelIns =
     'Has realizado una donación. Si desea recuperarla debe ponerse en contacto con ludohana.group@gmail.com. ¿Estás seguro de que quieres cancelar tu inscripción?'
 
-  const [modalContribution, setModalContribution] = useState('')
-  const [modalInscribe, setModalInscribe] = useState('')
-  const [inscribe, setInscribe] = useState(1)
 
   const handleContribution = async () => {
     setModalContribution('')
@@ -66,8 +66,10 @@ const EventDetails = () => {
   const handleInscribe = async () => {
     setModalInscribe('')
 
-    const data = await registerUserEvent({ inscribe: inscribe }, eventId)
+    const data = await registerUserEvent({ inscribed: inscribed }, eventId)
     console.log(data)
+
+    setModalContribution('open')
   }
 
   useEffect(() => {
@@ -234,7 +236,7 @@ const EventDetails = () => {
                   variant="outlined"
                   margin="dense"
                   onChange={(e) => {
-                    setInscribe(e.target.value)
+                    setInscribed(e.target.value)
                   }}
                   placeholder="Número de inscritos"
                 />
