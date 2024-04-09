@@ -26,7 +26,7 @@ const formatDate = (date) => {
 }
 
 const EventCard = ({
-  event: { id, title, dateStart, dateEnd, addressTitle, addressUrl, participants },
+  event: { id, title, dateStart, dateEnd, addressTitle, addressURL, participants },
 }) => {
   return (
     <Box
@@ -77,7 +77,7 @@ const EventCard = ({
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <LocationOn />
                 <Link
-                  to={addressUrl}
+                  to={addressURL}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#FF8000', textDecoration: 'underline' }}
@@ -122,7 +122,7 @@ EventCard.propTypes = {
   dateStart: PropTypes.date,
   dateEnd: PropTypes.date,
   addressTitle: PropTypes.string,
-  addressUrl: PropTypes.string,
+  addressURL: PropTypes.string,
   participants: PropTypes.number,
 }
 
