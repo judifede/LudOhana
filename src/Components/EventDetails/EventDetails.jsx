@@ -44,8 +44,9 @@ const EventDetails = () => {
   const [modalInscribe, setModalInscribe] = useState('')
   const [modalCancelInscribe, setModalCancelInscribe] = useState('')
   const [inscribed, setInscribed] = useState(1)
-  const [isUserInscribed, setIsUserInscribed] = useState()
   const [userEvents, setUserEvents] = useState([])
+
+  const [isUserInscribed, setIsUserInscribed] = useState()
 
   const messageReq =
     events.contributionRequired &&
@@ -90,9 +91,9 @@ const EventDetails = () => {
     setModalCancelInscribe('')
 
     const data = await deleteUserEvent(eventId)
-    
-    console.log(data)
 
+    console.log(data)
+    setIsUserInscribed(false)
   }
 
   useEffect(() => {
@@ -239,9 +240,9 @@ const EventDetails = () => {
                 variant="contained"
                 color={isUserInscribed ? 'error' : 'success'}
                 onClick={() => {
-                  isUserInscribed 
-                  ? setModalCancelInscribe('open')
-                  : setModalInscribe('open')
+                  isUserInscribed
+                    ? setModalCancelInscribe('open')
+                    : setModalInscribe('open')
                 }}
               >
                 {isUserInscribed ? 'Cancelar inscripción' : 'Inscribirse'}
@@ -366,6 +367,16 @@ const EventDetails = () => {
                       Volver
                     </Button>
                   </Box>
+                  <Typography
+                    id="modal-warning"
+                    variant="subtitle2"
+                    component="p"
+                    sx={{marginTop: "16px"}}
+                    textAlign={'left'}
+                  >
+                    {warningCancelIns}
+                  </Typography>
+                  
                 </Box>
               </Modal>
 
