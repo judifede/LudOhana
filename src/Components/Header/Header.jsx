@@ -5,12 +5,15 @@ import './Header.css'
 import { AccountCircle, Edit, Logout } from '@mui/icons-material'
 import { useState } from 'react'
 
+import logoURL from '../../assets/logo_letras_fdfffd.webp'
 
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const profile = localStorage.getItem('profile') && JSON.parse(localStorage.getItem('profile'))
+  const profile =
+    localStorage.getItem('profile') &&
+    JSON.parse(localStorage.getItem('profile'))
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -40,7 +43,7 @@ function Header() {
         alignItems: 'center',
       }}
     >
-      <img src="src/assets/logo_letras_fdfffd.webp" alt="Logo Ludohana" />
+      <img src={logoURL} alt="Logo Ludohana" />
       <div className="headerLinks">
         <Link to="/">Inicio</Link>
         <Link to="/events">Eventos</Link>
@@ -65,23 +68,29 @@ function Header() {
             }}
           >
             <Box textAlign={'center'} px="8px">
-              <Typography>{profile.name + ' ' + profile.lastName}</Typography>
-              <p>{profile.email}</p>
-              <Link
-                to="/profile"
-                onClick={() => {
-                  handleClose()
-                }}
-              >
-                <Button
-                  startIcon={<Edit />}
-                  size="small"
-                  variant="contained"
-                  color="success"
-                >
-                  Editar
-                </Button>
-              </Link>
+              {profile && (
+                <>
+                  <Typography>
+                    {profile.name + ' ' + profile.lastName}
+                  </Typography>
+                  <p>{profile.email}</p>
+                  <Link
+                    to="/profile"
+                    onClick={() => {
+                      handleClose()
+                    }}
+                  >
+                    <Button
+                      startIcon={<Edit />}
+                      size="small"
+                      variant="contained"
+                      color="success"
+                    >
+                      Editar
+                    </Button>
+                  </Link>
+                </>
+              )}
             </Box>
           </Menu>
           <Icon

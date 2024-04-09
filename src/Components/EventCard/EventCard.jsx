@@ -38,7 +38,7 @@ const EventCard = ({
       }}
     >
       <Card sx={{ maxwidth: '100%', width: '400px' }} elevation={4}>
-        <CardMedia component="img" height="auto" image={imageUrl} alt={title} />
+        <CardMedia component="img" height="auto" image={imageUrl} alt={"Imagen del evento " + title} />
         <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
           <Typography
             gutterBottom

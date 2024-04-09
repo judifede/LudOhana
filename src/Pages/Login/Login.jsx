@@ -122,9 +122,9 @@ function Login() {
 
   const handleGetUsers = async () => {
     const res = await getUser()
-    const { name, lastName, email } = res
-    const profile = { name, lastName, email }
-    localStorage.setItem('profile',  JSON.stringify(profile))
+    const { id, name, lastName, email } = res
+    const profile = { id, name, lastName, email }
+    localStorage.setItem('profile', JSON.stringify(profile))
   }
 
   const onLocalStorage = (res) => {
