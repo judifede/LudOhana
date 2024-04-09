@@ -10,7 +10,7 @@
  .filter-bar {
     display: flex;
     justify-content: right;
-    margin-bottom: 20px;
+    align-items: center;
   }
   
  
