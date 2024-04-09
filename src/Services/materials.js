@@ -7,4 +7,9 @@ export const getMaterialsEvents= async () => {
     return response.data.allMaterialEventData
 }
 
+export const deleteMaterialsToEvent = async (materialId,eventId)=>{
+    const {data} = await api.delete(`/api/events/${eventId}/material/${materialId}`,{headers:{Authorization:localStorage.getItem('token')}})
+    return data
+}
+
 

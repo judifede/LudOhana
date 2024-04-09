@@ -1,97 +1,3 @@
-/* 
-import { Typography, Grid,TableRow,TableCell,Button, TableBody, TableContainer, Table, TableHead } from '@mui/material'
-import { getMaterialsEvents } from '../../Services/materials';
-import { useState } from 'react'
-
-
-function Materials() {
-  const[materialsEvents,setMaterialsEvents]=useState([])
-  const [materials,setMaterials]=useState([])
-  const [events,setEvents]=useState([])
-  const handleMaterialsEvents = async () => {
-    const data = await getMaterialsEvents();
-    setMaterialsEvents(data.allMaterialEvent);
-  }
-  const handleMaterials = async()=>{
-    const data = await getMaterialsEvents()
-    setMaterials(data.allMaterial)
-  }
-  const handleEvents = async()=>{
-    const data = await getMaterialsEvents()
-    setEvents(data.allEvent)
-  }
-  const columns = [
-    { id: 'id', label: 'ID del Material' },
-    { id: 'name', label: 'Nombre del Material' },
-    { id: 'amount', label: 'Cantidad' },
-    { id: 'amountUsed', label: 'En Uso' },
-    { id: 'eventId', label: 'ID del Evento' },
-    { id: 'eventTitle', label: 'Nombre del Evento' },
-    { id: 'actions', label: 'Acciones' }, 
-  ];
-
-  return (
-    
-    <Grid
-      item
-      sx={{ marginTop: '20px' }}
-      xs={12}
-      // sm={6} md={3} lg={3} xl={2.4}
-    >
-      <Typography
-        id="modal-title"
-        variant="h3"
-        component="h2"
-        textAlign="center"
-      >
-        Gestor de Materiales 
-      </Typography>
-
-      <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} align="center">
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {materialsEvents.map((row) => {
-                const material = materials.find((m) => m.id === row.materialId); // Encontrar el material correspondiente
-                const event = events.find((e)=>e.id === row.eventId)
-                return (
-                  <TableRow key={row.materialId}>
-                    <TableCell align="center">{material.id}</TableCell>
-                    <TableCell align="center">{material.name}</TableCell>
-                    <TableCell align="center">{material.amount}</TableCell>
-                    <TableCell align="center">{row.amountUsed}</TableCell>
-                    <TableCell align="center">{event.id}</TableCell>
-                    <TableCell align="center">{event.title}</TableCell>
-                    <TableCell align="center">
-                      <Button variant="outlined" color="primary" style={{ marginRight: '8px' }}>
-                        Editar
-                      </Button>
-                      <Button variant="outlined" color="secondary">
-                        Borrar
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-    <Button onClick={()=>{handleMaterialsEvents(); handleMaterials() ;handleEvents()}}>Prueba </Button>     
-    </Grid>
-  )
-}
-
-export default Materials
- */
-
 import { useState, useEffect } from 'react'
 import {
   Typography,
@@ -102,28 +8,48 @@ import {
   TableContainer,
   Table,
   TableHead,
-  InputAdornment,
-  Icon,
+  IconButton,
+  Box,
+  Modal,
+  Button,
 } from '@mui/material'
-import { getMaterialsEvents } from '../../Services/materials'
+import {
+  getMaterialsEvents,
+  deleteMaterialsToEvent,
+} from '../../Services/materials'
 import { Delete, Edit } from '@mui/icons-material'
 
 function Materials() {
   const [materialsEvents, setMaterialsEvents] = useState([])
   const [materials, setMaterials] = useState([])
   const [events, setEvents] = useState([])
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [materialId, setMaterialId] = useState([])
+  const [eventId, setEventId] = useState([])
+
+  console.log(materialsEvents)
+
+  const handleDeleteMaterial = async () => {
+    const res = await deleteMaterialsToEvent(materialId, eventId)
+    if (res.message) {
+      const newMaterialsEvents = materialsEvents.filter((elem) => {
+        return elem.materialId !== materialId && elem.eventId !== eventId
+      })
+      setMaterialsEvents(newMaterialsEvents)
+
+      console.log(materialsEvents)
+    }
+  }
 
   const columns = [
-    { id: 'id', label: 'ID del Material' },
-    { id: 'name', label: 'Nombre del Material' },
+    { id: 'id', label: 'ID | Nombre del Material ' },
     { id: 'amount', label: 'Cantidad' },
     { id: 'amountUsed', label: 'En Uso' },
-    { id: 'eventId', label: 'ID del Evento' },
-    { id: 'eventTitle', label: 'Nombre del Evento' },
+    { id: 'eventId', label: 'ID | Nombre del evento ' },
     { id: 'actions', label: 'Acciones' },
   ]
 
-  const fetchData = async () => {
+  const handleMaterialEvents = async () => {
     try {
       const [materialsData, materialsEventsData, eventsData] =
         await Promise.all([
@@ -139,7 +65,7 @@ function Materials() {
     }
   }
   useEffect(() => {
-    fetchData()
+    handleMaterialEvents()
   }, [])
   return (
     <Grid container justifyContent="center">
@@ -147,73 +73,126 @@ function Materials() {
         <Typography variant="h3" component="h2" align="center" gutterBottom>
           Gestor de Materiales
         </Typography>
+        <Box
+          padding="4%"
+          border="1px solid grey"
+          borderRadius="10px"
+          marginTop="2%"
+        >
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell key={column.id} align="left">
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {materialsEvents.map((row) => {
+                  const material = materials.find(
+                    (m) => m.id === row.materialId
+                  )
+                  const event = events.find((e) => e.id === row.eventId)
 
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} align="center">
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {materialsEvents.map((row) => {
-                const material = materials.find((m) => m.id === row.materialId)
-                const event = events.find((e) => e.id === row.eventId)
+                  return (
+                    <TableRow key={row.materialId}>
+                      <TableCell align="left">
+                        {material
+                          ? material.id + ' | ' + material.name
+                          : 'No disponible'}
+                      </TableCell>
+                      <TableCell align="left">
+                        {material ? material.amount : 'No disponible'}
+                      </TableCell>
+                      <TableCell align="left">{row.amountUsed}</TableCell>
+                      <TableCell align="left">
+                        {event
+                          ? event.id + ' | ' + event.title
+                          : 'No disponible'}
+                      </TableCell>
 
-                return (
-                  <TableRow key={row.materialId}>
-                    <TableCell align="center">
-                      {material ? material.id : 'No disponible'}
-                    </TableCell>
-                    <TableCell align="center">
-                      {material ? material.name : 'No disponible'}
-                    </TableCell>
-                    <TableCell align="center">
-                      {material ? material.amount : 'No disponible'}
-                    </TableCell>
-                    <TableCell align="center">{row.amountUsed}</TableCell>
-                    <TableCell align="center">
-                      {event ? event.id : 'No disponible'}
-                    </TableCell>
-                    <TableCell align="center">
-                      {event ? event.title : 'No disponible'}
-                    </TableCell>
-                    <TableCell 
-                    sx={{
-                      display:"flex",
-                      flexDirection:"row", 
-                      justifyContent:"space-between",
-                      alignItems:"center",
-                  
-                      }}>
-                       <InputAdornment >
-                         <Icon>
-                           <Edit />
-                         </Icon>
-                         <Icon>
-                           
-                           <Delete/>
-                         </Icon>
-                       </InputAdornment>
-                       {/* <InputAdornment>
-                         <Icon>
-                           <Delete/>
-                         </Icon>
-                       </InputAdornment> */}
-                     
-                    
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                      <TableCell
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'start',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <IconButton color="warning">
+                          <Edit />
+                        </IconButton>
+                        <IconButton
+                          color="error"
+                          onClick={() => {
+                            setIsOpenModal((prev) => !prev)
+                            setEventId(event.id)
+                            setMaterialId(material.id)
+                          }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Grid>
+
+      <Modal
+        open={isOpenModal === true}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            ¿Está seguro de que desea borrar el material?
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
+          <Box display="flex" justifyContent="space-around">
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                handleDeleteMaterial()
+
+                setIsOpenModal((prev) => !prev)
+              }}
+            >
+              Si
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                setIsOpenModal((prev) => !prev)
+              }}
+            >
+              No
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Grid>
   )
 }
