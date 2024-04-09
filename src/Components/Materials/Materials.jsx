@@ -12,24 +12,36 @@ import {
   Box,
   Modal,
   Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material'
 import {
   getMaterialsEvents,
   deleteMaterialsToEvent,
+  updateMaterials
 } from '../../Services/materials'
-import { Delete, Edit } from '@mui/icons-material'
+import { Delete, Edit, FilterAlt } from '@mui/icons-material'
 
 function Materials() {
   const [materialsEvents, setMaterialsEvents] = useState([])
   const [materials, setMaterials] = useState([])
   const [events, setEvents] = useState([])
   const [isOpenModal, setIsOpenModal] = useState(false)
-  //const [isOpenModalEdit, setIsOpenModal] = useState(false)
-
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState(false)
   const [materialId, setMaterialId] = useState([])
   const [eventId, setEventId] = useState([])
+  const [nameMaterial,setNameMaterial]=useState([])
+  const [amountMaterial,setAmountMaterial]=useState([])
 
-  console.log(materialsEvents)
+ const handleUpdateMaterials = async()=>{
+  await updateMaterials(materialId,{
+    name:nameMaterial,
+    amount:amountMaterial
+  })()
+ }
 
   const handleDeleteMaterial = async () => {
     const res = await deleteMaterialsToEvent(materialId, eventId)
@@ -124,11 +136,12 @@ function Materials() {
                           alignItems: 'center',
                         }}
                       >
-                        <IconButton color="warning"
-                         onClick={() => {
-                          setIsOpenModal((prev) => !prev)
-                          
-                        }}>
+                        <IconButton
+                          color="warning"
+                          onClick={() => {
+                            setIsOpenModalEdit((prev) => !prev)
+                          }}
+                        >
                           <Edit />
                         </IconButton>
                         <IconButton
@@ -153,7 +166,9 @@ function Materials() {
 
       <Modal
         open={isOpenModal === true}
-        onClose={()=>{setIsOpenModal(false)}}
+        onClose={() => {
+          setIsOpenModal(false)
+        }}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
@@ -202,8 +217,10 @@ function Materials() {
       </Modal>
 
       <Modal
-        open={isOpenModal === true}
-        onClose={()=>{setIsOpenModal(false)}}
+        open={isOpenModalEdit === true}
+        onClose={() => {
+          setIsOpenModalEdit(false)
+        }}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
@@ -213,40 +230,97 @@ function Materials() {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: 400,
+            width: 600,
             bgcolor: 'background.paper',
             borderRadius: 2,
             boxShadow: 24,
             p: 4,
+            display:'flex',
+            justifyContent: 'center',
+            flexDirection: 'row',
+            flexWrap: 'wrap'
+        
           }}
         >
-          <Typography id="modal-title" variant="h6" component="h2">
+          
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            textAlign="center"
+          >
             Editar Material
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
-          <Box display="flex" justifyContent="space-around">
-            <Button
-              variant="contained"
-              color="error"
-              sx={{ mt: 2 }}
-              onClick={() => {
-                handleDeleteMaterial()
+          <Box>
+            <Box>
+            <TextField onChange={(e) => {
+              setNameMaterial(e.target.value)
+            }}
+              type="text"
+              label="Nombre:"
+              variant="filled"
+              fullWidth={true}
+              margin="dense"
+            ></TextField>
+            </Box>
+            <Box>
+             <TextField
+             onChange={(e) => {
+              setAmountMaterial(e.target.value)
+            }}
+              type="number"
+              label="Cantidad:"
+              variant="filled"
+              fullWidth={true}
+              margin="dense"
+              ></TextField>
+               <TextField
+              type="number"
+              label="En Uso:"
+              variant="filled"
+              fullWidth={true}
+              margin="dense"
+            ></TextField>
 
-                setIsOpenModal((prev) => !prev)
-              }}
-            >
-              Si
-            </Button>
+            </Box>
+            <Box>
+            <FormControl sx={{ width: '100%', marginTop:"2%"}} >
+              <InputLabel id="events-label" />
+              <Select
+                labelId="events-label"
+                defaultValue="Composed TextField"
+                startAdornment={<FilterAlt sx={{ mr: 1 }} />}
+                sx={{ width: '100%' }}
+              >
+                <MenuItem value="current">Eventos Próximos</MenuItem>
+              </Select>
+            </FormControl>
+            </Box>
+           
+            <Box display="flex" justifyContent="space-around">
             <Button
               variant="contained"
               color="success"
               sx={{ mt: 2 }}
               onClick={() => {
-                setIsOpenModal((prev) => !prev)
+                handleUpdateMaterials()
+                setIsOpenModalEdit((prev) => !prev)
               }}
             >
-              No
+              Guardar
             </Button>
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                setIsOpenModalEdit((prev) => !prev)
+              }}
+            >
+              Cancelar
+            </Button>
+            </Box>
           </Box>
         </Box>
       </Modal>
