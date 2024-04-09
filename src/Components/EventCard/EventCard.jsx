@@ -20,10 +20,9 @@ const EventCard = (
     return (
 
         <Box className={'cardHover'} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', p: 3 }}>
-            <Card sx={{ maxwidth: '100%', width: '400px', maxHeight: '100%', minHeight: '500px' }} elevation={4}>
+            <Card sx={{ maxWidth: '450px', maxHeight: '100%', minHeight: '500px' }} elevation={4}>
                 <CardMedia
                     component="img"
-                    height="auto"
                     image={imageUrl}
                     alt={title}
                 />
@@ -49,7 +48,7 @@ const EventCard = (
                                 <strong>Fin:</strong> {formatDate(dateEnd)}
                             </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: "15px" }}>
 
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <LocationOn />
@@ -60,11 +59,11 @@ const EventCard = (
                                     style={{ color: '#FF8000', textDecoration: 'underline' }}
                                 >
                                     <Typography variant="body1" color='text.main' sx={{
-                                        overflow: "hidden",
+                                     /*    overflow: "hidden",
                                         textOverflow: "ellipsis",
                                         display: "-webkit-box",
                                         WebkitLineClamp: "2",
-                                        WebkitBoxOrient: "vertical",
+                                        WebkitBoxOrient: "vertical", */
                                     }} >
                                         {addressTitle}
                                     </Typography>
