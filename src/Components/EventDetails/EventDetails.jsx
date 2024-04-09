@@ -16,7 +16,11 @@ import { useParams } from 'react-router-dom'
 import imageUrl from '../../assets/FiestadeBurbujas.webp'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getEventById, registerUserEvent } from '../../Services/eventService'
+import {
+  getCurrentEvents,
+  getEventById,
+  registerUserEvent,
+} from '../../Services/eventService'
 import { checkout } from '../../Services/contributionService'
 
 const formatDate = (date) => {
@@ -38,25 +42,38 @@ const EventDetails = () => {
   const [modalContribution, setModalContribution] = useState('')
   const [modalInscribe, setModalInscribe] = useState('')
   const [inscribed, setInscribed] = useState(1)
+  const [userEvents, setUserEvents] = useState([])
+
   const messageReq =
     events.contributionRequired &&
-    `Este evento requiere una contribución de ${events.contributionRequired*inscribed}€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
+    `Este evento requiere una contribución de ${
+      events.contributionRequired * inscribed
+    }€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
 
   const messageOpt =
     'Contribuir con LudOhana, es totalmente opcional, nos ayudarías mucho para continuar con nuestra causa. ¿Deseas realizar una donación?'
 
+  const messageOnIns =
+    'Ahora necesitamos conocer cuántas personas (incluyéndote a ti) se inscriben.'
   const messageCancelIns =
-    'Has realizado una donación. Si desea recuperarla debe ponerse en contacto con ludohana.group@gmail.com. ¿Estás seguro de que quieres cancelar tu inscripción?'
+    '¿Estás seguro de que quieres cancelar tu inscripción?'
+  const warningCancelIns =
+    'Si desea recuperar su donación debe ponerse en contacto con ludohana.group@gmail.com.'
 
+  const isUserInscribed = () => {
+    return userEvents.some((userEvent) => {
+      return eventId === userEvent.id
+    })
+  }
 
   const handleContribution = async () => {
     setModalContribution('')
     const bodyObj = {
       name: events.title,
       description: events.description,
-      amount: !events.contributionRequired>0 && 5,
+      amount: !events.contributionRequired > 0 && 5,
       eventId: eventId,
-      // user: JSON.parse(localStorage.getItem('profile')),
+      user: JSON.parse(localStorage.getItem('profile')),
     }
 
     const data = await checkout(bodyObj)
@@ -81,8 +98,17 @@ const EventDetails = () => {
         console.error('Error al obtener eventos:', error)
       }
     }
+    const handleInscribedEvent = async () => {
+      try {
+        const eventsData = await getCurrentEvents()
+        setUserEvents(eventsData)
+      } catch (error) {
+        console.error('Error al obtener eventos:', error)
+      }
+    }
 
     handleEvent()
+    handleInscribedEvent()
   }, [eventId])
 
   return (
@@ -191,12 +217,12 @@ const EventDetails = () => {
           >
             <Button
               variant="contained"
-              color="success"
+              color={isUserInscribed ? 'error' : 'success'}
               onClick={() => {
                 setModalInscribe('open')
               }}
             >
-              Inscribirse
+              {isUserInscribed ? 'Cancelar inscripción' : 'Inscribirse'}
             </Button>
 
             <Modal
@@ -227,8 +253,7 @@ const EventDetails = () => {
                   component="h2"
                   textAlign={'left'}
                 >
-                  Ahora necesitamos conocer cuántas personas (incluyéndote a ti)
-                  se inscriben.
+                  {isUserInscribed ? messageCancelIns : messageOnIns}
                 </Typography>
 
                 <TextField
