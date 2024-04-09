@@ -107,7 +107,7 @@ function Profile() {
               fullWidth={true}
             ></TextField>
           </Box>
-          <TextField
+          {/* <TextField
             label="Email"
             onChange={(e) => {
               handleProfile({ email: e.target.value })
@@ -118,7 +118,7 @@ function Profile() {
             value={profile.email}
             type="email"
             fullWidth={true}
-          ></TextField>
+          ></TextField> */}
           <TextField
             label="Password"
             onChange={(e) => {
