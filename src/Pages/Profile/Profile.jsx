@@ -9,6 +9,7 @@ import {
   Box,
   InputAdornment,
   IconButton,
+  CircularProgress,
 } from '@mui/material'
 import {
   AccountCircle,
@@ -24,12 +25,15 @@ function Profile() {
 
   const [profile, setProfile] = useState({})
   const [modalDelete, setModalDelete] = useState('')
-
-  const warningChangeEmail = "Si necesita realizar un cambio de correo electrónico, por favor, póngase en contacto con ludohana.group@gmail.com."
+  const [isLoading, setIsLoading] = useState(true)
+  const warningChangeEmail =
+    'Si necesita realizar un cambio de correo electrónico, por favor, póngase en contacto con ludohana.group@gmail.com.'
 
   const handleGetUsers = async () => {
     const res = await getUser()
     setProfile(res)
+    setIsLoading(false)
+
   }
 
   useEffect(() => {
@@ -71,6 +75,9 @@ function Profile() {
       xs={6}
       // sm={6} md={3} lg={3} xl={2.4}
     >
+      {isLoading && (
+        <CircularProgress />
+      )}
       <Card
         elevation={4}
         sx={{
@@ -167,12 +174,14 @@ function Profile() {
             id="warning-email"
             variant="subtitle2"
             component="p"
-            sx={{ marginTop: '16px', fontWeight: "400" }}
+            sx={{ marginTop: '16px', fontWeight: '400' }}
           >
             {warningChangeEmail}
           </Typography>
         </CardContent>
-        <CardActions sx={{ width: '100%', justifyContent: 'space-around', pb: 4 }}>
+        <CardActions
+          sx={{ width: '100%', justifyContent: 'space-around', pb: 4 }}
+        >
           <Button
             onClick={() => {
               handleUpdateUsers(profile)
