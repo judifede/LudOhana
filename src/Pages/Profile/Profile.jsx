@@ -107,18 +107,7 @@ function Profile() {
               fullWidth={true}
             ></TextField>
           </Box>
-          {/* <TextField
-            label="Email"
-            onChange={(e) => {
-              handleProfile({ email: e.target.value })
-            }}
-            margin="normal"
-            placeholder="ludohana.group@gmail.com"
-            InputLabelProps={{ shrink: true }}
-            value={profile.email}
-            type="email"
-            fullWidth={true}
-          ></TextField> */}
+          
           <TextField
             label="Password"
             onChange={(e) => {

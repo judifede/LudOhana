@@ -10,7 +10,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 
-import { AccountCircle, Edit, Logout } from '@mui/icons-material'
+import { AccountCircle, Edit, Logout, EmailOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 
 function Header() {
@@ -74,8 +74,28 @@ function Header() {
               horizontal: 'left',
             }}
           >
-                {/* <Typography>{profile.name + ' ' + profile.lastname}</Typography> */}
-                <Typography sx={{textAlign: "center", py: 1}}>{profile.email}</Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: '5px',
+                alignItems: 'center',
+                padding: '10px',
+              }}
+            >
+              <Icon
+                onClick={() => handleLogout()}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: "center"
+                }}
+              >
+                <EmailOutlined sx={{ fontSize: '30px' }} />
+              </Icon>
+              <Typography>{profile.email}</Typography>
+            </Box>
             <MenuItem>
               <Link
                 to="/profile"
@@ -87,32 +107,24 @@ function Header() {
                   handleClose()
                 }}
               >
-                {/* <Button
-                  startIcon={<Edit />}
-                  size="small"
-                  variant="contained"
-                  color="success"
-                >
-                  Editar
-                </Button> */}
                 <Icon
                   onClick={() => handleLogout()}
-                  // color='success'
-                  sx={{ width: '40px', height: '40px' }}
+                  sx={{ width: '40px', height: '40px', textAlign: 'left' }}
                 >
                   <Edit sx={{ fontSize: '30px' }} />
                 </Icon>
                 Editar
               </Link>
             </MenuItem>
-            <MenuItem sx={{
-                 
-                }}>
+            <MenuItem sx={{}}>
               <Icon
                 onClick={() => handleLogout()}
-                // color='success'
-                sx={{ width: '40px', height: '40px',  display: 'flex',
-                alignItems: 'center', }}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
               >
                 <Logout sx={{ fontSize: '30px' }} />
               </Icon>
