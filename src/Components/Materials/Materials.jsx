@@ -22,8 +22,9 @@ import {
   getMaterialsEvents,
   deleteMaterialsToEvent,
   updateMaterials,
+  updateAmountUsedMaterials,
 } from '../../Services/materials'
-import { Delete, Edit, FilterAlt } from '@mui/icons-material'
+import { Delete, Edit} from '@mui/icons-material'
 
 function Materials() {
   const [materialsEvents, setMaterialsEvents] = useState([])
@@ -32,12 +33,19 @@ function Materials() {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false)
   const [materialId, setMaterialId] = useState([])
-  const [eventId, setEventId] = useState([])
+  const [eventId, setEventId] = useState('')
   const [nameMaterial, setNameMaterial] = useState([])
   const [amountMaterial, setAmountMaterial] = useState([])
+  const [amountUsedMaterials,setAmountUsedMaterials]=useState([])
+  const [inputsValue,setInputsValues]=useState({})
+
+  const handleUpdateAmount = async()=>{
+  
+    await updateAmountUsedMaterials(eventId,materialId,{amountUsed:amountUsedMaterials})
+  }
 
   const handleUpdateMaterials = async () => {
-    console.log('ide material ' + materialId)
+   
     await updateMaterials(materialId, {
       name: nameMaterial,
       amount: amountMaterial,
@@ -80,6 +88,8 @@ function Materials() {
   useEffect(() => {
     handleMaterialEvents()
   }, [])
+
+
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12}>
@@ -105,11 +115,12 @@ function Materials() {
               </TableHead>
               <TableBody>
                 {materialsEvents.map((row) => {
+                  const amountMaterialUsed= row.amountUsed
                   const material = materials.find(
                     (m) => m.id === row.materialId
                   )
                   const event = events.find((e) => e.id === row.eventId)
-
+                  
                   return (
                     <TableRow key={row.materialId}>
                       <TableCell align="left">
@@ -120,7 +131,7 @@ function Materials() {
                       <TableCell align="left">
                         {material ? material.amount : 'No disponible'}
                       </TableCell>
-                      <TableCell align="left">{row.amountUsed}</TableCell>
+                      <TableCell align="left">{amountMaterialUsed}</TableCell>
                       <TableCell align="left">
                         {event
                           ? event.id + ' | ' + event.title
@@ -139,6 +150,15 @@ function Materials() {
                           color="warning"
                           onClick={() => {
                             setIsOpenModalEdit((prev) => !prev)
+                            setEventId(event.id)
+                            setInputsValues(
+                              {
+
+                                nameMaterial:material.name,
+                                amountMaterial:material.amount,
+                                amountUsedMaterials:amountMaterialUsed
+                              }
+                            )
                             setMaterialId(material.id)
                           }}
                         >
@@ -256,6 +276,7 @@ function Materials() {
                 onChange={(e) => {
                   setNameMaterial(e.target.value)
                 }}
+                defaultValue={inputsValue.nameMaterial}
                 type="text"
                 label="Nombre:"
                 variant="filled"
@@ -268,6 +289,7 @@ function Materials() {
                 onChange={(e) => {
                   setAmountMaterial(e.target.value)
                 }}
+                defaultValue={inputsValue.amountMaterial}
                 type="number"
                 label="Cantidad:"
                 variant="filled"
@@ -275,6 +297,10 @@ function Materials() {
                 margin="dense"
               ></TextField>
               <TextField
+               onChange={(e) => {
+                setAmountUsedMaterials(e.target.value)
+              }}
+                defaultValue={inputsValue.amountUsedMaterials}
                 type="number"
                 label="En Uso:"
                 variant="filled"
@@ -285,13 +311,14 @@ function Materials() {
             <Box>
               <FormControl sx={{ width: '100%', marginTop: '2%' }}>
                 <InputLabel id="events-label" />
+               
                 <Select
+                
                   labelId="events-label"
                   defaultValue="Composed TextField"
-                  startAdornment={<FilterAlt sx={{ mr: 1 }} />}
                   sx={{ width: '100%' }}
                 >
-                  <MenuItem value="current">Eventos Próximos</MenuItem>
+                  <MenuItem value="current" ></MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -302,7 +329,11 @@ function Materials() {
                 color="success"
                 sx={{ mt: 2 }}
                 onClick={() => {
-                  handleUpdateMaterials()
+                
+
+                    handleUpdateMaterials()
+                  
+                  handleUpdateAmount()
                   setIsOpenModalEdit((prev) => !prev)
                 }}
               >

@@ -15,6 +15,10 @@ export const updateMaterials = async (materialId,materialData)=>{
     const {data} = await api.put(`/api/materials/${materialId}`,materialData,{headers:{Authorization:localStorage.getItem('token')}})
     return data
 }
+export const updateAmountUsedMaterials = async (eventId,materialId,materialData)=>{
+    const {data} = await api.post(`/api/events/${eventId}/materials/${materialId}`,materialData,{headers:{Authorization:localStorage.getItem('token')}})
+    return data
+}
 
 
 
