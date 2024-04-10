@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react'
 import {
   deleteUserEvent,
   getEventById,
-  getUSerEventsPrevius,
+  getUserEvents,
   registerUserEvent,
 } from '../../Services/eventService'
 import { checkout } from '../../Services/contributionService'
@@ -81,8 +81,9 @@ const EventDetails = () => {
   const handleInscribe = async () => {
     setModalInscribe('')
 
-    const data = await registerUserEvent({ inscribed: inscribed }, eventId)
-    console.log(data)
+    await registerUserEvent({ inscribed: inscribed }, eventId)
+
+    setIsUserInscribed(true)
 
     setModalContribution('open')
   }
@@ -90,9 +91,8 @@ const EventDetails = () => {
   const handleCancelInscribe = async () => {
     setModalCancelInscribe('')
 
-    const data = await deleteUserEvent(eventId)
+    await deleteUserEvent(eventId)
 
-    console.log(data)
     setIsUserInscribed(false)
   }
 
@@ -102,32 +102,40 @@ const EventDetails = () => {
         const eventsData = await getEventById(eventId)
         setEvents(eventsData)
       } catch (error) {
-        console.error('Error al obtener eventos:', error)
-      }
-    }
-    const handleInscribedEvent = async () => {
-      try {
-        const eventsData = await getUSerEventsPrevius()
-        setUserEvents(eventsData)
-      } catch (error) {
-        console.error('Error al obtener eventos:', error)
+        console.error('Error al obtener eventos:', error.message)
       }
     }
 
+    handleEvent()
+  }, [eventId])
+
+  useEffect(() => {
+    const handleInscribedEvent = async () => {
+      try {
+        const eventsData = await getUserEvents()
+        console.log(eventsData)
+        if (!eventsData.messageError) setUserEvents(eventsData)
+      } catch (error) {
+        console.error('Error al obtener eventos:', error.message)
+      }
+    }
+
+    handleInscribedEvent()
+  }, [])
+
+  useEffect(() => {
     const handleIsUserInscribed = () => {
-      console.log(eventId)
-      setIsUserInscribed(
-        true
-        /* userEvents.some((userEvent) => {
-          console.log(userEvent.id)
+
+      if (userEvents) {
+        const isUserEvent = userEvents.some((userEvent) => {
           return eventId == userEvent.id
-        }) */
-      )
+        })
+
+        setIsUserInscribed(isUserEvent)
+      }
     }
 
     handleIsUserInscribed()
-    handleEvent()
-    //handleInscribedEvent()
   }, [eventId, userEvents])
 
   return (
@@ -371,12 +379,11 @@ const EventDetails = () => {
                     id="modal-warning"
                     variant="subtitle2"
                     component="p"
-                    sx={{marginTop: "16px"}}
+                    sx={{ marginTop: '16px' }}
                     textAlign={'left'}
                   >
                     {warningCancelIns}
                   </Typography>
-                  
                 </Box>
               </Modal>
 
