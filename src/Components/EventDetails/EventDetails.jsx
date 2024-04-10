@@ -143,6 +143,7 @@ const EventDetails = () => {
       sx={{
         display: 'flex',
         justifyContent: 'center',
+        maxWidth: "850px",
         padding: '30px',
       }}
     >
@@ -154,11 +155,11 @@ const EventDetails = () => {
         <CardMedia
           className="eventDetailImg"
           component="img"
-          sx={{ width: '35%' }}
+          sx={{ width: '40%' }}
           image={imageUrl}
           alt={'Imagen del evento ' + events.title}
         />
-        <Box>
+        <Box sx={{display: "flex", flexDirection: "column", justifyContent:"space-around"}}>
           <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
             <Typography
               gutterBottom
