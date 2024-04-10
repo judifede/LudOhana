@@ -21,7 +21,7 @@ import {
 import {
   getMaterialsEvents,
   deleteMaterialsToEvent,
-  updateMaterials
+  updateMaterials,
 } from '../../Services/materials'
 import { Delete, Edit, FilterAlt } from '@mui/icons-material'
 
@@ -33,15 +33,16 @@ function Materials() {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false)
   const [materialId, setMaterialId] = useState([])
   const [eventId, setEventId] = useState([])
-  const [nameMaterial,setNameMaterial]=useState([])
-  const [amountMaterial,setAmountMaterial]=useState([])
+  const [nameMaterial, setNameMaterial] = useState([])
+  const [amountMaterial, setAmountMaterial] = useState([])
 
- const handleUpdateMaterials = async()=>{
-  await updateMaterials(materialId,{
-    name:nameMaterial,
-    amount:amountMaterial
-  })()
- }
+  const handleUpdateMaterials = async () => {
+    console.log('ide material ' + materialId)
+    await updateMaterials(materialId, {
+      name: nameMaterial,
+      amount: amountMaterial,
+    })
+  }
 
   const handleDeleteMaterial = async () => {
     const res = await deleteMaterialsToEvent(materialId, eventId)
@@ -50,8 +51,6 @@ function Materials() {
         return elem.materialId !== materialId && elem.eventId !== eventId
       })
       setMaterialsEvents(newMaterialsEvents)
-
-      console.log(materialsEvents)
     }
   }
 
@@ -140,6 +139,7 @@ function Materials() {
                           color="warning"
                           onClick={() => {
                             setIsOpenModalEdit((prev) => !prev)
+                            setMaterialId(material.id)
                           }}
                         >
                           <Edit />
@@ -235,14 +235,12 @@ function Materials() {
             borderRadius: 2,
             boxShadow: 24,
             p: 4,
-            display:'flex',
+            display: 'flex',
             justifyContent: 'center',
             flexDirection: 'row',
-            flexWrap: 'wrap'
-        
+            flexWrap: 'wrap',
           }}
         >
-          
           <Typography
             id="modal-title"
             variant="h6"
@@ -254,72 +252,72 @@ function Materials() {
           <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
           <Box>
             <Box>
-            <TextField onChange={(e) => {
-              setNameMaterial(e.target.value)
-            }}
-              type="text"
-              label="Nombre:"
-              variant="filled"
-              fullWidth={true}
-              margin="dense"
-            ></TextField>
-            </Box>
-            <Box>
-             <TextField
-             onChange={(e) => {
-              setAmountMaterial(e.target.value)
-            }}
-              type="number"
-              label="Cantidad:"
-              variant="filled"
-              fullWidth={true}
-              margin="dense"
+              <TextField
+                onChange={(e) => {
+                  setNameMaterial(e.target.value)
+                }}
+                type="text"
+                label="Nombre:"
+                variant="filled"
+                fullWidth={true}
+                margin="dense"
               ></TextField>
-               <TextField
-              type="number"
-              label="En Uso:"
-              variant="filled"
-              fullWidth={true}
-              margin="dense"
-            ></TextField>
-
             </Box>
             <Box>
-            <FormControl sx={{ width: '100%', marginTop:"2%"}} >
-              <InputLabel id="events-label" />
-              <Select
-                labelId="events-label"
-                defaultValue="Composed TextField"
-                startAdornment={<FilterAlt sx={{ mr: 1 }} />}
-                sx={{ width: '100%' }}
-              >
-                <MenuItem value="current">Eventos Próximos</MenuItem>
-              </Select>
-            </FormControl>
+              <TextField
+                onChange={(e) => {
+                  setAmountMaterial(e.target.value)
+                }}
+                type="number"
+                label="Cantidad:"
+                variant="filled"
+                fullWidth={true}
+                margin="dense"
+              ></TextField>
+              <TextField
+                type="number"
+                label="En Uso:"
+                variant="filled"
+                fullWidth={true}
+                margin="dense"
+              ></TextField>
             </Box>
-           
+            <Box>
+              <FormControl sx={{ width: '100%', marginTop: '2%' }}>
+                <InputLabel id="events-label" />
+                <Select
+                  labelId="events-label"
+                  defaultValue="Composed TextField"
+                  startAdornment={<FilterAlt sx={{ mr: 1 }} />}
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value="current">Eventos Próximos</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+
             <Box display="flex" justifyContent="space-around">
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ mt: 2 }}
-              onClick={() => {
-                handleUpdateMaterials()
-                setIsOpenModalEdit((prev) => !prev)
-              }}
-            >
-              Guardar
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              sx={{ mt: 2 }}
-              onClick={() => {
-                setIsOpenModalEdit((prev) => !prev)
-              }}
-            >
-              Cancelar
-            </Button>
+              <Button
+                variant="contained"
+                color="success"
+                sx={{ mt: 2 }}
+                onClick={() => {
+                  handleUpdateMaterials()
+                  setIsOpenModalEdit((prev) => !prev)
+                }}
+              >
+                Guardar
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ mt: 2 }}
+                onClick={() => {
+                  setIsOpenModalEdit((prev) => !prev)
+                }}
+              >
+                Cancelar
+              </Button>
             </Box>
           </Box>
         </Box>
