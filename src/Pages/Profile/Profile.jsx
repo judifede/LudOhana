@@ -25,6 +25,8 @@ function Profile() {
   const [profile, setProfile] = useState({})
   const [modalDelete, setModalDelete] = useState('')
 
+  const warningChangeEmail = "Si necesita realizar un cambio de correo electrónico, por favor, póngase en contacto con ludohana.group@gmail.com."
+
   const handleGetUsers = async () => {
     const res = await getUser()
     setProfile(res)
@@ -107,18 +109,7 @@ function Profile() {
               fullWidth={true}
             ></TextField>
           </Box>
-          {/* <TextField
-            label="Email"
-            onChange={(e) => {
-              handleProfile({ email: e.target.value })
-            }}
-            margin="normal"
-            placeholder="ludohana.group@gmail.com"
-            InputLabelProps={{ shrink: true }}
-            value={profile.email}
-            type="email"
-            fullWidth={true}
-          ></TextField> */}
+
           <TextField
             label="Password"
             onChange={(e) => {
@@ -172,8 +163,16 @@ function Profile() {
               fullWidth={true}
             ></TextField>
           )}
+          <Typography
+            id="warning-email"
+            variant="subtitle2"
+            component="p"
+            sx={{ marginTop: '16px', fontWeight: "400" }}
+          >
+            {warningChangeEmail}
+          </Typography>
         </CardContent>
-        <CardActions sx={{ width: '100%', justifyContent: 'space-around' }}>
+        <CardActions sx={{ width: '100%', justifyContent: 'space-around', pb: 4 }}>
           <Button
             onClick={() => {
               handleUpdateUsers(profile)
@@ -217,7 +216,7 @@ function Profile() {
                 ¿Estás seguro de que deseas eliminar tu cuenta?
               </Typography>
 
-              <Box sx={{display: "flex", justifyContent: "space-between"}}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button
                   variant="contained"
                   color="success"
