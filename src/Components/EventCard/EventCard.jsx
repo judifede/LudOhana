@@ -108,8 +108,8 @@ const EventCard = ({
           </Box>
         </CardContent>
         <CardActions sx={{ justifyContent: 'center' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.1, pb: 2 }}>
-            <Button variant="contained" color="success">
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 0.1 , pb: 2}}>
+            <Button variant="contained" color="success" href={'events/'+id}>
               Info
             </Button>
           </Box>
