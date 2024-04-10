@@ -22,9 +22,10 @@ import {
   getMaterialsEvents,
   deleteMaterialsToEvent,
   updateMaterials,
-  updateAmountUsedMaterials,
+  //updateAmountUsedMaterials,
+  addMaterialEvent,
 } from '../../Services/materials'
-import { Delete, Edit} from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 
 function Materials() {
   const [materialsEvents, setMaterialsEvents] = useState([])
@@ -36,22 +37,69 @@ function Materials() {
   const [eventId, setEventId] = useState('')
   const [nameMaterial, setNameMaterial] = useState([])
   const [amountMaterial, setAmountMaterial] = useState([])
-  const [amountUsedMaterials,setAmountUsedMaterials]=useState([])
-  const [inputsValue,setInputsValues]=useState({})
+  const [amountUsedMaterials, setAmountUsedMaterials] = useState([])
+  const [inputsValue, setInputsValues] = useState({})
+  const [eventInput, setEventInput] = useState("")
 
-  const handleUpdateAmount = async()=>{
+  /* const handleAddMaterialEvent = async()=>{
+
+  } */
+
+  /*  const handleUpdateAmount = async()=>{
   
     await updateAmountUsedMaterials(eventId,materialId,{amountUsed:amountUsedMaterials})
   }
+ */
+  const handleEventInput = (e) => {
+    setEventInput(e.target.value)
 
+  }
+  
   const handleUpdateMaterials = async () => {
+    let eventInputId=0
+     events.forEach((event)=>{ 
+      if(event.title === eventInput ){
+        eventInputId= event.id
+      }
+     })
+
    
-    await updateMaterials(materialId, {
+   console.log(nameMaterial,amountMaterial,amountUsedMaterials);
+   const data = await updateMaterials(materialId, {
       name: nameMaterial,
       amount: amountMaterial,
     })
+    if(data.message ){
+  console.log()
+       await addMaterialEvent(eventId,materialId,{eventInputId,amountUsedMaterials})
+    }
+
   }
 
+  /*const handleUpdateMaterials = async () => {
+    // Encontrar el ID del evento seleccionado por el nombre
+    const selectedEventId = events.find(
+      (event) => event.title === selectedEvent
+    )?.id
+
+    if (!selectedEventId) {
+      console.error('El evento seleccionado no tiene un ID válido')
+      return
+    }
+
+    console.log(nameMaterial, amountMaterial, amountUsedMaterials)
+    const data = await updateMaterials(materialId, {
+      name: nameMaterial,
+      amount: amountMaterial,
+    })
+    if (data.message) {
+      await addMaterialEvent(selectedEventId, materialId, {
+        amountUsedMaterials,
+      })
+      setEventId(selectedEventId)
+      setSelectedEvent(null) // Reiniciar el evento seleccionado después de guardar
+    }
+  }*/
   const handleDeleteMaterial = async () => {
     const res = await deleteMaterialsToEvent(materialId, eventId)
     if (res.message) {
@@ -89,7 +137,6 @@ function Materials() {
     handleMaterialEvents()
   }, [])
 
-
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12}>
@@ -115,12 +162,12 @@ function Materials() {
               </TableHead>
               <TableBody>
                 {materialsEvents.map((row) => {
-                  const amountMaterialUsed= row.amountUsed
+                  const amountMaterialUsed = row.amountUsed
                   const material = materials.find(
                     (m) => m.id === row.materialId
                   )
                   const event = events.find((e) => e.id === row.eventId)
-                  
+
                   return (
                     <TableRow key={row.materialId}>
                       <TableCell align="left">
@@ -151,14 +198,13 @@ function Materials() {
                           onClick={() => {
                             setIsOpenModalEdit((prev) => !prev)
                             setEventId(event.id)
-                            setInputsValues(
-                              {
-
-                                nameMaterial:material.name,
-                                amountMaterial:material.amount,
-                                amountUsedMaterials:amountMaterialUsed
-                              }
-                            )
+                            setInputsValues({
+                              nameMaterial: material.name,
+                              amountMaterial: material.amount,
+                              amountUsedMaterials: amountMaterialUsed,
+                              titleEvent: event.title,
+                            })
+                            setEventInput(event.title)
                             setMaterialId(material.id)
                           }}
                         >
@@ -216,7 +262,6 @@ function Materials() {
               sx={{ mt: 2 }}
               onClick={() => {
                 handleDeleteMaterial()
-
                 setIsOpenModal((prev) => !prev)
               }}
             >
@@ -297,9 +342,9 @@ function Materials() {
                 margin="dense"
               ></TextField>
               <TextField
-               onChange={(e) => {
-                setAmountUsedMaterials(e.target.value)
-              }}
+                onChange={(e) => {
+                  setAmountUsedMaterials(e.target.value)
+                }}
                 defaultValue={inputsValue.amountUsedMaterials}
                 type="number"
                 label="En Uso:"
@@ -311,14 +356,21 @@ function Materials() {
             <Box>
               <FormControl sx={{ width: '100%', marginTop: '2%' }}>
                 <InputLabel id="events-label" />
-               
+
                 <Select
-                
+                  onChange={(e) => {
+                    handleEventInput(e)
+                  }}
+                  value={eventInput}
                   labelId="events-label"
-                  defaultValue="Composed TextField"
+                  //defaultValue={inputsValue.titleEvent}
                   sx={{ width: '100%' }}
                 >
-                  <MenuItem value="current" ></MenuItem>
+                  {events.map((event, idx) => (
+                    <MenuItem value={event.title } key={idx}>
+                      {event.title}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
@@ -329,11 +381,7 @@ function Materials() {
                 color="success"
                 sx={{ mt: 2 }}
                 onClick={() => {
-                
-
-                    handleUpdateMaterials()
-                  
-                  handleUpdateAmount()
+                  handleUpdateMaterials()
                   setIsOpenModalEdit((prev) => !prev)
                 }}
               >
