@@ -9,8 +9,8 @@ import imageUrl3 from '../../assets/ninaConPerro.webp'
 
 function Home() {
   const CarrouselImgs = [imageUrl1, imageUrl2, imageUrl3]
-  const CarrouselHeaders = ["Fiesta de burbujas", "imageUrl2", "imageUrl3"]
-  const CarrouselTexts = ["Divertirse nunca fue tan fácil", "imageUrl2", "imageUrl3"]
+  const CarrouselHeaders = ["Fiesta de burbujas", "Header2", "Header3"]
+  const CarrouselTexts = ["Divertirse nunca fue tan fácil", "Text2", "Text3"]
   return (
     <Grid
       item
