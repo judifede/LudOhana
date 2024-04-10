@@ -7,13 +7,20 @@ import {
   getUserEventsPrevious,
 } from '../../Services/eventService'
 import './EventCardList.css'
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
+import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  CircularProgress,
+} from '@mui/material'
 import FilterAlt from '@mui/icons-material/FilterAlt'
 
 const EventCardList = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const [events, setEvents] = useState([])
   const [filter, setFilter] = useState('current')
-  const [filterTile, setFilterTitle] = useState('Eventos Próximos')
+  const [filterTitle, setFilterTitle] = useState('Eventos Próximos')
 
   const fetchData = async () => {
     try {
@@ -29,6 +36,7 @@ const EventCardList = () => {
         eventsData = await getUserEvents()
 
       setEvents(eventsData)
+      setIsLoading(false)
     } catch (error) {
       console.error('Error al obtener eventos:', error)
     }
@@ -59,9 +67,12 @@ const EventCardList = () => {
 
   return (
     <>
+    {
+      isLoading && <CircularProgress sx={{display: "block", margin: "auto"}}/>
+    }
       <div className="title-Card-Bar">
         <div className="filter-title">
-          <h1>{filterTile}</h1>
+          <h1>{filterTitle}</h1>
         </div>
         <div className="filter-bar">
           <FormControl>

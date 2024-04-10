@@ -9,6 +9,7 @@ import {
   Modal,
   TextField,
   Typography,
+  CircularProgress,
 } from '@mui/material'
 import { CalendarMonth, Groups, LocationOn } from '@mui/icons-material'
 import { useParams } from 'react-router-dom'
@@ -45,7 +46,7 @@ const EventDetails = () => {
   const [modalCancelInscribe, setModalCancelInscribe] = useState('')
   const [inscribed, setInscribed] = useState(1)
   const [userEvents, setUserEvents] = useState([])
-
+  const [isLoading, setIsLoading] = useState(true)
   const [isUserInscribed, setIsUserInscribed] = useState()
 
   const messageReq =
@@ -101,6 +102,7 @@ const EventDetails = () => {
       try {
         const eventsData = await getEventById(eventId)
         setEvents(eventsData)
+        setIsLoading(false)
       } catch (error) {
         console.error('Error al obtener eventos:', error.message)
       }
@@ -125,7 +127,6 @@ const EventDetails = () => {
 
   useEffect(() => {
     const handleIsUserInscribed = () => {
-
       if (userEvents) {
         const isUserEvent = userEvents.some((userEvent) => {
           return eventId == userEvent.id
@@ -143,10 +144,13 @@ const EventDetails = () => {
       sx={{
         display: 'flex',
         justifyContent: 'center',
-        maxWidth: "850px",
+        maxWidth: '850px',
         padding: '30px',
       }}
     >
+      {isLoading && (
+        <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
+      )}
       <Card
         sx={{ minHeight: '400px' }}
         className="eventDetailCard"
@@ -159,7 +163,13 @@ const EventDetails = () => {
           image={imageUrl}
           alt={'Imagen del evento ' + events.title}
         />
-        <Box sx={{display: "flex", flexDirection: "column", justifyContent:"space-around"}}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+          }}
+        >
           <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
             <Typography
               gutterBottom
