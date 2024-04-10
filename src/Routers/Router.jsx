@@ -6,6 +6,7 @@ import Settings from "../Pages/Settings/Settings";
 import Login from "../Pages/Login/Login";
 import Profile from "../Pages/Profile/Profile";
 import EventDetails from "../Components/EventDetails/EventDetails";
+import FormEvent from "../Pages/FormEvents/FormEvent";
 
 
 export const router = createBrowserRouter([
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
                 path: 'login',
                 element: <Login />,
             },
+            {
+                path: 'form-event',
+                element: <FormEvent/>,
+            }
 
         ]
     }

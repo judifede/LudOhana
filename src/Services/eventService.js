@@ -46,24 +46,10 @@ export const getUserEvents = async () => {
         return data
     } catch (error) {
         console.error('Error al obtener eventos:', error)
-        throw new Error('Error al obtener eventos iscritos del ususario')
+        throw new Error('Error al obtener eventos inscritos del ususario')
     }
 }
 
-export const postCreateEvents = async () => { //TODO: create UsuRIO
-    try {
-        const { data } = await api.get(
-            '/api/events',
-            {
-                headers:
-                { Authorization: localStorage.getItem('token') }
-            })
-        return data
-    } catch (error) {
-        console.error('Error al obtener eventos:', error)
-        throw new Error('Error al obtener eventos iscritos del ususario')
-    }
-}
 
 export const getEventById = async (id) => {
     try {
@@ -88,3 +74,18 @@ export const registerUserEvent = async (inscribed, eventId) => {
         throw new Error('Error al obtener evento')
     }
 }
+
+export const postCreateEvents = async (eventData) => {
+    try {
+        console.log(eventData);
+        const { data } = await api.post(
+            '/api/events',eventData,
+            {
+                headers:
+                { Authorization: localStorage.getItem('token') }
+            })
+        return data
+    } catch (error) {
+        console.error('Error al crear eventos:', error)
+    }
+} 

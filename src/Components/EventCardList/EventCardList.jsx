@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import EventCard from '../EventCard/EventCard'
 import { getCurrentEvents, getPreviousEvents, getUserEvents, getUserEventsPrevious } from '../../Services/eventService'
 import './EventCardList.css';
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material'
+import {Button, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
 import FilterAlt from '@mui/icons-material/FilterAlt'
 
 const EventCardList = () => {
@@ -57,10 +57,16 @@ const EventCardList = () => {
     return (
         <>
             <div className='title-Card-Bar'>
-                <div className='filter-tile'>
+                <div className='filter-title'>
                     <h1>{filterTile}</h1>
                 </div>
                 <div className='filter-bar' >
+                <Button
+                href='/form-event'
+                style={{ color: 'green', textDecoration: 'underline', marginRight: '20px' }}
+            >
+                Proponer Evento
+            </Button>
 
                     <FormControl>
                         <InputLabel id="filter-label" />
