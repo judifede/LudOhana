@@ -4,7 +4,6 @@ import {
   Menu,
   MenuItem,
   Box,
-  Button,
   Typography,
 } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
@@ -89,12 +88,14 @@ function Header() {
                   height: '40px',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: "center"
+                  justifyContent: "center",
+                  color: 'texts.main' 
+
                 }}
               >
                 <EmailOutlined sx={{ fontSize: '30px' }} />
               </Icon>
-              <Typography>{profile.email}</Typography>
+              <Typography sx={{color: 'texts.main'}}>{profile.email}</Typography>
             </Box>
             <MenuItem>
               <Link
@@ -102,6 +103,8 @@ function Header() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  color: 'texts.main' 
+
                 }}
                 onClick={() => {
                   handleClose()
@@ -116,7 +119,7 @@ function Header() {
                 Editar
               </Link>
             </MenuItem>
-            <MenuItem sx={{}}>
+            <MenuItem sx={{color: 'texts.main' }}>
               <Icon
                 onClick={() => handleLogout()}
                 sx={{
@@ -124,6 +127,8 @@ function Header() {
                   height: '40px',
                   display: 'flex',
                   alignItems: 'center',
+                  color: 'texts.main' 
+
                 }}
               >
                 <Logout sx={{ fontSize: '30px' }} />
