@@ -98,7 +98,7 @@ function Header() {
               >
                 <EmailOutlined sx={{ fontSize: '30px' }} />
               </Icon>
-              <Typography sx={{color: 'texts.main'}}>{profile.email}</Typography>
+              <Typography sx={{color: 'texts.main'}}>{localStorage.getItem('profile') && profile.email}</Typography>
             </Box>
             <MenuItem>
               <Link

@@ -8,7 +8,6 @@ export const checkout = async (bodyObj) => {
         Authorization: localStorage.getItem('token'),
       },
     })
-    console.log(data)
     return data
   } catch (error) {
     console.error('Error al generar la pasarela de pago')
