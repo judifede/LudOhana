@@ -1,8 +1,15 @@
-import { AppBar, Icon, Menu, Box, Button, Typography } from '@mui/material'
+import {
+  AppBar,
+  Icon,
+  Menu,
+  MenuItem,
+  Box,
+  Typography,
+} from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 
-import { AccountCircle, Edit, Logout } from '@mui/icons-material'
+import { AccountCircle, Edit, Logout, EmailOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 
 import logoURL from '../../assets/logo_letras_fdfffd.webp'
@@ -61,44 +68,77 @@ function Header() {
             open={isMenuOpen}
             anchorEl={anchorEl}
             onClose={handleClose}
-            sx={{ top: '15px' }}
+            sx={{
+              top: '15px',
+            }}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
             }}
           >
-            <Box textAlign={'center'} px="8px">
-              {profile && (
-                <>
-                  <Typography>
-                    {profile.name + ' ' + profile.lastName}
-                  </Typography>
-                  <p>{profile.email}</p>
-                  <Link
-                    to="/profile"
-                    onClick={() => {
-                      handleClose()
-                    }}
-                  >
-                    <Button
-                      startIcon={<Edit />}
-                      size="small"
-                      variant="contained"
-                      color="success"
-                    >
-                      Editar
-                    </Button>
-                  </Link>
-                </>
-              )}
+            <Box
+              sx={{
+                display: 'flex',
+                gap: '5px',
+                alignItems: 'center',
+                padding: '10px',
+              }}
+            >
+              <Icon
+                onClick={() => handleLogout()}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: "center",
+                  color: 'texts.main' 
+
+                }}
+              >
+                <EmailOutlined sx={{ fontSize: '30px' }} />
+              </Icon>
+              <Typography sx={{color: 'texts.main'}}>{profile.email}</Typography>
             </Box>
+            <MenuItem>
+              <Link
+                to="/profile"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'texts.main' 
+
+                }}
+                onClick={() => {
+                  handleClose()
+                }}
+              >
+                <Icon
+                  onClick={() => handleLogout()}
+                  sx={{ width: '40px', height: '40px', textAlign: 'left' }}
+                >
+                  <Edit sx={{ fontSize: '30px' }} />
+                </Icon>
+                Editar
+              </Link>
+            </MenuItem>
+            <MenuItem sx={{color: 'texts.main' }}>
+              <Icon
+                onClick={() => handleLogout()}
+                sx={{
+                  width: '40px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'texts.main' 
+
+                }}
+              >
+                <Logout sx={{ fontSize: '30px' }} />
+              </Icon>
+              Cerrar sesión
+            </MenuItem>
           </Menu>
-          <Icon
-            onClick={() => handleLogout()}
-            sx={{ width: '40px', height: '40px', color: 'ludoGreenLight.main' }}
-          >
-            <Logout sx={{ fontSize: '40px' }} />
-          </Icon>
         </div>
       ) : (
         <div className="headerLogin">

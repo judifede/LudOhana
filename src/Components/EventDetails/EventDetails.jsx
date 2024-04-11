@@ -9,6 +9,7 @@ import {
   Modal,
   TextField,
   Typography,
+  CircularProgress,
 } from '@mui/material'
 import { CalendarMonth, Groups, LocationOn } from '@mui/icons-material'
 import { useParams } from 'react-router-dom'
@@ -16,7 +17,12 @@ import { useParams } from 'react-router-dom'
 import imageUrl from '../../assets/FiestadeBurbujas.webp'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getEventById, registerUserEvent } from '../../Services/eventService'
+import {
+  deleteUserEvent,
+  getEventById,
+  getUserEvents,
+  registerUserEvent,
+} from '../../Services/eventService'
 import { checkout } from '../../Services/contributionService'
 
 const formatDate = (date) => {
@@ -37,26 +43,36 @@ const EventDetails = () => {
 
   const [modalContribution, setModalContribution] = useState('')
   const [modalInscribe, setModalInscribe] = useState('')
+  const [modalCancelInscribe, setModalCancelInscribe] = useState('')
   const [inscribed, setInscribed] = useState(1)
+  const [userEvents, setUserEvents] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isUserInscribed, setIsUserInscribed] = useState()
+
   const messageReq =
     events.contributionRequired &&
-    `Este evento requiere una contribución de ${events.contributionRequired*inscribed}€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
+    `Este evento requiere una contribución de ${
+      events.contributionRequired * inscribed
+    }€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
 
   const messageOpt =
     'Contribuir con LudOhana, es totalmente opcional, nos ayudarías mucho para continuar con nuestra causa. ¿Deseas realizar una donación?'
 
+  const messageOnIns =
+    'Ahora necesitamos conocer cuántas personas (incluyéndote a ti) se inscriben.'
   const messageCancelIns =
-    'Has realizado una donación. Si desea recuperarla debe ponerse en contacto con ludohana.group@gmail.com. ¿Estás seguro de que quieres cancelar tu inscripción?'
-
+    '¿Estás seguro de que quieres cancelar tu inscripción?'
+  const warningCancelIns =
+    'Si desea recuperar su donación debe ponerse en contacto con ludohana.group@gmail.com.'
 
   const handleContribution = async () => {
     setModalContribution('')
     const bodyObj = {
       name: events.title,
       description: events.description,
-      amount: events.contributionRequired ?? 5,
+      amount: !events.contributionRequired > 0 && 5,
       eventId: eventId,
-      // user: JSON.parse(localStorage.getItem('profile')),
+      user: JSON.parse(localStorage.getItem('profile')),
     }
 
     const data = await checkout(bodyObj)
@@ -66,10 +82,19 @@ const EventDetails = () => {
   const handleInscribe = async () => {
     setModalInscribe('')
 
-    const data = await registerUserEvent({ inscribed: inscribed }, eventId)
-    console.log(data)
+    await registerUserEvent({ inscribed: inscribed }, eventId)
+
+    setIsUserInscribed(true)
 
     setModalContribution('open')
+  }
+
+  const handleCancelInscribe = async () => {
+    setModalCancelInscribe('')
+
+    await deleteUserEvent(eventId)
+
+    setIsUserInscribed(false)
   }
 
   useEffect(() => {
@@ -77,22 +102,55 @@ const EventDetails = () => {
       try {
         const eventsData = await getEventById(eventId)
         setEvents(eventsData)
+        setIsLoading(false)
       } catch (error) {
-        console.error('Error al obtener eventos:', error)
+        console.error('Error al obtener eventos:', error.message)
       }
     }
 
     handleEvent()
   }, [eventId])
 
+  useEffect(() => {
+    const handleInscribedEvent = async () => {
+      try {
+        const eventsData = await getUserEvents()
+        console.log(eventsData)
+        if (!eventsData.messageError) setUserEvents(eventsData)
+      } catch (error) {
+        console.error('Error al obtener eventos:', error.message)
+      }
+    }
+
+    handleInscribedEvent()
+  }, [])
+
+  useEffect(() => {
+    const handleIsUserInscribed = () => {
+      if (userEvents) {
+        const isUserEvent = userEvents.some((userEvent) => {
+          return eventId == userEvent.id
+        })
+
+        setIsUserInscribed(isUserEvent)
+      }
+    }
+
+    handleIsUserInscribed()
+  }, [eventId, userEvents])
+
   return (
     <Box
       sx={{
         display: 'flex',
         justifyContent: 'center',
+        maxWidth: '850px',
         padding: '30px',
       }}
     >
+      {isLoading && (
+        <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
+      )}
       <Card
         sx={{ minHeight: '400px' }}
         className="eventDetailCard"
@@ -101,234 +159,310 @@ const EventDetails = () => {
         <CardMedia
           className="eventDetailImg"
           component="img"
-          height="auto"
+          sx={{ width: '40%' }}
           image={imageUrl}
           alt={'Imagen del evento ' + events.title}
         />
-        <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+          }}
+        >
+          <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                fontWeight: 'bold',
+                textAlign: 'center',
+                paddingBottom: '20px',
+              }}
+            >
+              {events.title}
+            </Typography>
+
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              sx={{
+                textAlign: 'center',
+                paddingBottom: '20px',
+              }}
+            >
+              {events.description}
+            </Typography>
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <CalendarMonth />
+
+                <Typography variant="body1" color="text.main">
+                  <strong>Inicio:</strong> {formatDate(events.dateStart)}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <CalendarMonth />
+                <Typography variant="body1" color="text.main">
+                  <strong>Fin:</strong> {formatDate(events.dateEnd)}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <LocationOn />
+                  <Link
+                    to={events.addressUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#FF8000', textDecoration: 'underline' }}
+                  >
+                    <Typography variant="body2" color="text.main">
+                      {events.addressTitle}
+                    </Typography>
+                  </Link>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Groups />
+                  <Typography variant="body2" color="text.main">
+                    <strong>Participantes:</strong>
+                    {events.participants}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </CardContent>
+
+          <CardActions
             sx={{
-              fontWeight: 'bold',
-              textAlign: 'center',
+              justifyContent: 'center',
               paddingBottom: '20px',
+              marginTop: '20px',
             }}
           >
-            {events.title}
-          </Typography>
-
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            sx={{
-              textAlign: 'center',
-              paddingBottom: '20px',
-            }}
-          >
-            {events.description}
-          </Typography>
-
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <CalendarMonth />
-
-              <Typography variant="body1" color="text.main">
-                <strong>Inicio:</strong> {formatDate(events.dateStart)}
-              </Typography>
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <CalendarMonth />
-              <Typography variant="body1" color="text.main">
-                <strong>Fin:</strong> {formatDate(events.dateEnd)}
-              </Typography>
-            </Box>
             <Box
               sx={{
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
+                marginTop: 'auto',
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                <LocationOn />
-                <Link
-                  to={events.addressUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#FF8000', textDecoration: 'underline' }}
-                >
-                  <Typography variant="body2" color="text.main">
-                    {events.addressTitle}
-                  </Typography>
-                </Link>
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Groups />
-                <Typography variant="body2" color="text.main">
-                  <strong>Participantes:</strong>
-                  {events.participants}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </CardContent>
-        <CardActions
-          sx={{
-            justifyContent: 'center',
-            paddingBottom: '20px',
-            marginTop: '20px',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: 'auto',
-            }}
-          >
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() => {
-                setModalInscribe('open')
-              }}
-            >
-              Inscribirse
-            </Button>
-
-            <Modal
-              open={modalInscribe !== ''}
-              onClose={() => {
-                setModalInscribe('')
-              }}
-              aria-labelledby="modal-title"
-              aria-describedby="modal-description"
-            >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 400,
-                  textAlign: 'center',
-                  bgcolor: 'background.paper',
-                  borderRadius: 2,
-                  boxShadow: 24,
-                  p: 4,
+              <Button
+                variant="contained"
+                color={isUserInscribed ? 'error' : 'success'}
+                onClick={() => {
+                  isUserInscribed
+                    ? setModalCancelInscribe('open')
+                    : setModalInscribe('open')
                 }}
               >
-                <Typography
-                  id="modal-title"
-                  variant="h6"
-                  component="h2"
-                  textAlign={'left'}
-                >
-                  Ahora necesitamos conocer cuántas personas (incluyéndote a ti)
-                  se inscriben.
-                </Typography>
+                {isUserInscribed ? 'Cancelar inscripción' : 'Inscribirse'}
+              </Button>
 
-                <TextField
-                  type="number"
-                  variant="outlined"
-                  margin="dense"
-                  onChange={(e) => {
-                    setInscribed(e.target.value)
+              <Modal
+                open={modalInscribe !== ''}
+                onClose={() => {
+                  setModalInscribe('')
+                }}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    textAlign: 'center',
+                    bgcolor: 'background.paper',
+                    borderRadius: 2,
+                    boxShadow: 24,
+                    p: 4,
                   }}
-                  placeholder="Número de inscritos"
-                />
-
-                <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    sx={{ mt: 2 }}
-                    onClick={() => {
-                      handleInscribe()
-                    }}
-                  >
-                    Continuar
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    sx={{ mt: 2 }}
-                    onClick={() => {
-                      setModalInscribe('')
-                    }}
-                  >
-                    Volver
-                  </Button>
-                </Box>
-              </Box>
-            </Modal>
-            <Modal
-              open={modalContribution !== ''}
-              onClose={() => {
-                setModalContribution('')
-              }}
-              aria-labelledby="modal-title"
-              aria-describedby="modal-description"
-            >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: 400,
-                  textAlign: 'center',
-                  bgcolor: 'background.paper',
-                  borderRadius: 2,
-                  boxShadow: 24,
-                  p: 4,
-                }}
-              >
-                <Typography
-                  id="modal-title"
-                  variant="h6"
-                  component="h2"
-                  textAlign={'left'}
                 >
-                  {events.isContributionRequired ? messageReq : messageOpt}
-                </Typography>
-                {events.isContributionRequired ?? (
+                  <Typography
+                    id="modal-title"
+                    variant="h6"
+                    component="h2"
+                    textAlign={'left'}
+                  >
+                    {messageOnIns}
+                  </Typography>
+
                   <TextField
                     type="number"
                     variant="outlined"
                     margin="dense"
-                    placeholder="Cantidad a donar"
+                    onChange={(e) => {
+                      setInscribed(e.target.value)
+                    }}
+                    placeholder="Número de inscritos"
                   />
-                )}
-                <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    sx={{ mt: 2 }}
-                    onClick={() => {
-                      handleContribution()
-                    }}
-                  >
-                    Si
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    sx={{ mt: 2 }}
-                    onClick={() => {
-                      events.isContributionRequired && handleContribution()
-                    }}
-                  >
-                    No
-                  </Button>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        handleInscribe()
+                      }}
+                    >
+                      Continuar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        setModalInscribe('')
+                      }}
+                    >
+                      Volver
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </Modal>
-          </Box>
-        </CardActions>
+              </Modal>
+
+              <Modal
+                open={modalCancelInscribe !== ''}
+                onClose={() => {
+                  setModalCancelInscribe('')
+                }}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    textAlign: 'center',
+                    bgcolor: 'background.paper',
+                    borderRadius: 2,
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Typography
+                    id="modal-title"
+                    variant="h6"
+                    component="h2"
+                    textAlign={'left'}
+                  >
+                    {messageCancelIns}
+                  </Typography>
+
+                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        handleCancelInscribe()
+                      }}
+                    >
+                      Continuar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        setModalCancelInscribe('')
+                      }}
+                    >
+                      Volver
+                    </Button>
+                  </Box>
+                  <Typography
+                    id="modal-warning"
+                    variant="subtitle2"
+                    component="p"
+                    sx={{ marginTop: '16px' }}
+                    textAlign={'left'}
+                  >
+                    {warningCancelIns}
+                  </Typography>
+                </Box>
+              </Modal>
+
+              <Modal
+                open={modalContribution !== ''}
+                onClose={() => {
+                  setModalContribution('')
+                }}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    textAlign: 'center',
+                    bgcolor: 'background.paper',
+                    borderRadius: 2,
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Typography
+                    id="modal-title"
+                    variant="h6"
+                    component="h2"
+                    textAlign={'left'}
+                  >
+                    {events.isContributionRequired ? messageReq : messageOpt}
+                  </Typography>
+                  {events.isContributionRequired ?? (
+                    <TextField
+                      type="number"
+                      variant="outlined"
+                      margin="dense"
+                      placeholder="Cantidad a donar"
+                    />
+                  )}
+                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        handleContribution()
+                      }}
+                    >
+                      Si
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ mt: 2 }}
+                      onClick={() => {
+                        setModalContribution('')
+                      }}
+                    >
+                      No
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
+            </Box>
+          </CardActions>
+        </Box>
       </Card>
     </Box>
   )
