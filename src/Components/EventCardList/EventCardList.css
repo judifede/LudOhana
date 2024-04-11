@@ -22,7 +22,7 @@
    justify-content: left;
  }
 
- .filter-tile {
+ .filter-title {
    display: flex;
    flex-wrap: wrap;
    justify-content: center;
