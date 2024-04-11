@@ -77,7 +77,7 @@ function Settings() {
           </CardContent>
         </Card>
         
-        <Card elevation={4} className="section cardHover">
+        {/* <Card elevation={4} className="section cardHover">
           <CardHeader
             title="Donaciones"
             sx={{ textAlign: 'center', padding: '0' }}
@@ -92,7 +92,7 @@ function Settings() {
               </Icon>
             </InputAdornment>
           </CardContent>
-        </Card>
+        </Card> */}
       </Box>
     </Grid>
   )

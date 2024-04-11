@@ -17,6 +17,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  CircularProgress,
 } from '@mui/material'
 import {
   getMaterialsEvents,
@@ -44,6 +45,7 @@ function Materials() {
   const [inputsValue, setInputsValues] = useState({})
   const [eventInput, setEventInput] = useState('')
   const [refresh, setRefresh] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleCreateMaterialEvent = async () => {
    
@@ -127,6 +129,7 @@ function Materials() {
       setMaterials(materialsData.allMaterial)
       setMaterialsEvents(materialsEventsData.allMaterialEvent)
       setEvents(eventsData.allEvent)
+        setIsLoading(false)
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -137,6 +140,9 @@ function Materials() {
 
   return (
     <Grid container justifyContent="center">
+{isLoading && (
+        <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
+            )}
       <Grid item xs={12}>
         <Typography variant="h3" component="h2" align="center" gutterBottom>
           Gestor de Materiales

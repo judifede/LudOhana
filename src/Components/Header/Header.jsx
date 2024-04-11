@@ -2,16 +2,21 @@ import { AppBar, Icon, Menu, MenuItem, Box, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 
-import { AccountCircle, Edit, Logout, EmailOutlined } from '@mui/icons-material'
+import {
+  AccountCircle,
+  Edit,
+  Logout,
+  EmailOutlined,
+  Settings,
+} from '@mui/icons-material'
 import { useContext, useState } from 'react'
 
 import logoURL from '../../assets/logo_letras_fdfffd.webp'
 import { MenuContext } from '../../context/context'
 
 function Header() {
-
-  const {anchorEl, setAnchorEl} = useState(null)
-  const {isMenuOpen, setIsMenuOpen} = useContext(MenuContext)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const { isMenuOpen, setIsMenuOpen } = useContext(MenuContext)
   const profile =
     localStorage.getItem('profile') &&
     JSON.parse(localStorage.getItem('profile'))
@@ -48,15 +53,22 @@ function Header() {
       <div className="headerLinks">
         <Link to="/">Inicio</Link>
         <Link to="/events">Eventos</Link>
-        <Link to="/settings">Ajustes</Link>
       </div>
 
       {localStorage.getItem('token') ? (
         <div className="headerLogin">
           <Icon
-            sx={{ width: '40px', height: '40px', color: 'ludoGreenLight.main' }}
+            onClick={(e) => {
+              handleClick(e)
+            }}
+            sx={{
+              width: '40px',
+              height: '40px',
+              cursor: 'pointer',
+              color: 'ludoGreenLight.main',
+            }}
           >
-            <AccountCircle sx={{ fontSize: '40px' }} onClick={handleClick} />
+            <AccountCircle sx={{ fontSize: '40px' }} />
           </Icon>
           <Menu
             open={isMenuOpen}
@@ -112,6 +124,30 @@ function Header() {
                 Editar
               </Link>
             </MenuItem>
+            <MenuItem>
+              <Link
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: 'texts.main',
+                }}
+                to="/settings"
+              >
+                <Icon
+                  sx={{
+                    width: '40px',
+                    height: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: 'texts.main',
+                  }}
+                >
+                  <Settings sx={{ fontSize: '30px' }} />
+                </Icon>
+                Ajustes
+              </Link>
+            </MenuItem>
+
             <MenuItem
               onClick={() => {
                 handleLogout()
