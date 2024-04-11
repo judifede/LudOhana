@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Button,
   InputLabel,
   CircularProgress,
 } from '@mui/material'
@@ -75,6 +76,12 @@ const EventCardList = () => {
           <h1>{filterTitle}</h1>
         </div>
         <div className="filter-bar">
+        <Button
+                href='/form-event'
+                style={{ color: 'green', textDecoration: 'underline', marginRight: '20px' }}
+            >
+                Proponer Evento
+            </Button>
           <FormControl>
             <InputLabel id="filter-label" />
             <Select
