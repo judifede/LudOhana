@@ -43,9 +43,7 @@ function Materials() {
   const [amountUsedMaterials, setAmountUsedMaterials] = useState([])
   const [inputsValue, setInputsValues] = useState({})
   const [eventInput, setEventInput] = useState('')
-  const [refresh,setRefresh] = useState(false)
-
-
+  const [refresh, setRefresh] = useState(false)
 
   const handleCreateMaterialEvent = async () => {
     console.log(amountUsedMaterials, materialId, eventInput.id)
@@ -77,7 +75,6 @@ function Materials() {
 
   const handleEventInput = (e) => {
     setEventInput(e.target.value)
- 
   }
 
   const handleUpdateMaterials = async () => {
@@ -86,7 +83,7 @@ function Materials() {
       if (event.title === eventInput.titleEvent) {
         eventInputId = event.id
       }
-      console.log(eventInputId);
+      console.log(eventInputId)
     })
 
     const data = await updateMaterials(materialId, {
@@ -94,10 +91,9 @@ function Materials() {
       amount: amountMaterial,
     })
     if (data.message) {
-     
       await addMaterialEvent(eventId, materialId, {
-        eventId:eventInput.id,
-        amountUsed:amountUsedMaterials,
+        eventId: eventInput.id,
+        amountUsed: amountUsedMaterials,
       })
       setRefresh((prev) => !prev)
     }
@@ -502,98 +498,6 @@ function Materials() {
           </Box>
         </Box>
       </Modal>
-
-      {/*      <Modal
-        open={isOpenModalCreate === true}
-        onClose={() => {
-          setIsOpenModalCreate(false)
-        }}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 600,
-            bgcolor: 'background.paper',
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 4,
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Typography
-            id="modal-title"
-            variant="h6"
-            component="h2"
-            textAlign="center"
-          >
-            Crear Material
-          </Typography>
-          <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
-          <Box>
-            <Box>
-              <TextField
-                onChange={(e) => {
-                  setNameMaterial(e.target.value)
-                }}
-             
-                type="text"
-                label="Nombre:"
-                variant="filled"
-                fullWidth={true}
-                margin="dense"
-              ></TextField>
-               <TextField
-                onChange={(e) => {
-                  setAmountMaterial(e.target.value)
-                }}
-               
-                type="number"
-                label="Cantidad:"
-                variant="filled"
-                fullWidth={true}
-                margin="dense"
-              ></TextField>
-            </Box>
-            
-          
-
-            <Box display="flex" justifyContent="space-around">
-              <Button
-                variant="contained"
-                color="success"
-                sx={{ mt: 2 }}
-                onClick={() => {
-                 
-                  handleCreateMaterial()
-                  
-                }}
-              >
-                Guardar
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mt: 2 }}
-                onClick={() => {
-                  setIsOpenModalCreate((prev) => !prev)
-
-                }}
-              >
-                Cancelar
-              </Button>
-            </Box>
-          </Box>
-        </Box>
-      </Modal>
- */}
 
       <Modal
         open={isOpenModalAddRelation === true}
