@@ -136,6 +136,7 @@ function Login() {
 
   return (
     <Box className="container" sx={{ borderRadius: '10px' }}>
+      
       <Card id="loginContainer">
         <CardHeader title="Iniciar Sesión" sx={{ textAlign: 'center' }} />
         <CardContent>
@@ -146,7 +147,7 @@ function Login() {
             variant="outlined"
             fullWidth={true}
             margin="dense"
-            placeholder={'diego@gmail.com'}
+            placeholder={''}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -168,7 +169,7 @@ function Login() {
             variant="outlined"
             fullWidth={true}
             margin="dense"
-            placeholder={'1234'}
+            placeholder={''}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

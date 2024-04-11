@@ -180,7 +180,7 @@ function Profile() {
           </Typography>
         </CardContent>
         <CardActions
-          sx={{ width: '100%', justifyContent: 'space-around', pb: 4 }}
+          sx={{ width: '100%', justifyContent: 'right', pb: 4, gap:'10px',pr:9 }}
         >
           <Button
             onClick={() => {
@@ -198,7 +198,7 @@ function Profile() {
             variant="contained"
             color="error"
           >
-            Eliminar cuenta
+            Eliminar
           </Button>
           <Modal
             open={modalDelete !== ''}
@@ -225,7 +225,7 @@ function Profile() {
                 ¿Estás seguro de que deseas eliminar tu cuenta?
               </Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'right', gap:'20px'  }}>
                 <Button
                   variant="contained"
                   color="success"
@@ -245,7 +245,7 @@ function Profile() {
                     handleDeleteUsers()
                   }}
                 >
-                  Eliminar cuenta
+                  Eliminar
                 </Button>
               </Box>
             </Box>
