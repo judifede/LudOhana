@@ -99,6 +99,7 @@ function Login() {
         email,
         password,
       })
+      console.log("Hola una vez")
 
       onLocalStorage(res)
     } catch (error) {
@@ -122,23 +123,27 @@ function Login() {
 
   const handleGetUsers = async () => {
     const res = await getUser()
+    console.log(res)
     const { id, name, lastName, email } = res
     const profile = { id, name, lastName, email }
     localStorage.setItem('profile', JSON.stringify(profile))
   }
 
   const onLocalStorage = (res) => {
-    localStorage.setItem('token', res.data.token)
-    localStorage.setItem('role', res.data.role)
+    localStorage.setItem('token', res.token)
+    localStorage.setItem('role', res.role)
     handleGetUsers()
     navigate('/')
   }
 
   return (
     <Box className="container" sx={{ borderRadius: '10px' }}>
-      
       <Card id="loginContainer">
-        <CardHeader title="Iniciar Sesión" sx={{ textAlign: 'center' }} />
+        <CardHeader
+          titleTypographyProps={{ fontWeight: '500', color: 'texts.main' }}
+          title="Iniciar Sesión"
+          sx={{ textAlign: 'center', fontWeight: 'bold' }}
+        />
         <CardContent>
           <TextField
             onChange={(e) => setEmail(e.target.value)}
@@ -199,7 +204,7 @@ function Login() {
             className={errorPassword ? 'error' : ''}
           ></TextField>
           <CardActions
-            sx={{ display: 'flex', flexDirection: 'column', marginTop: '40%' }}
+            sx={{ display: 'flex', flexDirection: 'column', marginTop: '5%' }}
           >
             <Button
               variant="text"
@@ -231,7 +236,14 @@ function Login() {
       </Card>
 
       <Card id="registerContainer">
-        <CardHeader title="Registro" sx={{ textAlign: 'center' }} />
+        <CardHeader
+          title="Registro"
+          titleTypographyProps={{ fontWeight: '500', color: 'texts.main' }}
+          sx={{
+            textAlign: 'center',
+            marginTop: '5%',
+          }}
+        />
         <CardContent>
           <TextField
             onChange={(e) => {
@@ -323,7 +335,7 @@ function Login() {
             onChange={(e) => {
               setPassword(e.target.value)
             }}
-            type="password"
+            type={isPassVisible ? 'text' : 'password'}
             label="Contraseña:"
             variant="outlined"
             fullWidth={true}
@@ -344,7 +356,7 @@ function Login() {
                     }}
                   >
                     {isPassVisible ? (
-                      <VisibilityOutlined />
+                      <VisibilityOffOutlined />
                     ) : (
                       <VisibilityOutlined />
                     )}
@@ -356,7 +368,9 @@ function Login() {
             helperText={errorPassword !== '' ? errorPassword : ''}
             className={errorPassword ? 'error' : ''}
           ></TextField>
-          <CardActions sx={{ display: 'flex', flexDirection: 'column' }}>
+          <CardActions
+            sx={{ display: 'flex', flexDirection: 'column', marginTop: '5%' }}
+          >
             <Button
               variant="text"
               size="small"

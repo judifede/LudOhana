@@ -52,7 +52,7 @@ function Home() {
                 alt="Imagen de fastly.picsum.photos"
                 src={CarrouselImgs[i]}
                 className="carousel-img"
-                style={{ width: '100%', borderRadius: '10px 10px 0 0', objectFit: 'cover' }}
+                style={{ borderRadius: '10px 10px 0 0', objectFit: 'cover' }}
               />
               <hgroup className="carrousel-header">
                 <h1>{CarrouselHeaders[i]}</h1>

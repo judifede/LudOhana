@@ -1,8 +1,8 @@
 import api from './config'
 
 export const login = async (loginData) => {
-  const response = await api.post('/api/auth/login', loginData)
-  return response
+  const { data } = await api.post('/api/auth/login', loginData)
+  return data
 }
 
 export const signup = async (userData) => {
