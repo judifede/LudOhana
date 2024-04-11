@@ -41,10 +41,10 @@ const FormEvent = () => {
     dateStart: '',
     dateEnd: '',
     addressURL: '',
-    participants: '',
+    participants: 0,
     imageUrl: '',
-    isContributionRequired: '',
-    contributionRequired: '',
+    isContributionRequired: false,
+    contributionRequired: 0,
   })
 
   const [dateStart, setStartDate] = useState(null)
@@ -87,19 +87,17 @@ const FormEvent = () => {
     try {
       if (eventId) {
         const res = await updateEvent(eventId, formData)
-        console.log(res)
         if (res.message) {
           navigate('/events')
         }
       } else {
         const res = await createEvent(formData)
-        console.log(res)
         if (res.message) {
           navigate('/events')
         }
       }
     } catch (error) {
-      console.error('Error al crear evento:', error)
+      console.error('Error al crear evento:', error.message)
     }
   }
 
