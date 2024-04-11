@@ -22,7 +22,6 @@ import {
   getMaterialsEvents,
   deleteMaterialsToEvent,
   updateMaterials,
-  //updateAmountUsedMaterials,
   addMaterialEvent,
 } from '../../Services/materials'
 import { Delete, Edit } from '@mui/icons-material'
@@ -41,15 +40,7 @@ function Materials() {
   const [inputsValue, setInputsValues] = useState({})
   const [eventInput, setEventInput] = useState("")
 
-  /* const handleAddMaterialEvent = async()=>{
 
-  } */
-
-  /*  const handleUpdateAmount = async()=>{
-  
-    await updateAmountUsedMaterials(eventId,materialId,{amountUsed:amountUsedMaterials})
-  }
- */
   const handleEventInput = (e) => {
     setEventInput(e.target.value)
 
@@ -76,30 +67,7 @@ function Materials() {
 
   }
 
-  /*const handleUpdateMaterials = async () => {
-    // Encontrar el ID del evento seleccionado por el nombre
-    const selectedEventId = events.find(
-      (event) => event.title === selectedEvent
-    )?.id
 
-    if (!selectedEventId) {
-      console.error('El evento seleccionado no tiene un ID válido')
-      return
-    }
-
-    console.log(nameMaterial, amountMaterial, amountUsedMaterials)
-    const data = await updateMaterials(materialId, {
-      name: nameMaterial,
-      amount: amountMaterial,
-    })
-    if (data.message) {
-      await addMaterialEvent(selectedEventId, materialId, {
-        amountUsedMaterials,
-      })
-      setEventId(selectedEventId)
-      setSelectedEvent(null) // Reiniciar el evento seleccionado después de guardar
-    }
-  }*/
   const handleDeleteMaterial = async () => {
     const res = await deleteMaterialsToEvent(materialId, eventId)
     if (res.message) {

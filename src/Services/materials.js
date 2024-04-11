@@ -21,10 +21,7 @@ export const updateMaterials = async (materialId, materialData) => {
   })
   return data
 }
-/* export const updateAmountUsedMaterials = async (eventId,materialId,materialData)=>{
-    const {data} = await api.post(`/api/events/${eventId}/materials/${materialId}`,materialData,{headers:{Authorization:localStorage.getItem('token')}})
-    return data
-} */
+
 
 export const addMaterialEvent = async (eventId, materialId, {eventInputId,amountUsedMaterials}) => {
     console.log(eventId);
