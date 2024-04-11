@@ -22,20 +22,22 @@ export const updateMaterials = async (materialId, materialData) => {
   return data
 }
 
-
-export const addMaterialEvent = async (eventId, materialId, {eventInputId,amountUsedMaterials}) => {
-
-  const { data } = await api.put(
-    `/api/events/${eventId}/materials/${materialId}`,
-    { eventId:eventInputId, materialId, amountUsed:amountUsedMaterials },
-    { headers: { Authorization: localStorage.getItem('token') } }
-  )
-  return data
+export const addMaterialEvent = async (eventId, materialId, materialData) => {
+  console.log(materialData.amountUsed)
+  try {
+    const { data } = await api.put(
+      `/api/events/${materialData.eventId}/materials/${materialId}`,
+      { amountUsed: materialData.amountUsed },
+      { headers: { Authorization: localStorage.getItem('token') } }
+    )
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-
 export const createMaterials = async (materialData) => {
-  console.log(materialData);
+  console.log(materialData)
   const { data } = await api.post(`/api/materials`, materialData, {
     headers: { Authorization: localStorage.getItem('token') },
   })
@@ -43,18 +45,13 @@ export const createMaterials = async (materialData) => {
 }
 
 export const createMaterialEvent = async (materialData) => {
-
   try {
-    
-    console.log(materialData);
-      const { data } = await api.post(
-        `/api/events/materials`,materialData,
-        { headers: { Authorization: localStorage.getItem('token') } }
-      )
-      return data
+    console.log(materialData)
+    const { data } = await api.post(`/api/events/materials`, materialData, {
+      headers: { Authorization: localStorage.getItem('token') },
+    })
+    return data
   } catch (error) {
-    console.log(
-      error
-    );
+    console.log(error)
   }
 }

@@ -43,6 +43,9 @@ function Materials() {
   const [amountUsedMaterials, setAmountUsedMaterials] = useState([])
   const [inputsValue, setInputsValues] = useState({})
   const [eventInput, setEventInput] = useState('')
+  const [refresh,setRefresh] = useState('')
+
+
 
   const handleCreateMaterialEvent = async () => {
     console.log(amountUsedMaterials, materialId, eventInput.id)
@@ -54,6 +57,7 @@ function Materials() {
     if (res.message) {
       setIsOpenModalAddRelation((prev) => !prev)
       setIsOpenModalCreate((prev) => !prev)
+      setRefresh("handleCreateMaterialEvent")
     }
   }
 
@@ -73,7 +77,7 @@ function Materials() {
 
   const handleEventInput = (e) => {
     setEventInput(e.target.value)
-    console.log(e.target.value)
+ 
   }
 
   const handleUpdateMaterials = async () => {
@@ -82,19 +86,20 @@ function Materials() {
       if (event.title === eventInput.titleEvent) {
         eventInputId = event.id
       }
+      console.log(eventInputId);
     })
 
-    console.log(nameMaterial, amountMaterial, amountUsedMaterials)
     const data = await updateMaterials(materialId, {
       name: nameMaterial,
       amount: amountMaterial,
     })
     if (data.message) {
-      console.log()
+     
       await addMaterialEvent(eventId, materialId, {
-        eventInputId,
-        amountUsedMaterials,
+        eventId:eventInput.id,
+        amountUsed:amountUsedMaterials,
       })
+      setRefresh("handleUpdateMaterials")
     }
   }
 
@@ -134,7 +139,7 @@ function Materials() {
   }
   useEffect(() => {
     handleMaterialEvents()
-  }, [])
+  }, [refresh])
 
   return (
     <Grid container justifyContent="center">
@@ -377,8 +382,8 @@ function Materials() {
                   labelId="events-label"
                   sx={{ width: '100%' }}
                 >
-                  {events.map((event, idx) => (
-                    <MenuItem value={event.title} key={idx}>
+                  {events.map((event) => (
+                    <MenuItem value={event} key={event.id}>
                       {event.title}
                     </MenuItem>
                   ))}
