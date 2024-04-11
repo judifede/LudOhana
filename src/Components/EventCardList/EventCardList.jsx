@@ -23,7 +23,7 @@ const EventCardList = () => {
   const [events, setEvents] = useState([])
   const [filter, setFilter] = useState('current')
   const [filterTitle, setFilterTitle] = useState('Eventos Próximos')
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -107,12 +107,18 @@ const EventCardList = () => {
           <h1>{filterTitle}</h1>
         </div>
         <div className="filter-bar">
-        <Button
-                href='/form-event'
-                style={{ color: 'green', textDecoration: 'underline', marginRight: '20px' }}
-            >
-                Proponer Evento
-            </Button>
+          <Button
+            href="/form-event"
+            style={{
+              color: 'green',
+              textDecoration: 'underline',
+              marginRight: '20px',
+            }}
+          >
+            {localStorage.getItem('role') === 'admin'
+              ? 'Crear Evento'
+              : 'Proponer Evento'}
+          </Button>
           <FormControl>
             <InputLabel id="filter-label" />
             <Select
@@ -130,7 +136,7 @@ const EventCardList = () => {
                   Mis Eventos Anteriores
                 </MenuItem>
               )}
-              {localStorage.getItem('role') === 'user' && (
+              {localStorage.getItem('rolePropuesta de Evento') === 'user' && (
                 <MenuItem value="userEventInscribed">
                   Mis Eventos Inscritos
                 </MenuItem>
@@ -157,7 +163,7 @@ const EventCardList = () => {
           </FormControl>
         </div>
       </div>
-      
+
       <div className="event-card-container">
         {events.map((event, idx) => (
           <EventCard key={idx} event={event} setRefresh={setRefresh} />

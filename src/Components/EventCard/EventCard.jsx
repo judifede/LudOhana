@@ -38,7 +38,7 @@ const EventCard = ({
     addressURL,
     participants,
   },
-  setRefresh
+  setRefresh,
 }) => {
   const [modalDeleteEvent, setModalDeleteEvent] = useState('')
 
@@ -212,18 +212,14 @@ const EventCard = ({
             pb: 3,
           }}
         >
-          <Button
-            variant="contained"
-            color="success"
-            href={'/events/' + id}
-          >
+          <Button variant="contained" color="success" href={'/events/' + id}>
             Info
           </Button>
           {localStorage.getItem('role') === 'admin' && (
             <Button
               variant="contained"
               color="warning"
-              //TODO FORMULARIO COMO PROPUESTA
+              href={'/form-event/' + id}
             >
               Editar
             </Button>

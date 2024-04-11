@@ -51,7 +51,6 @@ const EventDetails = () => {
   const [eventContribution, setEventContribution] = useState(0)
 
   const [isLoading, setIsLoading] = useState(true)
-  // const [refresh, setRefresh] = useState(false)
   const [isUserInscribed, setIsUserInscribed] = useState()
 
   const messageReq =
