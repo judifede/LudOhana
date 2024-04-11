@@ -98,7 +98,6 @@ function Login() {
         email,
         password,
       })
-      console.log(res)
       localStorage.setItem('token', res.token)
       localStorage.setItem('role', res.role)
       navigate('/')
@@ -115,8 +114,6 @@ function Login() {
   const onLogin = async () => {
     try {
       const res = await login({ email, password })
-      console.log(res)
-
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('role', res.data.role)
       navigate('/')

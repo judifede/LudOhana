@@ -46,7 +46,7 @@ function Materials() {
   const [refresh, setRefresh] = useState(false)
 
   const handleCreateMaterialEvent = async () => {
-    console.log(amountUsedMaterials, materialId, eventInput.id)
+   
     const res = await createMaterialEvent({
       amountUsed: amountUsedMaterials,
       materialId,
@@ -60,7 +60,6 @@ function Materials() {
   }
 
   const handleCreateMaterial = async () => {
-    console.log(nameMaterial, amountMaterial)
     const res = await createMaterials({
       name: nameMaterial,
       amount: amountMaterial,
@@ -128,7 +127,6 @@ function Materials() {
       setMaterials(materialsData.allMaterial)
       setMaterialsEvents(materialsEventsData.allMaterialEvent)
       setEvents(eventsData.allEvent)
-      console.log(materialsEventsData)
     } catch (error) {
       console.error('Error fetching data:', error)
     }

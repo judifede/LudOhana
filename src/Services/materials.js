@@ -4,7 +4,6 @@ export const getMaterialsEvents = async () => {
   const response = await api.get('/api/events/materials', {
     headers: { Authorization: localStorage.getItem('token') },
   })
-  console.log(response.data.allMaterialEventData)
   return response.data.allMaterialEventData
 }
 
@@ -23,7 +22,6 @@ export const updateMaterials = async (materialId, materialData) => {
 }
 
 export const addMaterialEvent = async (eventId, materialId, materialData) => {
-  console.log(materialData.amountUsed)
   try {
     const { data } = await api.put(
       `/api/events/${materialData.eventId}/materials/${materialId}`,
@@ -37,7 +35,6 @@ export const addMaterialEvent = async (eventId, materialId, materialData) => {
 }
 
 export const createMaterials = async (materialData) => {
-  console.log(materialData)
   const { data } = await api.post(`/api/materials`, materialData, {
     headers: { Authorization: localStorage.getItem('token') },
   })
@@ -46,7 +43,6 @@ export const createMaterials = async (materialData) => {
 
 export const createMaterialEvent = async (materialData) => {
   try {
-    console.log(materialData)
     const { data } = await api.post(`/api/events/materials`, materialData, {
       headers: { Authorization: localStorage.getItem('token') },
     })
