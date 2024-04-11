@@ -1,34 +1,28 @@
-import {
-  AppBar,
-  Icon,
-  Menu,
-  MenuItem,
-  Box,
-  Typography,
-} from '@mui/material'
+import { AppBar, Icon, Menu, MenuItem, Box, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import './Header.css'
 
 import { AccountCircle, Edit, Logout, EmailOutlined } from '@mui/icons-material'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import logoURL from '../../assets/logo_letras_fdfffd.webp'
+import { MenuContext } from '../../context/context'
 
 function Header() {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  const {anchorEl, setAnchorEl} = useState(null)
+  const {isMenuOpen, setIsMenuOpen} = useContext(MenuContext)
   const profile =
     localStorage.getItem('profile') &&
     JSON.parse(localStorage.getItem('profile'))
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
     setIsMenuOpen(true)
+    setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    setAnchorEl(null)
     setIsMenuOpen(false)
+    setAnchorEl(null)
   }
 
   const navigate = useNavigate()
@@ -85,20 +79,20 @@ function Header() {
               }}
             >
               <Icon
-                onClick={() => handleLogout()}
                 sx={{
                   width: '40px',
                   height: '40px',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: "center",
-                  color: 'texts.main' 
-
+                  justifyContent: 'center',
+                  color: 'texts.main',
                 }}
               >
                 <EmailOutlined sx={{ fontSize: '30px' }} />
               </Icon>
-              <Typography sx={{color: 'texts.main'}}>{localStorage.getItem('profile') && profile.email}</Typography>
+              <Typography sx={{ color: 'texts.main' }}>
+                {localStorage.getItem('profile') && profile.email}
+              </Typography>
             </Box>
             <MenuItem>
               <Link
@@ -106,32 +100,31 @@ function Header() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  color: 'texts.main' 
-
+                  color: 'texts.main',
                 }}
                 onClick={() => {
                   handleClose()
                 }}
               >
-                <Icon
-                  onClick={() => handleLogout()}
-                  sx={{ width: '40px', height: '40px', textAlign: 'left' }}
-                >
+                <Icon sx={{ width: '40px', height: '40px', textAlign: 'left' }}>
                   <Edit sx={{ fontSize: '30px' }} />
                 </Icon>
                 Editar
               </Link>
             </MenuItem>
-            <MenuItem sx={{color: 'texts.main' }}>
+            <MenuItem
+              onClick={() => {
+                handleLogout()
+              }}
+              sx={{ color: 'texts.main' }}
+            >
               <Icon
-                onClick={() => handleLogout()}
                 sx={{
                   width: '40px',
                   height: '40px',
                   display: 'flex',
                   alignItems: 'center',
-                  color: 'texts.main' 
-
+                  color: 'texts.main',
                 }}
               >
                 <Logout sx={{ fontSize: '30px' }} />

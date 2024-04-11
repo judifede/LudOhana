@@ -26,10 +26,11 @@ import {
   VisibilityOffOutlined,
   VisibilityOutlined,
 } from '@mui/icons-material'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { login, signup, getUser } from '../../Services/auth'
 
 import { useNavigate } from 'react-router-dom'
+import { MenuContext } from '../../context/context'
 
 function Login() {
   const [isPassVisible, setIsPassVisible] = useState(false)
@@ -45,6 +46,8 @@ function Login() {
   const [registrationError, setRegistrationError] = useState('')
   const [loginError, setLoginError] = useState('')
   const [showLogin, setShowLogin] = useState('')
+  const {setIsMenuOpen} = useContext(MenuContext)
+
 
   const moveLeft = 'moveLeft'
   const moveRight = 'moveRigth'
@@ -99,7 +102,7 @@ function Login() {
         email,
         password,
       })
-      console.log("Hola una vez")
+      console.log('Hola una vez')
 
       onLocalStorage(res)
     } catch (error) {
@@ -129,10 +132,11 @@ function Login() {
     localStorage.setItem('profile', JSON.stringify(profile))
   }
 
-  const onLocalStorage = (res) => {
+  const onLocalStorage = async (res) => {
     localStorage.setItem('token', res.token)
     localStorage.setItem('role', res.role)
-    handleGetUsers()
+    setIsMenuOpen(null)
+    await handleGetUsers()
     navigate('/')
   }
 
