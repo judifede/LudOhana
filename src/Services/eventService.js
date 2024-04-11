@@ -40,9 +40,20 @@ export const getUserEvents = async () => {
   }
 }
 
-export const postCreateEvents = async () => {
+export const getEventsByState = async (state) => {
   try {
-    const { data } = await api.get('/api/events', {
+    const { data } = await api.get(`/api/events?state=${state}`, {
+      headers: { Authorization: localStorage.getItem('token') },
+    })
+    return data
+  } catch (error) {
+    console.error('Error al obtener eventos:', error.message)
+  }
+}
+
+export const getEventContributions = async (id) => {
+  try {
+    const { data } = await api.get(`/api/events/${id}/contributions`, {
       headers: { Authorization: localStorage.getItem('token') },
     })
     return data
@@ -67,6 +78,28 @@ export const registerUserEvent = async (inscribed, eventId) => {
       inscribed,
       { headers: { Authorization: localStorage.getItem('token') } }
     )
+    return data
+  } catch (error) {
+    console.error('Error al obtener evento:', error.message)
+  }
+}
+
+export const postCreateEvents = async () => {
+  try {
+    const { data } = await api.get('/api/events', {
+      headers: { Authorization: localStorage.getItem('token') },
+    })
+    return data
+  } catch (error) {
+    console.error('Error al obtener eventos:', error.message)
+  }
+}
+
+export const deleteEvent = async (eventId) => {
+  try {
+    const { data } = await api.delete('/api/events/' + eventId, {
+      headers: { Authorization: localStorage.getItem('token') },
+    })
     return data
   } catch (error) {
     console.error('Error al obtener evento:', error.message)

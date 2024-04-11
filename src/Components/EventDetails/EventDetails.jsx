@@ -45,6 +45,7 @@ const EventDetails = () => {
   const [modalInscribe, setModalInscribe] = useState('')
   const [modalCancelInscribe, setModalCancelInscribe] = useState('')
   const [inscribed, setInscribed] = useState(1)
+  const [amountInput, setAmountInput] = useState(5)
   const [userEvents, setUserEvents] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isUserInscribed, setIsUserInscribed] = useState()
@@ -70,7 +71,7 @@ const EventDetails = () => {
     const bodyObj = {
       name: events.title,
       description: events.description,
-      amount: !events.contributionRequired > 0 && 5,
+      amount: !events.contributionRequired > 0 && amountInput,
       eventId: eventId,
       user: JSON.parse(localStorage.getItem('profile')),
     }
@@ -428,13 +429,17 @@ const EventDetails = () => {
                   >
                     {events.isContributionRequired ? messageReq : messageOpt}
                   </Typography>
-                  {events.isContributionRequired ?? (
+                  {events.isContributionRequired || (
                     <TextField
                       type="number"
                       variant="outlined"
                       margin="dense"
+                      onChange={(e) => {
+                        setAmountInput(e.target.value)
+                      }}
                       placeholder="Cantidad a donar"
                     />
+                    
                   )}
                   <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Button

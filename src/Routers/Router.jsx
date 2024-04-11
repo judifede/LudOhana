@@ -8,6 +8,7 @@ import Profile from "../Pages/Profile/Profile";
 import EventDetails from "../Components/EventDetails/EventDetails";
 import Materials from "../Components/Materials/Materials"
 import SettingsLayout from "../Layouts/SettingsLayout";
+import EventsAdmin from "../Components/EventsAdmin/EventsAdmin";
 
 
 export const router = createBrowserRouter([
@@ -36,6 +37,9 @@ export const router = createBrowserRouter([
                     },
                     {  path:'materials',
                        element: <Materials/>
+                    },
+                    {  path:'events',
+                       element: <EventsAdmin/>
                     }
                 ]
             },

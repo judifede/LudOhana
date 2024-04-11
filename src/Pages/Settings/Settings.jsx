@@ -56,6 +56,27 @@ function Settings() {
           </CardContent>
         </Card>
 
+        <Card
+          elevation={4}
+          className="section cardHover"
+          onClick={() => navigate('events')}
+        >
+          <CardHeader
+            title="Eventos"
+            sx={{ textAlign: 'center', padding: '0' }}
+          />
+          <CardContent>
+            <InputAdornment
+              position="start"
+              sx={{ width: '100%', height: '90%', marginTop: '25%' }}
+            >
+              <Icon sx={{ width: '100%', height: '50%', marginTop: '10%' }}>
+                <CalendarMonth sx={{ fontSize: '100px' }} />
+              </Icon>
+            </InputAdornment>
+          </CardContent>
+        </Card>
+        
         <Card elevation={4} className="section cardHover">
           <CardHeader
             title="Donaciones"
@@ -68,23 +89,6 @@ function Settings() {
             >
               <Icon sx={{ width: '100%', height: '50%', marginTop: '10%' }}>
                 <VolunteerActivism sx={{ fontSize: '100px' }} />
-              </Icon>
-            </InputAdornment>
-          </CardContent>
-        </Card>
-
-        <Card elevation={4} className="section cardHover">
-          <CardHeader
-            title="Eventos"
-            sx={{ textAlign: 'center', padding: '0' }}
-          />
-          <CardContent>
-            <InputAdornment
-              position="start"
-              sx={{ width: '100%', height: '90%', marginTop: '25%' }}
-            >
-              <Icon sx={{ width: '100%', height: '50%', marginTop: '10%' }}>
-                <CalendarMonth sx={{ fontSize: '100px' }} />
               </Icon>
             </InputAdornment>
           </CardContent>
