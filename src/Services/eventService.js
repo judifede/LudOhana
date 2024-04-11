@@ -7,7 +7,6 @@ export const getCurrentEvents = async () => {
         return data
     } catch (error) {
         console.error('Error al obtener eventos:', error)
-        throw new Error('Error al obtener eventos')
     }
 }
 export const getPreviousEvents = async () => {
@@ -17,7 +16,6 @@ export const getPreviousEvents = async () => {
         return data
     } catch (error) {
         console.error('Error al obtener eventos:', error)
-        throw new Error('Error al obtener eventos previos')
     }
 }
 export const getUserEventsPrevious = async () => {
@@ -26,12 +24,11 @@ export const getUserEventsPrevious = async () => {
             '/api/events/user?filter=previous',
             {
                 headers:
-                { Authorization: localStorage.getItem('token') }
+                    { Authorization: localStorage.getItem('token') }
             })
         return data
     } catch (error) {
         console.error('Error al obtener eventos:', error)
-        throw new Error('Error al obtener histórico de eventos del usuario')
     }
 }
 
@@ -41,15 +38,13 @@ export const getUserEvents = async () => {
             '/api/events/user',
             {
                 headers:
-                { Authorization: localStorage.getItem('token') }
+                    { Authorization: localStorage.getItem('token') }
             })
         return data
     } catch (error) {
         console.error('Error al obtener eventos:', error)
-        throw new Error('Error al obtener eventos inscritos del ususario')
     }
 }
-
 
 export const getEventById = async (id) => {
     try {
@@ -57,7 +52,6 @@ export const getEventById = async (id) => {
         return data
     } catch (error) {
         console.error('Error al obtener evento:', error)
-        throw new Error('Error al obtener evento')
     }
 }
 
@@ -71,18 +65,17 @@ export const registerUserEvent = async (inscribed, eventId) => {
         return data
     } catch (error) {
         console.error('Error al obtener evento:', error)
-        throw new Error('Error al obtener evento')
     }
 }
 
-export const postCreateEvents = async (eventData) => {
+export const createEvent = async (eventData) => {
     try {
-        console.log(eventData);
+
         const { data } = await api.post(
-            '/api/events',eventData,
+            '/api/events', eventData,
             {
                 headers:
-                { Authorization: localStorage.getItem('token') }
+                    { Authorization: localStorage.getItem('token') }
             })
         return data
     } catch (error) {
