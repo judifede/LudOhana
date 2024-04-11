@@ -1,7 +1,6 @@
 import './Profile.css'
-import { Box, Grid } from '@mui/material'
+import {  Grid } from '@mui/material'
 import ProfileCard from '../../Components/ProfileCard/ProfileCard'
-import { useState } from 'react'
 
 function Profile() {
 
