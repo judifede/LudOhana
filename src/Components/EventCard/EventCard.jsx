@@ -69,13 +69,15 @@ const EventCard = ({
           <Cancel
             sx={{
               position: 'absolute',
-              top: '-20px',
-              right: '-5px',
+              top: '5px',
+              right: '5px',
+              borderRadius: "50%",
               cursor: 'pointer',
+              backgroundColor: "ludoGreenLight.main"
             }}
             onClick={() => setModalDeleteEvent('open')}
-            // onClick={() => deleteEvent(id)}
             color="error"
+            
           />
         )}
 
