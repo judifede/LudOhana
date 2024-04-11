@@ -16,7 +16,7 @@ const formatDate = (date) => {
     const hours = String(formattedDate.getHours()).padStart(2, '0')
     const minutes = String(formattedDate.getMinutes()).padStart(2, '0')
     const seconds = String(formattedDate.getSeconds()).padStart(2, '0')
-    console.log(date)
+    
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 

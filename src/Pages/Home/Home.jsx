@@ -3,22 +3,25 @@ import Carousel from 'react-material-ui-carousel'
 import { Paper, Grid } from '@mui/material'
 import { NavigateBefore, NavigateNext } from '@mui/icons-material'
 
-import imageUrl1 from '../../assets/FiestadeBurbujas.webp'
-import imageUrl2 from '../../assets/ninoDisfutandoMar.webp'
+import imageUrl1 from '../../assets/ninoinsecto.jpg'
+import imageUrl2 from '../../assets/ninosagua.jpg'
 import imageUrl3 from '../../assets/ninaConPerro.webp'
 
 function Home() {
   const CarrouselImgs = [imageUrl1, imageUrl2, imageUrl3]
-  const CarrouselHeaders = ["Fiesta de burbujas", "Header2", "Header3"]
-  const CarrouselTexts = ["Divertirse nunca fue tan fácil", "Text2", "Text3"]
+  const CarrouselHeaders = ["Safari de insectos", "Decubriendo el mar", "Aventura en el Bosque"]
+  const CarrouselTexts = ["¡Explora el fabuloso mundo de los insectos con actividades y observación!", "¡Ven con nosotros y descubre todas las maravillas que el mar nos ofrece!", "¡Explora la naturaleza con juegos y diversión para toda la familia!"]
   return (
     <Grid
       item
-      sx={{ marginTop: '20px' }}
+      sx={{ marginTop: '20px' /* , justifyContent: 'center' , display: 'flex' , alignItems: 'center' , height: '100vh'  */}}
       xs={10}
-      // sm={6} md={3} lg={3} xl={2.4}
+    // sm={6} md={3} lg={3} xl={2.4}
     >
-      <Carousel
+
+
+
+     <Carousel
         fullHeightHover={true}
         interval={7000}
         navButtonsProps={{
@@ -49,9 +52,10 @@ function Home() {
                 alt="Imagen de fastly.picsum.photos"
                 src={CarrouselImgs[i]}
                 className="carousel-img"
+                style={{ width: '100%', borderRadius: '10px 10px 0 0', objectFit: 'cover' }}
               />
               <hgroup className="carrousel-header">
-                <h2>{CarrouselHeaders[i]}</h2>
+                <h1>{CarrouselHeaders[i]}</h1>
                 <p>{CarrouselTexts[i]}</p>
               </hgroup>
             </Paper>
