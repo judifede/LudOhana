@@ -1,101 +1,93 @@
-.container{
-  
-    position: absolute;
-    z-index: 2;
-    width: 50vw;
-    min-height: 70vh;
-    top: 20%;
-    left: 25%;
-    box-shadow: -5px 5px 11px 0px #b5b5b3;
-    border-radius: 10px;
-    background-color: rgb(218, 221, 222); 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    
+.container {
+  position: absolute;
+  z-index: 2;
+  width: 50vw;
+  min-height: 70vh;
+  top: 20%;
+  left: 25%;
+  box-shadow: -5px 5px 11px 0px #b5b5b3;
+  border-radius: 10px;
+  background-color: rgb(218, 221, 222);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-#loginContainer{
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6%;
-    border-radius:10px 0 0 10px;
-    
-    }
-#registerContainer{
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 6%;
-    border-radius:0 10px 10px 0;
-        
- }
-
-  .image {
-    position: absolute;
-    z-index: 3;
-    width: 50%;
-    height: 100%;
-    display: inline;
-    left: 50%;
-    background-image: url("../../assets/ninaLogin.webp");
-    background-size: cover;
-    border-radius: 0 10px 10px 0;
+#loginContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6%;
+  border-radius: 10px 0 0 10px;
+}
+#registerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6%;
+  border-radius: 0 10px 10px 0;
 }
 
-
+.image {
+  position: absolute;
+  z-index: 3;
+  width: 50%;
+  height: 100%;
+  display: inline;
+  left: 50%;
+  background-image: url('../../assets/ninaLogin.webp');
+  background-size: cover;
+  border-radius: 0 10px 10px 0;
+}
 
 .moveRight {
-    animation: moveRightLogin 0.3s both;
+  animation: moveRightLogin 0.3s forwards;
 }
 
 @keyframes moveRightLogin {
-    0% {
-        transform: translate(-100%, 0%);
-    }
+  0% {
+    transform: translateX(-100%);
+  }
 
-    25% {
-        transform: translate(-45%, 0%);
-    }
+  25% {
+    transform: translateX(-45%);
+  }
 
-    50% {
-        transform: translate(-30%, 0%);
-    }
+  50% {
+    transform: translateX(-30%);
+  }
 
-    75% {
-        transform: translate(-15%, 0%);
-    }
+  75% {
+    transform: translateX(-15%);
+  }
 
-    100% {
-        transform: translate(0%, 0%);
-       
-    }
+  100% {
+    transform: translateX(0%);
+    border-radius: 0 10px 10px 0;
+  }
 }
 
 .moveLeft {
-    animation: moveLeftRegister 0.3s both;
+  animation: moveLeftRegister 0.3s forwards;
 }
 
 @keyframes moveLeftRegister {
-    0% {
-        transform: translate(0%, 0%);
-    }
+  0% {
+    transform: translateX(0%);
+  }
 
-    25% {
-        transform: translate(-15%, 0%);
-    }
+  25% {
+    transform: translateX(-15%);
+  }
 
-    50% {
-        transform: translate(-30%, 0%);
-    }
+  50% {
+    transform: translateX(-30%);
+  }
 
-    75% {
-        transform: translate(-45%, 0%);
-    }
+  75% {
+    transform: translateX(-45%);
+  }
 
-    100% {
-        transform: translate(-100%, 0%);
-        border-radius: 10px 0px 0px 10px;
-    }
+  100% {
+    transform: translateX(-100%);
+    border-radius: 10px 0px 0px 10px;
+  }
 }

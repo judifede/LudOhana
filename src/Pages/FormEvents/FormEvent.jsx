@@ -198,7 +198,7 @@ const FormEvent = () => {
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: localStorage.getItem("token") ? "start" : 'space-between',
                 alignItems: 'center',
                 gap: 2.5,
                 pt: 1.8,

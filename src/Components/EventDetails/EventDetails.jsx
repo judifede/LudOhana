@@ -39,7 +39,7 @@ const formatDate = (date) => {
 }
 
 const EventDetails = () => {
-  const [events, setEvents] = useState([])
+  const [event, setEvent] = useState([])
   const { eventId } = useParams()
 
   const [modalContribution, setModalContribution] = useState('')
@@ -54,9 +54,9 @@ const EventDetails = () => {
   const [isUserInscribed, setIsUserInscribed] = useState()
 
   const messageReq =
-    events.contributionRequired &&
+    event.contributionRequired &&
     `Este evento requiere una contribución de ${
-      events.contributionRequired * inscribed
+      event.contributionRequired * inscribed
     }€. para poder llevarse a cabo. ¿Desea continuar con  la inscripción?`
 
   const messageOpt =
@@ -72,9 +72,12 @@ const EventDetails = () => {
   const handleContribution = async () => {
     setModalContribution('')
     const bodyObj = {
-      name: events.title,
-      description: events.description,
-      amount: !events.contributionRequired > 0 && amountInput,
+      name: event.title,
+      description: event.description,
+      amount:
+        event.contributionRequired > 0
+          ? event.contributionRequired
+          : amountInput,
       eventId: eventId,
       user: JSON.parse(localStorage.getItem('profile')),
     }
@@ -105,7 +108,9 @@ const EventDetails = () => {
     const handleEvent = async () => {
       try {
         const eventData = await getEventById(eventId)
-        setEvents(eventData)
+        setEvent(eventData)
+        setIsLoading(false)
+        if (!localStorage.getItem('token')) return null
         const eventContributionData = await getEventContributions(eventId)
         const contributions = eventContributionData.contributions.reduce(
           (prev, curr) => {
@@ -114,9 +119,8 @@ const EventDetails = () => {
           0
         )
         setEventContribution(contributions)
-        setIsLoading(false)
       } catch (error) {
-        console.error('Error al obtener eventos:', error.message)
+        // console.error('Error al obtener eventos:', error.message)
       }
     }
 
@@ -172,7 +176,7 @@ const EventDetails = () => {
           component="img"
           sx={{ width: '40%' }}
           image={imageUrl}
-          alt={'Imagen del evento ' + events.title}
+          alt={'Imagen del evento ' + event.title}
         />
         <Box
           sx={{
@@ -192,7 +196,7 @@ const EventDetails = () => {
                 paddingBottom: '20px',
               }}
             >
-              {events.title}
+              {event.title}
             </Typography>
 
             <Typography
@@ -204,7 +208,7 @@ const EventDetails = () => {
                 paddingBottom: '20px',
               }}
             >
-              {events.description}
+              {event.description}
             </Typography>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -212,13 +216,13 @@ const EventDetails = () => {
                 <CalendarMonth />
 
                 <Typography variant="body1" color="text.main">
-                  <strong>Inicio:</strong> {formatDate(events.dateStart)}
+                  <strong>Inicio:</strong> {formatDate(event.dateStart)}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <CalendarMonth />
                 <Typography variant="body1" color="text.main">
-                  <strong>Fin:</strong> {formatDate(events.dateEnd)}
+                  <strong>Fin:</strong> {formatDate(event.dateEnd)}
                 </Typography>
               </Box>
               <Box
@@ -231,13 +235,13 @@ const EventDetails = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <LocationOn />
                   <Link
-                    to={events.addressUrl}
+                    to={event.addressUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: '#FF8000', textDecoration: 'underline' }}
                   >
                     <Typography variant="body2" color="text.main">
-                      {events.addressTitle}
+                      {event.addressTitle}
                     </Typography>
                   </Link>
                 </Box>
@@ -249,21 +253,23 @@ const EventDetails = () => {
                     color="text.main"
                   >
                     <strong>Participantes:</strong>
-                    {events.participants}
+                    {event.participants}
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Groups />
-                <Typography
-                  sx={{ display: 'flex', gap: 0.5 }}
-                  variant="body2"
-                  color="text.main"
-                >
-                  <strong>Contribuciones:</strong>
-                  {eventContribution}
-                </Typography>
-              </Box>
+              {localStorage.getItem('role') === 'admin' && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Groups />
+                  <Typography
+                    sx={{ display: 'flex', gap: 0.5 }}
+                    variant="body2"
+                    color="text.main"
+                  >
+                    <strong>Contribuciones:</strong>
+                    {eventContribution}
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </CardContent>
 
@@ -281,17 +287,19 @@ const EventDetails = () => {
                 marginTop: 'auto',
               }}
             >
-              <Button
-                variant="contained"
-                color={isUserInscribed ? 'error' : 'success'}
-                onClick={() => {
-                  isUserInscribed
-                    ? setModalCancelInscribe('open')
-                    : setModalInscribe('open')
-                }}
-              >
-                {isUserInscribed ? 'Cancelar inscripción' : 'Inscribirse'}
-              </Button>
+              {localStorage.getItem('token') && (
+                <Button
+                  variant="contained"
+                  color={isUserInscribed ? 'error' : 'success'}
+                  onClick={() => {
+                    isUserInscribed
+                      ? setModalCancelInscribe('open')
+                      : setModalInscribe('open')
+                  }}
+                >
+                  {isUserInscribed ? 'Cancelar inscripción' : 'Inscribirse'}
+                </Button>
+              )}
 
               <Modal
                 open={modalInscribe !== ''}
@@ -452,9 +460,9 @@ const EventDetails = () => {
                     component="h2"
                     textAlign={'left'}
                   >
-                    {events.isContributionRequired ? messageReq : messageOpt}
+                    {event.isContributionRequired ? messageReq : messageOpt}
                   </Typography>
-                  {events.isContributionRequired || (
+                  {event.isContributionRequired || (
                     <TextField
                       type="number"
                       variant="outlined"

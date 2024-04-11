@@ -225,7 +225,7 @@ function Profile() {
                 ¿Estás seguro de que deseas eliminar tu cuenta?
               </Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'right', gap:'20px'  }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-around', gap:'20px'  }}>
                 <Button
                   variant="contained"
                   color="success"
@@ -234,7 +234,7 @@ function Profile() {
                     setModalDelete('')
                   }}
                 >
-                  Volver
+                  No
                 </Button>
                 <Button
                   variant="contained"

@@ -25,44 +25,43 @@ const EventCardList = () => {
   const [filterTitle, setFilterTitle] = useState('Eventos Próximos')
   const [refresh, setRefresh] = useState(false)
 
-  const fetchData = async () => {
-    try {
-      const EVENTS_STATES = {
-        propoused: 'Propoused',
-        pending: 'Pending',
-        aproved: 'Aproved',
-        rejected: 'Rejected',
-      }
-      let eventsData = []
-
-      if (filter === 'current') {
-        eventsData = await getCurrentEvents()
-      } else if (filter === 'previous') {
-        eventsData = await getPreviousEvents()
-      } else if (filter === 'userPreviousEvents') {
-        eventsData = await getUserEventsPrevious()
-      } else if (filter === 'userEventInscribed') {
-        eventsData = await getUserEvents()
-      } else if (filter === 'EventosPropuestos') {
-        eventsData = await getEventsByState(EVENTS_STATES.propoused)
-      } else if (filter === 'EventosPendientes') {
-        eventsData = await getEventsByState(EVENTS_STATES.pending)
-      } else if (filter === 'EventosAprobados') {
-        eventsData = await getEventsByState(EVENTS_STATES.aproved)
-      } else if (filter === 'EventosRechazados') {
-        eventsData = await getEventsByState(EVENTS_STATES.rejected)
-      }
-
-      if (eventsData) {
-        setEvents(eventsData)
-        setIsLoading(false)
-      }
-    } catch (error) {
-      console.error('Error al obtener eventos:', error)
-    }
-  }
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const EVENTS_STATES = {
+          propoused: 'Propoused',
+          pending: 'Pending',
+          aproved: 'Aproved',
+          rejected: 'Rejected',
+        }
+        let eventsData = []
+
+        if (filter === 'current') {
+          eventsData = await getCurrentEvents()
+        } else if (filter === 'previous') {
+          eventsData = await getPreviousEvents()
+        } else if (filter === 'userPreviousEvents') {
+          eventsData = await getUserEventsPrevious()
+        } else if (filter === 'userEventInscribed') {
+          eventsData = await getUserEvents()
+        } else if (filter === 'EventosPropuestos') {
+          eventsData = await getEventsByState(EVENTS_STATES.propoused)
+        } else if (filter === 'EventosPendientes') {
+          eventsData = await getEventsByState(EVENTS_STATES.pending)
+        } else if (filter === 'EventosAprobados') {
+          eventsData = await getEventsByState(EVENTS_STATES.aproved)
+        } else if (filter === 'EventosRechazados') {
+          eventsData = await getEventsByState(EVENTS_STATES.rejected)
+        }
+
+        if (eventsData) {
+          setEvents(eventsData)
+          setIsLoading(false)
+        }
+      } catch (error) {
+        // console.error('Error al obtener eventos:', error)
+      }
+    }
     fetchData()
   }, [filter, refresh])
 
@@ -107,18 +106,20 @@ const EventCardList = () => {
           <h1>{filterTitle}</h1>
         </div>
         <div className="filter-bar">
-          <Button
-            href="/form-event"
-            style={{
-              color: 'green',
-              textDecoration: 'underline',
-              marginRight: '20px',
-            }}
-          >
-            {localStorage.getItem('role') === 'admin'
-              ? 'Crear Evento'
-              : 'Proponer Evento'}
-          </Button>
+          {localStorage.getItem('token') && (
+            <Button
+              href="/form-event"
+              style={{
+                color: 'green',
+                textDecoration: 'underline',
+                marginRight: '20px',
+              }}
+            >
+              {localStorage.getItem('role') === 'admin'
+                ? 'Crear Evento'
+                : 'Proponer Evento'}
+            </Button>
+          )}
           <FormControl>
             <InputLabel id="filter-label" />
             <Select
@@ -136,7 +137,7 @@ const EventCardList = () => {
                   Mis Eventos Anteriores
                 </MenuItem>
               )}
-              {localStorage.getItem('rolePropuesta de Evento') === 'user' && (
+              {localStorage.getItem('role') === 'user' && (
                 <MenuItem value="userEventInscribed">
                   Mis Eventos Inscritos
                 </MenuItem>

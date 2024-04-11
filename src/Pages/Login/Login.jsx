@@ -46,12 +46,10 @@ function Login() {
   const [registrationError, setRegistrationError] = useState('')
   const [loginError, setLoginError] = useState('')
   const [showLogin, setShowLogin] = useState('')
-  const {setIsMenuOpen} = useContext(MenuContext)
-
+  const { setIsMenuOpen } = useContext(MenuContext)
 
   const moveLeft = 'moveLeft'
-  const moveRight = 'moveRigth'
-
+  const moveRight = 'moveRight'
   const navigate = useNavigate()
 
   const handleEmailValidation = () => {
@@ -425,13 +423,19 @@ function Login() {
             bgcolor: 'background.paper',
             borderRadius: 2,
             boxShadow: 24,
+            textAlign: 'center',
             p: 4,
           }}
         >
-          <Typography id="modal-title" variant="h6" component="h2">
+          <Typography
+            id="modal-title"
+            sx={{ textAlign: 'left' }}
+            variant="h6"
+            component="h2"
+          >
             Error de Registro
           </Typography>
-          <Typography id="modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-description" sx={{ textAlign: 'left', mt: 2 }}>
             {registrationError}
           </Typography>
           <Button
@@ -465,13 +469,19 @@ function Login() {
             bgcolor: 'background.paper',
             borderRadius: 2,
             boxShadow: 24,
+            textAlign: 'center',
             p: 4,
           }}
         >
-          <Typography id="modal-title" variant="h6" component="h2">
+          <Typography
+            id="modal-title"
+            sx={{ textAlign: 'left' }}
+            variant="h6"
+            component="h2"
+          >
             Error de Registro
           </Typography>
-          <Typography id="modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-description" sx={{ textAlign: 'left', mt: 2 }}>
             {loginError}
           </Typography>
           <Button

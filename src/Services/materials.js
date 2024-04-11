@@ -30,7 +30,7 @@ export const addMaterialEvent = async (eventId, materialId, materialData) => {
     )
     return data
   } catch (error) {
-    console.log(error)
+    // console.error(error)
   }
 }
 
@@ -48,6 +48,6 @@ export const createMaterialEvent = async (materialData) => {
     })
     return data
   } catch (error) {
-    console.log(error)
+    // console.error(error)
   }
 }

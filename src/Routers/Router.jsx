@@ -10,6 +10,7 @@ import FormEvent from '../Pages/FormEvents/FormEvent'
 import Materials from '../Components/Materials/Materials'
 import SettingsLayout from '../Layouts/SettingsLayout'
 import EventsAdmin from '../Components/EventsAdmin/EventsAdmin'
+import { redirect } from 'react-router-dom'
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,13 @@ export const router = createBrowserRouter([
       {
         path: 'settings',
         element: <SettingsLayout />,
+        loader: () => {
+          if (localStorage.getItem('role') === 'admin') {
+            return null
+          } else {
+            return redirect('/')
+          }
+        },
         children: [
           { path: '', element: <Settings /> },
           { path: 'materials', element: <Materials /> },
@@ -40,6 +48,13 @@ export const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />,
+        loader: () => {
+          if (localStorage.getItem('token')) {
+            return null
+          } else {
+            return redirect('/')
+          }
+        },
       },
       {
         path: 'login',
@@ -48,10 +63,24 @@ export const router = createBrowserRouter([
       {
         path: 'form-event',
         element: <FormEvent />,
+        loader: () => {
+          if (localStorage.getItem('token')) {
+            return null
+          } else {
+            return redirect('/')
+          }
+        },
       },
       {
         path: 'form-event/:eventId',
         element: <FormEvent />,
+        loader: () => {
+          if (localStorage.getItem('token')) {
+            return null
+          } else {
+            return redirect('/')
+          }
+        },
       },
     ],
   },

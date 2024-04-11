@@ -6,7 +6,7 @@ export const getCurrentEvents = async () => {
 
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    // console.error('Error al obtener eventos:', error.message)
   }
 }
 export const getPreviousEvents = async () => {
@@ -15,7 +15,7 @@ export const getPreviousEvents = async () => {
 
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    // console.error('Error al obtener eventos:', error.message)
   }
 }
 export const getUserEventsPrevious = async () => {
@@ -25,7 +25,10 @@ export const getUserEventsPrevious = async () => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    if (error.response && error.response.status === 404) {
+      return []
+    }
+    // console.error('Error al obtener eventos:', error)
   }
 }
 
@@ -34,9 +37,13 @@ export const getUserEvents = async () => {
     const { data } = await api.get('/api/events/user', {
       headers: { Authorization: localStorage.getItem('token') },
     })
+
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    if (error.response && error.response.status === 404) {
+      return []
+    }
+    //console.error('Error al obtener eventos:', error)
   }
 }
 
@@ -47,7 +54,7 @@ export const getEventsByState = async (state) => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    // console.error('Error al obtener eventos:', error.message)
   }
 }
 
@@ -58,7 +65,7 @@ export const getEventContributions = async (id) => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    // console.error('Error al obtener eventos:', error.message)
   }
   try {
     const { data } = await api.get('/api/events/user', {
@@ -66,7 +73,7 @@ export const getEventContributions = async (id) => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    // console.error('Error al obtener eventos:', error.message)
   }
 }
 
@@ -75,7 +82,7 @@ export const getEventById = async (id) => {
     const { data } = await api.get('/api/events/' + id)
     return data
   } catch (error) {
-    console.error('Error al obtener evento:', error.message)
+    // console.error('Error al obtener evento:', error.message)
   }
 }
 
@@ -88,7 +95,7 @@ export const registerUserEvent = async (inscribed, eventId) => {
     )
     return data
   } catch (error) {
-    console.error('Error al obtener evento:', error.message)
+    // console.error('Error al obtener evento:', error.message)
   }
 }
 
@@ -99,18 +106,18 @@ export const createEvent = async (eventData) => {
     })
     return data
   } catch (error) {
-    console.error('Error al crear eventos:', error)
+    // console.error('Error al crear eventos:', error)
   }
 }
 
 export const updateEvent = async (eventId, eventData) => {
   try {
-    const { data } = await api.put('/api/events/'+eventId, eventData, {
+    const { data } = await api.put('/api/events/' + eventId, eventData, {
       headers: { Authorization: localStorage.getItem('token') },
     })
     return data
   } catch (error) {
-    console.error('Error al crear eventos:', error)
+    // console.error('Error al crear eventos:', error)
   }
 }
 
@@ -121,7 +128,7 @@ export const postCreateEvents = async () => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener eventos:', error.message)
+    // console.error('Error al obtener eventos:', error.message)
   }
 }
 
@@ -132,7 +139,7 @@ export const deleteEvent = async (eventId) => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener evento:', error.message)
+    // console.error('Error al obtener evento:', error.message)
   }
 }
 
@@ -143,6 +150,6 @@ export const deleteUserEvent = async (eventId) => {
     })
     return data
   } catch (error) {
-    console.error('Error al obtener evento:', error.message)
+    // console.error('Error al obtener evento:', error.message)
   }
 }
