@@ -43,7 +43,7 @@ function Materials() {
   const [amountUsedMaterials, setAmountUsedMaterials] = useState([])
   const [inputsValue, setInputsValues] = useState({})
   const [eventInput, setEventInput] = useState('')
-  const [refresh,setRefresh] = useState('')
+  const [refresh,setRefresh] = useState(false)
 
 
 
@@ -57,7 +57,7 @@ function Materials() {
     if (res.message) {
       setIsOpenModalAddRelation((prev) => !prev)
       setIsOpenModalCreate((prev) => !prev)
-      setRefresh("handleCreateMaterialEvent")
+      setRefresh((prev) => !prev)
     }
   }
 
@@ -99,7 +99,7 @@ function Materials() {
         eventId:eventInput.id,
         amountUsed:amountUsedMaterials,
       })
-      setRefresh("handleUpdateMaterials")
+      setRefresh((prev) => !prev)
     }
   }
 
