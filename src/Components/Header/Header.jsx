@@ -124,29 +124,31 @@ function Header() {
                 Editar
               </Link>
             </MenuItem>
-            <MenuItem>
-              <Link
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  color: 'texts.main',
-                }}
-                to="/settings"
-              >
-                <Icon
-                  sx={{
-                    width: '40px',
-                    height: '40px',
+            {localStorage.getItem('role') === 'admin' && (
+              <MenuItem>
+                <Link
+                  style={{
                     display: 'flex',
                     alignItems: 'center',
                     color: 'texts.main',
                   }}
+                  to="/settings"
                 >
-                  <Settings sx={{ fontSize: '30px' }} />
-                </Icon>
-                Ajustes
-              </Link>
-            </MenuItem>
+                  <Icon
+                    sx={{
+                      width: '40px',
+                      height: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      color: 'texts.main',
+                    }}
+                  >
+                    <Settings sx={{ fontSize: '30px' }} />
+                  </Icon>
+                  Ajustes
+                </Link>
+              </MenuItem>
+            )}
 
             <MenuItem
               onClick={() => {

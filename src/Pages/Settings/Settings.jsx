@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import {
   Construction,
-  VolunteerActivism,
+  // VolunteerActivism,
   CalendarMonth,
 } from '@mui/icons-material'
 import './Settings.css'
