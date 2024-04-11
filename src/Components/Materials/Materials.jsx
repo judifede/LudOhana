@@ -55,13 +55,11 @@ function Materials() {
      })
 
    
-   console.log(nameMaterial,amountMaterial,amountUsedMaterials);
    const data = await updateMaterials(materialId, {
       name: nameMaterial,
       amount: amountMaterial,
     })
     if(data.message ){
-  console.log()
        await addMaterialEvent(eventId,materialId,{eventInputId,amountUsedMaterials})
     }
 

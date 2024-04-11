@@ -215,8 +215,7 @@ const EventCard = ({
           <Button
             variant="contained"
             color="success"
-            //TODO: Cambiar en Producción
-            href={'http://localhost:5173/events/' + id}
+            href={'/events/' + id}
           >
             Info
           </Button>
@@ -224,7 +223,7 @@ const EventCard = ({
             <Button
               variant="contained"
               color="warning"
-              //TODO: href={'events/'+id}
+              //TODO FORMULARIO COMO PROPUESTA
             >
               Editar
             </Button>

@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import {
   deleteUserEvent,
   getEventById,
+  getEventContributions,
   getUserEvents,
   registerUserEvent,
 } from '../../Services/eventService'
@@ -47,7 +48,10 @@ const EventDetails = () => {
   const [inscribed, setInscribed] = useState(1)
   const [amountInput, setAmountInput] = useState(5)
   const [userEvents, setUserEvents] = useState([])
+  const [eventContribution, setEventContribution] = useState(0)
+
   const [isLoading, setIsLoading] = useState(true)
+  // const [refresh, setRefresh] = useState(false)
   const [isUserInscribed, setIsUserInscribed] = useState()
 
   const messageReq =
@@ -101,8 +105,16 @@ const EventDetails = () => {
   useEffect(() => {
     const handleEvent = async () => {
       try {
-        const eventsData = await getEventById(eventId)
-        setEvents(eventsData)
+        const eventData = await getEventById(eventId)
+        setEvents(eventData)
+        const eventContributionData = await getEventContributions(eventId)
+        const contributions = eventContributionData.contributions.reduce(
+          (prev, curr) => {
+            return prev + curr.amount
+          },
+          0
+        )
+        setEventContribution(contributions)
         setIsLoading(false)
       } catch (error) {
         console.error('Error al obtener eventos:', error.message)
@@ -115,9 +127,8 @@ const EventDetails = () => {
   useEffect(() => {
     const handleInscribedEvent = async () => {
       try {
-        const eventsData = await getUserEvents()
-        console.log(eventsData)
-        if (!eventsData.messageError) setUserEvents(eventsData)
+        const eventData = await getUserEvents()
+        if (!eventData.messageError) setUserEvents(eventData)
       } catch (error) {
         console.error('Error al obtener eventos:', error.message)
       }
@@ -233,11 +244,26 @@ const EventDetails = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Groups />
-                  <Typography variant="body2" color="text.main">
+                  <Typography
+                    sx={{ display: 'flex', gap: 0.5 }}
+                    variant="body2"
+                    color="text.main"
+                  >
                     <strong>Participantes:</strong>
                     {events.participants}
                   </Typography>
                 </Box>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Groups />
+                <Typography
+                  sx={{ display: 'flex', gap: 0.5 }}
+                  variant="body2"
+                  color="text.main"
+                >
+                  <strong>Contribuciones:</strong>
+                  {eventContribution}
+                </Typography>
               </Box>
             </Box>
           </CardContent>
@@ -439,7 +465,6 @@ const EventDetails = () => {
                       }}
                       placeholder="Cantidad a donar"
                     />
-                    
                   )}
                   <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Button
