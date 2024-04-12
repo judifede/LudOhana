@@ -8,6 +8,8 @@ import {
   Button,
   Box,
   CircularProgress,
+  MenuItem,
+  Select,
 } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
@@ -41,6 +43,7 @@ const FormEvent = () => {
     dateStart: '',
     dateEnd: '',
     addressURL: '',
+    state: '',
     participants: 0,
     imageUrl: '',
     isContributionRequired: false,
@@ -49,8 +52,16 @@ const FormEvent = () => {
 
   const [dateStart, setStartDate] = useState(null)
   const [dateEnd, setEndDate] = useState(null)
+  const [eventState, setEventState] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const { eventId } = useParams()
+
+  const EVENTS_STATES = {
+    propoused: 'Propoused',
+    pending: 'Pending',
+    aproved: 'Aproved',
+    rejected: 'Rejected',
+  }
 
   const navigate = useNavigate()
 
@@ -79,6 +90,14 @@ const FormEvent = () => {
     setFormData((prevState) => ({
       ...prevState,
       dateEnd: formattedDate,
+    }))
+  }
+
+  const handleFilterChange = (event) => {
+    setEventState(event.target.value)
+    setFormData((prevState) => ({
+      ...prevState,
+      state: event.target.value,
     }))
   }
 
@@ -111,8 +130,11 @@ const FormEvent = () => {
         }
 
         const eventData = await getEventById(eventId)
+        console.log(eventData)
 
         setFormData(eventData)
+        setEventState(eventData.state)
+        console.log(formData)
 
         setIsLoading(false)
       } catch (error) {
@@ -198,7 +220,9 @@ const FormEvent = () => {
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: localStorage.getItem("token") ? "start" : 'space-between',
+                justifyContent: localStorage.getItem('token')
+                  ? 'start'
+                  : 'space-between',
                 alignItems: 'center',
                 gap: 2.5,
                 pt: 1.8,
@@ -206,6 +230,22 @@ const FormEvent = () => {
             >
               {localStorage.getItem('role') === 'admin' && (
                 <>
+                  <Select
+                    labelId="filter-label"
+                    name="state"
+                    value={eventState}
+                    onChange={()=>{handleFilterChange}}
+                    // sx={{ width: '250px' }}
+                  >
+                    <MenuItem value={EVENTS_STATES.propoused}>
+                      Propuesta
+                    </MenuItem>
+                    <MenuItem value={EVENTS_STATES.pending}>Pendiente</MenuItem>
+                    <MenuItem value={EVENTS_STATES.aproved}>Aprobada</MenuItem>
+                    <MenuItem value={EVENTS_STATES.rejected}>
+                      Rechazada
+                    </MenuItem>
+                  </Select>
                   <TextField
                     type="number"
                     label="Participantes"

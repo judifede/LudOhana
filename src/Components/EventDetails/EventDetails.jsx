@@ -11,7 +11,12 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material'
-import { CalendarMonth, Groups, LocationOn } from '@mui/icons-material'
+import {
+  CalendarMonth,
+  Groups,
+  LocationOn,
+  VolunteerActivism,
+} from '@mui/icons-material'
 import { useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 
@@ -190,26 +195,14 @@ const EventDetails = () => {
         <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
       )}
       <Card
-        sx={{ minHeight: '400px', position: 'relative' }}
+        sx={{ minHeight: '400px' }}
         className="eventDetailCard"
         elevation={4}
       >
-        <Link to={'/events'}>
-          <ArrowBackIosNewIcon
-            sx={{
-              fontSize: '35px',
-              backgroundColor: 'white',
-              borderRadius: '50%',
-              position: 'absolute',
-              top: 0,
-            }}
-          />
-        </Link>
-
         <CardMedia
           className="eventDetailImg"
           component="img"
-          sx={{ width: '40%', aspectRatio: "3/2" }}
+          sx={{ width: '40%', aspectRatio: '3/2' }}
           image={imageUrlObj[event.id]}
           alt={'Imagen del evento ' + event.title}
         />
@@ -221,7 +214,19 @@ const EventDetails = () => {
             justifyContent: 'space-around',
           }}
         >
-          <CardContent sx={{ padding: '20px', paddingBottom: '0' }}>
+          <CardContent sx={{ padding: '20px', paddingBottom: '0', position: 'relative' }}>
+            <Link to={'/events'}>
+              <ArrowBackIosNewIcon
+                sx={{
+                  fontSize: '35px',
+                  backgroundColor: '#FFFFFFDD',
+                  borderRadius: '50%',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0
+                }}
+              />
+            </Link>
             <Typography
               gutterBottom
               variant="h5"
@@ -295,7 +300,7 @@ const EventDetails = () => {
               </Box>
               {localStorage.getItem('role') === 'admin' && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Groups />
+                  <VolunteerActivism />
                   <Typography
                     sx={{ display: 'flex', gap: 0.5 }}
                     variant="body2"
