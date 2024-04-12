@@ -10,7 +10,17 @@ import {
 } from '@mui/material'
 import { CalendarMonth, Groups, LocationOn, Cancel } from '@mui/icons-material'
 
-import imageUrl from '../../assets/FiestadeBurbujas.webp'
+import imageUrl1 from '../../assets/events/1.webp'
+import imageUrl2 from '../../assets/events/2.webp'
+import imageUrl3 from '../../assets/events/3.webp'
+import imageUrl4 from '../../assets/events/4.webp'
+import imageUrl5 from '../../assets/events/5.webp'
+import imageUrl6 from '../../assets/events/6.webp'
+import imageUrl7 from '../../assets/events/7.webp'
+import imageUrl8 from '../../assets/events/8.webp'
+import imageUrl9 from '../../assets/events/9.webp'
+import imageUrl10 from '../../assets/events/10.webp'
+
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { deleteEvent } from '../../Services/eventService'
@@ -43,6 +53,19 @@ const EventCard = ({
   const [modalDeleteEvent, setModalDeleteEvent] = useState('')
 
   const messageDeleteEvent = '¿Estás seguro de que quieres borrar el evento?'
+
+  const imageUrlObj = {
+    1: imageUrl1,
+    2: imageUrl2,
+    3: imageUrl3,
+    4: imageUrl4,
+    5: imageUrl5,
+    6: imageUrl6,
+    7: imageUrl7,
+    8: imageUrl8,
+    9: imageUrl9,
+    10: imageUrl10,
+  }
 
   const handleDeleteEvent = async () => {
     await deleteEvent(id)
@@ -88,9 +111,7 @@ const EventCard = ({
           }}
           elevation={4}
         >
-          
-
-          <CardMedia component="img" image={imageUrl} alt={title} />
+          <CardMedia component="img" image={imageUrlObj[id]} alt={title} sx={{aspectRatio: "3/2"}} />
           <CardContent sx={{ p: 3 }}>
             <Typography
               gutterBottom
@@ -185,64 +206,64 @@ const EventCard = ({
         </Card>
       </Link>
       <Modal
-            open={modalDeleteEvent !== ''}
-            onClose={() => {
-              setModalDeleteEvent('')
-            }}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description"
+        open={modalDeleteEvent !== ''}
+        onClose={() => {
+          setModalDeleteEvent('')
+        }}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            textAlign: 'center',
+            bgcolor: 'background.paper',
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography
+            id="modal-title"
+            variant="h6"
+            component="h2"
+            textAlign={'left'}
           >
-            <Box
+            {messageDeleteEvent}
+          </Typography>
+
+          <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px' }}>
+            <Button
+              variant="text"
+              color="success"
               sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                textAlign: 'center',
-                bgcolor: 'background.paper',
-                borderRadius: 2,
-                boxShadow: 24,
-                p: 4,
+                mt: 2,
+                textDecoration: 'underline',
+                textUnderlineOffset: '6px',
+              }}
+              onClick={() => {
+                setModalDeleteEvent('')
               }}
             >
-              <Typography
-                id="modal-title"
-                variant="h6"
-                component="h2"
-                textAlign={'left'}
-              >
-                {messageDeleteEvent}
-              </Typography>
-
-              <Box sx={{ display: 'flex', justifyContent: 'end', gap: '20px' }}>
-                <Button
-                  variant="text"
-                  color="success"
-                  sx={{
-                    mt: 2,
-                    textDecoration: 'underline',
-                    textUnderlineOffset: '6px',
-                  }}
-                  onClick={() => {
-                    setModalDeleteEvent('')
-                  }}
-                >
-                  Volver
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  sx={{ mt: 2 }}
-                  onClick={() => {
-                    handleDeleteEvent()
-                  }}
-                >
-                  Borrar
-                </Button>
-              </Box>
-            </Box>
-          </Modal>
+              Volver
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ mt: 2 }}
+              onClick={() => {
+                handleDeleteEvent()
+              }}
+            >
+              Borrar
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   )
 }

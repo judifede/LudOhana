@@ -14,7 +14,18 @@ import {
 import { CalendarMonth, Groups, LocationOn } from '@mui/icons-material'
 import { useParams } from 'react-router-dom'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
-import imageUrl from '../../assets/FiestadeBurbujas.webp'
+
+import imageUrl1 from '../../assets/events/1.webp'
+import imageUrl2 from '../../assets/events/2.webp'
+import imageUrl3 from '../../assets/events/3.webp'
+import imageUrl4 from '../../assets/events/4.webp'
+import imageUrl5 from '../../assets/events/5.webp'
+import imageUrl6 from '../../assets/events/6.webp'
+import imageUrl7 from '../../assets/events/7.webp'
+import imageUrl8 from '../../assets/events/8.webp'
+import imageUrl9 from '../../assets/events/9.webp'
+import imageUrl10 from '../../assets/events/10.webp'
+
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import {
@@ -68,6 +79,19 @@ const EventDetails = () => {
     '¿Estás seguro de que quieres cancelar tu inscripción?'
   const warningCancelIns =
     'Si desea recuperar su donación debe ponerse en contacto con ludohana.group@gmail.com.'
+
+  const imageUrlObj = {
+    1: imageUrl1,
+    2: imageUrl2,
+    3: imageUrl3,
+    4: imageUrl4,
+    5: imageUrl5,
+    6: imageUrl6,
+    7: imageUrl7,
+    8: imageUrl8,
+    9: imageUrl9,
+    10: imageUrl10,
+  }
 
   const handleInscribe = async () => {
     setModalInscribe('')
@@ -185,8 +209,8 @@ const EventDetails = () => {
         <CardMedia
           className="eventDetailImg"
           component="img"
-          sx={{ width: '40%' }}
-          image={imageUrl}
+          sx={{ width: '40%', aspectRatio: "3/2" }}
+          image={imageUrlObj[event.id]}
           alt={'Imagen del evento ' + event.title}
         />
 

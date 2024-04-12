@@ -3,9 +3,9 @@ import Carousel from 'react-material-ui-carousel'
 import { Paper, Grid } from '@mui/material'
 import { NavigateBefore, NavigateNext } from '@mui/icons-material'
 
-import imageUrl1 from '../../assets/ninoinsecto.jpg'
-import imageUrl2 from '../../assets/ninosagua.jpg'
-import imageUrl3 from '../../assets/ninaConPerro.webp'
+import imageUrl1 from '../../assets/carrousel/ninoinsecto.jpg'
+import imageUrl2 from '../../assets/carrousel/ninosagua.webp'
+import imageUrl3 from '../../assets/carrousel/ninaConPerro.webp'
 
 function Home() {
   const CarrouselImgs = [imageUrl1, imageUrl2, imageUrl3]
