@@ -216,6 +216,7 @@ const EventCard = ({
             justifyContent: 'end',
             gap: "10px",
             pb: 3,
+            pr: 3,
           }}
         >
           <Button variant="contained" color="success" href={'/events/' + id}>

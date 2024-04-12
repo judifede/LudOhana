@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import { CalendarMonth, Groups, LocationOn } from '@mui/icons-material'
 import { useParams } from 'react-router-dom'
-
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import imageUrl from '../../assets/FiestadeBurbujas.webp'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -166,10 +166,22 @@ const EventDetails = () => {
         <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
       )}
       <Card
-        sx={{ minHeight: '400px' }}
+        sx={{ minHeight: '400px', position: 'relative' }}
         className="eventDetailCard"
         elevation={4}
       >
+        <Link to={'/events'}>
+          <ArrowBackIosNewIcon
+            sx={{
+              fontSize: '35px',
+              backgroundColor: 'white',
+              borderRadius: '50%',
+              position: 'absolute',
+              top: 0,
+            }}
+          />
+        </Link>
+
         <CardMedia
           className="eventDetailImg"
           component="img"
@@ -177,6 +189,7 @@ const EventDetails = () => {
           image={imageUrl}
           alt={'Imagen del evento ' + event.title}
         />
+
         <Box
           sx={{
             display: 'flex',
