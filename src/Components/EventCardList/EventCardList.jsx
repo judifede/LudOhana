@@ -17,7 +17,6 @@ import {
   CircularProgress,
 } from '@mui/material'
 import FilterAlt from '@mui/icons-material/FilterAlt'
-import { Link } from 'react-router-dom'
 
 const EventCardList = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -171,9 +170,7 @@ const EventCardList = () => {
 
         <div className="event-card-container">
           {events.map((event) => (
-            <Link key={event.id} to={'/events/' + event.id}>
-              <EventCard event={event} setRefresh={setRefresh} />
-            </Link>
+            <EventCard key={event.id} event={event} setRefresh={setRefresh} />
           ))}
         </div>
       </div>
