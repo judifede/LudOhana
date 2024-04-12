@@ -26,14 +26,11 @@ function Profile() {
   const [profile, setProfile] = useState({})
   const [modalDelete, setModalDelete] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const warningChangeEmail =
-    'Si necesita realizar un cambio de correo electrónico, por favor, póngase en contacto con ludohana.group@gmail.com.'
 
   const handleGetUsers = async () => {
     const res = await getUser()
     setProfile(res)
     setIsLoading(false)
-
   }
 
   useEffect(() => {
@@ -71,13 +68,11 @@ function Profile() {
   return (
     <Grid
       item
-      sx={{ marginTop: '20px' }}
+      sx={{ marginTop: '70px' }}
       xs={6}
       // sm={6} md={3} lg={3} xl={2.4}
     >
-      {isLoading && (
-        <CircularProgress />
-      )}
+      {isLoading && <CircularProgress />}
       <Card
         elevation={4}
         sx={{
@@ -87,10 +82,10 @@ function Profile() {
           alignItems: 'center',
           position: 'relative',
           overflow: 'visible',
-          paddingTop: '50px',
+          paddingTop: '60px',
         }}
       >
-        <AccountCircle className="profileImg" sx={{ fontSize: '100px' }} />
+        <AccountCircle className="profileImg" sx={{ fontSize: '120px' }} />
         <CardContent>
           <Box sx={{ display: 'flex', gap: '10px' }}>
             <TextField
@@ -176,11 +171,18 @@ function Profile() {
             component="p"
             sx={{ marginTop: '16px', fontWeight: '400' }}
           >
-            {warningChangeEmail}
+            Si necesita realizar un cambio de correo electrónico, por favor,
+            póngase en contacto con <strong>ludohana.group@gmail.com.</strong>
           </Typography>
         </CardContent>
         <CardActions
-          sx={{ width: '100%', justifyContent: 'right', pb: 4, gap:'10px',pr:9 }}
+          sx={{
+            width: '100%',
+            justifyContent: 'right',
+            pb: 4,
+            gap: '10px',
+            pr: 2,
+          }}
         >
           <Button
             onClick={() => {
@@ -225,7 +227,13 @@ function Profile() {
                 ¿Estás seguro de que deseas eliminar tu cuenta?
               </Typography>
 
-              <Box sx={{ display: 'flex', justifyContent: 'space-around', gap:'20px'  }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  gap: '20px',
+                }}
+              >
                 <Button
                   variant="contained"
                   color="success"

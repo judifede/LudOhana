@@ -342,7 +342,7 @@ const EventDetails = () => {
                     placeholder="Número de inscritos"
                   />
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button
                       variant="contained"
                       color="success"
@@ -398,7 +398,7 @@ const EventDetails = () => {
                     {messageCancelIns}
                   </Typography>
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button
                       variant="contained"
                       color="success"
@@ -473,7 +473,7 @@ const EventDetails = () => {
                       placeholder="Cantidad a donar"
                     />
                   )}
-                  <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button
                       variant="contained"
                       color="success"

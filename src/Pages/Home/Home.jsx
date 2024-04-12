@@ -9,19 +9,24 @@ import imageUrl3 from '../../assets/ninaConPerro.webp'
 
 function Home() {
   const CarrouselImgs = [imageUrl1, imageUrl2, imageUrl3]
-  const CarrouselHeaders = ["Safari de insectos", "Decubriendo el mar", "Aventura en el Bosque"]
-  const CarrouselTexts = ["¡Explora el fabuloso mundo de los insectos con actividades y observación!", "¡Ven con nosotros y descubre todas las maravillas que el mar nos ofrece!", "¡Explora la naturaleza con juegos y diversión para toda la familia!"]
+  const CarrouselHeaders = [
+    'Safari de insectos',
+    'Descubriendo el mar',
+    'Aventura en el Bosque',
+  ]
+  const CarrouselTexts = [
+    '¡Explora el fabuloso mundo de los insectos con actividades y observación!',
+    '¡Ven con nosotros y descubre todas las maravillas que el mar nos ofrece!',
+    '¡Explora la naturaleza con juegos y diversión para toda la familia!',
+  ]
   return (
     <Grid
       item
-      sx={{ marginTop: '20px' /* , justifyContent: 'center' , display: 'flex' , alignItems: 'center' , height: '100vh'  */}}
+      sx={{ marginTop: '20px' }}
       xs={10}
-    // sm={6} md={3} lg={3} xl={2.4}
+      // sm={6} md={3} lg={3} xl={2.4}
     >
-
-
-
-     <Carousel
+      <Carousel
         fullHeightHover={true}
         interval={7000}
         navButtonsProps={{

@@ -45,7 +45,8 @@ function Header() {
       color="backgroudHeader"
       sx={{
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        padding: '0 5%',
+        justifyContent: 'space-between',
         alignItems: 'center',
       }}
     >

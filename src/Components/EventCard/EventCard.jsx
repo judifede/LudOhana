@@ -112,7 +112,7 @@ const EventCard = ({
               {messageDeleteEvent}
             </Typography>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
                 variant="contained"
                 color="success"
@@ -210,7 +210,8 @@ const EventCard = ({
         <CardActions
           sx={{
             display: 'flex',
-            justifyContent: 'space-around',
+            justifyContent: 'end',
+            gap: "10px",
             pb: 3,
           }}
         >

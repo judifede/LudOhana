@@ -101,74 +101,77 @@ const EventCardList = () => {
       {isLoading && (
         <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
       )}
-      <div className="title-Card-Bar">
-        <div className="filter-title">
-          <h1>{filterTitle}</h1>
+      <div className='event-container'>
+        <div className="title-Card-Bar">
+          <div className="filter-title">
+            <h1>{filterTitle}</h1>
+          </div>
+          <div className="filter-bar">
+            {localStorage.getItem('token') && (
+              <Button
+                href="/form-event"
+                style={{
+                  color: 'green',
+                  textDecoration: 'underline',
+                  marginRight: '20px',
+                }}
+              >
+                {localStorage.getItem('role') === 'admin'
+                  ? 'Crear Evento'
+                  : 'Proponer Evento'}
+              </Button>
+            )}
+            <FormControl>
+              <InputLabel id="filter-label" />
+              <Select
+                labelId="filter-label"
+                value={filter}
+                onChange={handleFilterChange}
+                startAdornment={<FilterAlt sx={{ mr: 1 }} />}
+                sx={{ width: '250px' }}
+              >
+                <MenuItem value="current">Eventos Próximos</MenuItem>
+                <MenuItem value="previous">Eventos Anteriores</MenuItem>
+                {localStorage.getItem('role') === 'user' && (
+                  <MenuItem value="userPreviousEvents">
+                    Mis Eventos Anteriores
+                  </MenuItem>
+                )}
+                {localStorage.getItem('role') === 'user' && (
+                  <MenuItem value="userEventInscribed">
+                    Mis Eventos Inscritos
+                  </MenuItem>
+                )}
+                {localStorage.getItem('role') === 'admin' && (
+                  <MenuItem value="EventosPropuestos">
+                    Eventos Propuestos
+                  </MenuItem>
+                )}
+                {localStorage.getItem('role') === 'admin' && (
+                  <MenuItem value="EventosPendientes">
+                    Eventos Pendientes
+                  </MenuItem>
+                )}
+                {localStorage.getItem('role') === 'admin' && (
+                  <MenuItem value="EventosAprobados">
+                    Eventos Aprobados
+                  </MenuItem>
+                )}
+                {localStorage.getItem('role') === 'admin' && (
+                  <MenuItem value="EventosRechazados">
+                    Eventos Rechazados
+                  </MenuItem>
+                )}
+              </Select>
+            </FormControl>
+          </div>
         </div>
-        <div className="filter-bar">
-          {localStorage.getItem('token') && (
-            <Button
-              href="/form-event"
-              style={{
-                color: 'green',
-                textDecoration: 'underline',
-                marginRight: '20px',
-              }}
-            >
-              {localStorage.getItem('role') === 'admin'
-                ? 'Crear Evento'
-                : 'Proponer Evento'}
-            </Button>
-          )}
-          <FormControl>
-            <InputLabel id="filter-label" />
-            <Select
-              labelId="filter-label"
-              defaultValue="Composed TextField"
-              value={filter}
-              onChange={handleFilterChange}
-              startAdornment={<FilterAlt sx={{ mr: 1 }} />}
-              sx={{ width: '250px' }}
-            >
-              <MenuItem value="current">Eventos Próximos</MenuItem>
-              <MenuItem value="previous">Eventos Anteriores</MenuItem>
-              {localStorage.getItem('role') === 'user' && (
-                <MenuItem value="userPreviousEvents">
-                  Mis Eventos Anteriores
-                </MenuItem>
-              )}
-              {localStorage.getItem('role') === 'user' && (
-                <MenuItem value="userEventInscribed">
-                  Mis Eventos Inscritos
-                </MenuItem>
-              )}
-              {localStorage.getItem('role') === 'admin' && (
-                <MenuItem value="EventosPropuestos">
-                  Eventos Propuestos
-                </MenuItem>
-              )}
-              {localStorage.getItem('role') === 'admin' && (
-                <MenuItem value="EventosPendientes">
-                  Eventos Pendientes
-                </MenuItem>
-              )}
-              {localStorage.getItem('role') === 'admin' && (
-                <MenuItem value="EventosAprobados">Eventos Aprobados</MenuItem>
-              )}
-              {localStorage.getItem('role') === 'admin' && (
-                <MenuItem value="EventosRechazados">
-                  Eventos Rechazados
-                </MenuItem>
-              )}
-            </Select>
-          </FormControl>
-        </div>
-      </div>
 
-      <div className="event-card-container">
-        {events.map((event, idx) => (
-          <EventCard key={idx} event={event} setRefresh={setRefresh} />
-        ))}
+        <div className="event-card-container">
+          {events.map((event, idx) => (
+            <EventCard key={idx} event={event} setRefresh={setRefresh} />
+          ))}
+        </div>
       </div>
     </>
   )

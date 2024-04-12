@@ -272,7 +272,7 @@ function Materials() {
             ¿Está seguro de que desea borrar el material?
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
-          <Box display="flex" justifyContent="space-around">
+          <Box display="flex" justifyContent="space-between">
             <Button
               variant="contained"
               color="error"
@@ -391,7 +391,7 @@ function Materials() {
               </FormControl>
             </Box>
 
-            <Box display="flex" justifyContent="space-around">
+            <Box display="flex" justifyContent="space-between">
               <Button
                 variant="contained"
                 color="success"
@@ -476,7 +476,7 @@ function Materials() {
               ></TextField>
             </Box>
 
-            <Box display="flex" justifyContent="space-around">
+            <Box display="flex" justifyContent="space-between">
               <Button
                 variant="contained"
                 color="success"
@@ -577,7 +577,7 @@ function Materials() {
               </FormControl>
             </Box>
 
-            <Box display="flex" justifyContent="space-around">
+            <Box display="flex" justifyContent="space-between">
               <Button
                 variant="contained"
                 color="success"
