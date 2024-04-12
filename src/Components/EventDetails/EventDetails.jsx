@@ -69,6 +69,15 @@ const EventDetails = () => {
   const warningCancelIns =
     'Si desea recuperar su donación debe ponerse en contacto con ludohana.group@gmail.com.'
 
+  const handleInscribe = async () => {
+    setModalInscribe('')
+
+    await registerUserEvent({ inscribed: inscribed }, eventId)
+
+    setIsUserInscribed(true)
+
+    setModalContribution('open')
+  }
   const handleContribution = async () => {
     setModalContribution('')
     const bodyObj = {
@@ -84,16 +93,6 @@ const EventDetails = () => {
 
     const data = await checkout(bodyObj)
     window.location.href = data.url
-  }
-
-  const handleInscribe = async () => {
-    setModalInscribe('')
-
-    await registerUserEvent({ inscribed: inscribed }, eventId)
-
-    setIsUserInscribed(true)
-
-    setModalContribution('open')
   }
 
   const handleCancelInscribe = async () => {
