@@ -112,26 +112,29 @@ const EventCard = ({
               {messageDeleteEvent}
             </Typography>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'end', gap: "20px" }}>
               <Button
-                variant="contained"
+                variant="text"
                 color="success"
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, 
+                  textDecoration: "underline",
+                  textUnderlineOffset: "6px"
+                }}
                 onClick={() => {
-                  handleDeleteEvent()
+                  setModalDeleteEvent('')
                 }}
               >
-                Continuar
+                Volver
               </Button>
               <Button
                 variant="contained"
                 color="error"
                 sx={{ mt: 2 }}
                 onClick={() => {
-                  setModalDeleteEvent('')
+                  handleDeleteEvent()
                 }}
               >
-                Volver
+                Borrar
               </Button>
             </Box>
           </Box>

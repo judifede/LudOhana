@@ -342,7 +342,23 @@ const EventDetails = () => {
                     placeholder="Número de inscritos"
                   />
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'end', gap: '10px' }}
+                  >
+                    <Button
+                      variant="text"
+                      color="error"
+                      sx={{
+                        mt: 2,
+                        textDecoration: 'underline',
+                        textUnderlineOffset: '6px',
+                      }}
+                      onClick={() => {
+                        setModalInscribe('')
+                      }}
+                    >
+                      Volver
+                    </Button>
                     <Button
                       variant="contained"
                       color="success"
@@ -352,16 +368,6 @@ const EventDetails = () => {
                       }}
                     >
                       Continuar
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      sx={{ mt: 2 }}
-                      onClick={() => {
-                        setModalInscribe('')
-                      }}
-                    >
-                      Volver
                     </Button>
                   </Box>
                 </Box>
@@ -398,16 +404,22 @@ const EventDetails = () => {
                     {messageCancelIns}
                   </Typography>
 
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'end', gap: '10px' }}
+                  >
                     <Button
-                      variant="contained"
+                      variant="text"
                       color="success"
-                      sx={{ mt: 2 }}
+                      sx={{
+                        mt: 2,
+                        textDecoration: 'underline',
+                        textUnderlineOffset: '6px',
+                      }}
                       onClick={() => {
                         handleCancelInscribe()
                       }}
                     >
-                      Continuar
+                      Volver
                     </Button>
                     <Button
                       variant="contained"
@@ -417,7 +429,7 @@ const EventDetails = () => {
                         setModalCancelInscribe('')
                       }}
                     >
-                      Volver
+                      Cancelar Inscripción
                     </Button>
                   </Box>
                   <Typography
@@ -473,7 +485,23 @@ const EventDetails = () => {
                       placeholder="Cantidad a donar"
                     />
                   )}
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'end', gap: '10px' }}
+                  >
+                    <Button
+                      variant="text"
+                      color="error"
+                      sx={{
+                        mt: 2,
+                        textDecoration: 'underline',
+                        textUnderlineOffset: '6px',
+                      }}
+                      onClick={() => {
+                        setModalContribution('')
+                      }}
+                    >
+                      No
+                    </Button>
                     <Button
                       variant="contained"
                       color="success"
@@ -483,16 +511,6 @@ const EventDetails = () => {
                       }}
                     >
                       Si
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      sx={{ mt: 2 }}
-                      onClick={() => {
-                        setModalContribution('')
-                      }}
-                    >
-                      No
                     </Button>
                   </Box>
                 </Box>

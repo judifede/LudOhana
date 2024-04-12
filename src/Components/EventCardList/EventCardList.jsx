@@ -101,7 +101,7 @@ const EventCardList = () => {
       {isLoading && (
         <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
       )}
-      <div className='event-container'>
+      <div className="event-container">
         <div className="title-Card-Bar">
           <div className="filter-title">
             <h1>{filterTitle}</h1>
@@ -113,6 +113,7 @@ const EventCardList = () => {
                 style={{
                   color: 'green',
                   textDecoration: 'underline',
+                  textUnderlineOffset: '6px',
                   marginRight: '20px',
                 }}
               >

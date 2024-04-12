@@ -48,7 +48,6 @@ function Materials() {
   const [isLoading, setIsLoading] = useState(true)
 
   const handleCreateMaterialEvent = async () => {
-   
     const res = await createMaterialEvent({
       amountUsed: amountUsedMaterials,
       materialId,
@@ -129,7 +128,7 @@ function Materials() {
       setMaterials(materialsData.allMaterial)
       setMaterialsEvents(materialsEventsData.allMaterialEvent)
       setEvents(eventsData.allEvent)
-        setIsLoading(false)
+      setIsLoading(false)
     } catch (error) {
       console.error('Error fetching data:', error)
     }
@@ -139,10 +138,10 @@ function Materials() {
   }, [refresh])
 
   return (
-    <Grid container justifyContent="center">
-{isLoading && (
+    <Grid container justifyContent="center" sx={{ marginTop: '60px', px: 10 }}>
+      {isLoading && (
         <CircularProgress sx={{ display: 'block', margin: 'auto' }} />
-            )}
+      )}
       <Grid item xs={12}>
         <Typography variant="h3" component="h2" align="center" gutterBottom>
           Gestor de Materiales
@@ -272,7 +271,21 @@ function Materials() {
             ¿Está seguro de que desea borrar el material?
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}></Typography>
-          <Box display="flex" justifyContent="space-between">
+          <Box display="flex" justifyContent="end" gap="10px">
+            <Button
+              variant="text"
+              color="success"
+              sx={{
+                mt: 2,
+                textDecoration: 'underline',
+                textUnderlineOffset: '6px',
+              }}
+              onClick={() => {
+                setIsOpenModal((prev) => !prev)
+              }}
+            >
+              No
+            </Button>
             <Button
               variant="contained"
               color="error"
@@ -283,16 +296,6 @@ function Materials() {
               }}
             >
               Si
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
-              sx={{ mt: 2 }}
-              onClick={() => {
-                setIsOpenModal((prev) => !prev)
-              }}
-            >
-              No
             </Button>
           </Box>
         </Box>
@@ -391,7 +394,21 @@ function Materials() {
               </FormControl>
             </Box>
 
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="end" gap="10px">
+              <Button
+                variant="text"
+                color="error"
+                sx={{
+                  mt: 2,
+                  textDecoration: 'underline',
+                  textUnderlineOffset: '6px',
+                }}
+                onClick={() => {
+                  setIsOpenModalEdit((prev) => !prev)
+                }}
+              >
+                Cancelar
+              </Button>
               <Button
                 variant="contained"
                 color="success"
@@ -402,16 +419,6 @@ function Materials() {
                 }}
               >
                 Guardar
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mt: 2 }}
-                onClick={() => {
-                  setIsOpenModalEdit((prev) => !prev)
-                }}
-              >
-                Cancelar
               </Button>
             </Box>
           </Box>
@@ -476,7 +483,21 @@ function Materials() {
               ></TextField>
             </Box>
 
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="end" gap="10px">
+              <Button
+                variant="text"
+                color="error"
+                sx={{
+                  mt: 2,
+                  textDecoration: 'underline',
+                  textUnderlineOffset: '6px',
+                }}
+                onClick={() => {
+                  setIsOpenModalCreate((prev) => !prev)
+                }}
+              >
+                Cancelar
+              </Button>
               <Button
                 variant="contained"
                 color="success"
@@ -487,16 +508,6 @@ function Materials() {
                 }}
               >
                 Guardar
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ mt: 2 }}
-                onClick={() => {
-                  setIsOpenModalCreate((prev) => !prev)
-                }}
-              >
-                Cancelar
               </Button>
             </Box>
           </Box>
@@ -577,7 +588,7 @@ function Materials() {
               </FormControl>
             </Box>
 
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="end" gap="10px">
               <Button
                 variant="contained"
                 color="success"

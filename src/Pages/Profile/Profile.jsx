@@ -69,7 +69,7 @@ function Profile() {
     <Grid
       item
       sx={{ marginTop: '70px' }}
-      xs={6}
+      xs={4}
       // sm={6} md={3} lg={3} xl={2.4}
     >
       {isLoading && <CircularProgress />}
@@ -177,11 +177,11 @@ function Profile() {
         </CardContent>
         <CardActions
           sx={{
+            justifyContent: 'end',
             width: '100%',
-            justifyContent: 'right',
             pb: 4,
             gap: '10px',
-            pr: 2,
+            pr: 5,
           }}
         >
           <Button
@@ -230,14 +230,18 @@ function Profile() {
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: '20px',
+                  justifyContent: 'end',
+                  gap: '10px',
                 }}
               >
                 <Button
-                  variant="contained"
+                  variant="text"
                   color="success"
-                  sx={{ mt: 2 }}
+                  sx={{
+                    mt: 2,
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '6px',
+                  }}
                   onClick={() => {
                     setModalDelete('')
                   }}
