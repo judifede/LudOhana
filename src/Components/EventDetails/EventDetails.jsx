@@ -109,6 +109,7 @@ const EventDetails = () => {
   }
   const handleContribution = async () => {
     setModalContribution('')
+
     const bodyObj = {
       name: event.title,
       description: event.description,
@@ -118,6 +119,13 @@ const EventDetails = () => {
           : amountInput,
       eventId: eventId,
       user: JSON.parse(localStorage.getItem('profile')),
+    }
+
+    const env = import.meta.env.VITE_STRIPE_ENV
+    if (env === 'dev') {
+      bodyObj.env = 'dev'
+    } else {
+      bodyObj.env = 'pro'
     }
 
     const data = await checkout(bodyObj)
@@ -214,7 +222,9 @@ const EventDetails = () => {
             justifyContent: 'space-around',
           }}
         >
-          <CardContent sx={{ padding: '20px', paddingBottom: '0', position: 'relative' }}>
+          <CardContent
+            sx={{ padding: '20px', paddingBottom: '0', position: 'relative' }}
+          >
             <Link to={'/events'}>
               <ArrowBackIosNewIcon
                 sx={{
@@ -223,7 +233,7 @@ const EventDetails = () => {
                   borderRadius: '50%',
                   position: 'absolute',
                   top: 0,
-                  left: 0
+                  left: 0,
                 }}
               />
             </Link>
@@ -457,7 +467,7 @@ const EventDetails = () => {
                         textUnderlineOffset: '6px',
                       }}
                       onClick={() => {
-                        handleCancelInscribe()
+                        setModalCancelInscribe('')
                       }}
                     >
                       Volver
@@ -467,7 +477,7 @@ const EventDetails = () => {
                       color="error"
                       sx={{ mt: 2 }}
                       onClick={() => {
-                        setModalCancelInscribe('')
+                        handleCancelInscribe()
                       }}
                     >
                       Cancelar Inscripción
