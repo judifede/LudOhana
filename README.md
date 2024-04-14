@@ -1,7 +1,7 @@
 
 <div align="center">
   
-<img src="https://github.com/bqcount/CompicarApp/blob/main/Imagenes/logo.png"> 
+<img src="https://github.com/judifede/LudOhana/blob/main/Inicio.PNG"> 
   
   <h1> LudOhana </h1>
  
