@@ -13,9 +13,9 @@ The user can register and log in,while browsing the website they can register fo
 
 # Administrator functions 
 
-The administrator can create, edit, delete events, as well as define the status of the event proposals made by users.each event has associated materials necessary to carry out, is the administrator in charge of managing them, creating, editing, deleting or associating them with an event.the admin view is only available to the administrator role. 
+The administrator can create, edit, delete events, as well as define the status of the event proposals made by users.Each event has associated materials necessary to carry out, is the administrator in charge of managing them, creating, editing, deleting or associating them with an event,the admin view is only available to the administrator role. 
 
-
+<img src="https://github.com/judifede/LudOhana/blob/main/Eventos.PNG">
 
 
 
