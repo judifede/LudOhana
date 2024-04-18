@@ -234,7 +234,7 @@ const FormEvent = () => {
                     labelId="filter-label"
                     name="state"
                     value={eventState}
-                    onChange={()=>{handleFilterChange}}
+                    onChange={(e)=>{handleFilterChange(e)}}
                     // sx={{ width: '250px' }}
                   >
                     <MenuItem value={EVENTS_STATES.propoused}>
